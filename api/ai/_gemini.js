@@ -1,5 +1,9 @@
 const TEXT_MODEL_CANDIDATES = ['gemini-2.5-flash', 'gemini-2.0-flash-001'];
-const IMAGE_MODEL_CANDIDATES = ['gemini-2.5-flash-image-preview', 'gemini-2.0-flash-preview-image-generation'];
+const IMAGE_MODEL_CANDIDATES = [
+  'gemini-3.1-flash-image-preview',
+  'gemini-2.5-flash-image-preview',
+  'gemini-2.0-flash-preview-image-generation',
+];
 
 function parseApiError(bodyText) {
   try {
