@@ -1,12 +1,47 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { CharacterPdfDownload } from '../pdf/CharacterPdf';
 import { useAppStore, type TabKey } from '../store/useAppStore';
 import { BackstoryTab } from './tabs/BackstoryTab';
 import { PortraitTab } from './tabs/PortraitTab';
 import { SheetTab } from './tabs/SheetTab';
 import { SpellsTab } from './tabs/SpellsTab';
+import { abilityKeys, skillKeys, type AbilityKey, type AdvancementChoice } from '../types/character';
+import { applyAdvancementChoices, getFeatChoiceRequirements, validateAsiChoice, validateFeatChoice } from '../engine/feats';
+import { equipment, feats } from '../data/rules';
 
 const tabs: TabKey[] = ['sheet', 'spells', 'backstory', 'portrait'];
+
+type AdvancementDraft = {
+  mode: 'asi' | 'feat';
+  asiPrimary: AbilityKey;
+  asiSecondary: AbilityKey;
+  asiSplit: boolean;
+  featId: string;
+  selection: {
+    abilityChoices: string[];
+    saveChoices: string[];
+    skillChoices: string[];
+    toolChoices: string[];
+    weaponChoices: string[];
+    languageChoices: string[];
+  };
+};
+
+const defaultDraft = (featsEnabled: boolean): AdvancementDraft => ({
+  mode: featsEnabled ? 'feat' : 'asi',
+  asiPrimary: 'str',
+  asiSecondary: 'dex',
+  asiSplit: false,
+  featId: '',
+  selection: {
+    abilityChoices: [],
+    saveChoices: [],
+    skillChoices: [],
+    toolChoices: [],
+    weaponChoices: [],
+    languageChoices: [],
+  },
+});
 
 export function CharacterWorkspace() {
   const character = useAppStore((s) => s.character);
@@ -20,17 +55,104 @@ export function CharacterWorkspace() {
   const setFeatsEnabled = useAppStore((s) => s.setFeatsEnabled);
   const updateCharacterName = useAppStore((s) => s.updateCharacterName);
   const updateCharacterGender = useAppStore((s) => s.updateCharacterGender);
+  const getAsiOpportunitiesForTarget = useAppStore((s) => s.getAsiOpportunitiesForTarget);
+  const getFeatEligibilityForCurrent = useAppStore((s) => s.getFeatEligibilityForCurrent);
 
   const [hpMethod, setHpMethod] = useState<'average' | 'roll' | 'manual'>('average');
   const [targetLevel, setTargetLevel] = useState<number>(2);
   const [manualHp, setManualHp] = useState<number>(1);
-  const [asiOrFeat, setAsiOrFeat] = useState<string>('');
+  const [featSearch, setFeatSearch] = useState<string>('');
+  const [advancementDrafts, setAdvancementDrafts] = useState<AdvancementDraft[]>([]);
   const [importFileName, setImportFileName] = useState<string>('');
 
   const diffSummary = useMemo(() => {
     if (!character) return '';
     return `Level ${character.identity.level} -> ${targetLevel} | HP method: ${hpMethod}`;
   }, [character, hpMethod, targetLevel]);
+
+  const onImportFile = async (file: File | null) => {
+    if (!file) return;
+    setImportFileName(file.name);
+    const raw = await file.text();
+    await importJson(raw);
+  };
+
+  const asiOpportunities = getAsiOpportunitiesForTarget(targetLevel);
+  const featEligibility = getFeatEligibilityForCurrent();
+  const filteredFeatEligibility = featEligibility.filter((entry) => {
+    const term = featSearch.trim().toLowerCase();
+    if (!term) return true;
+    return entry.feat.name.toLowerCase().includes(term) || entry.feat.summary.toLowerCase().includes(term);
+  });
+
+  useEffect(() => {
+    setAdvancementDrafts((prev) => {
+      const next = [...prev];
+      while (next.length < asiOpportunities.length) next.push(defaultDraft(featsEnabled));
+      return next.slice(0, asiOpportunities.length).map((draft) => ({
+        ...draft,
+        mode: featsEnabled ? draft.mode : 'asi',
+      }));
+    });
+  }, [asiOpportunities.length, featsEnabled]);
+
+  const weaponOptions = useMemo(
+    () => equipment.filter((item) => item.type === 'weapon').map((item) => item.id),
+    [],
+  );
+
+  const updateDraft = (index: number, next: Partial<AdvancementDraft>) => {
+    setAdvancementDrafts((prev) => prev.map((draft, idx) => (idx === index ? { ...draft, ...next } : draft)));
+  };
+
+  const updateSelection = (index: number, key: keyof AdvancementDraft['selection'], value: string[]) => {
+    setAdvancementDrafts((prev) =>
+      prev.map((draft, idx) =>
+        idx === index
+          ? { ...draft, selection: { ...draft.selection, [key]: value } }
+          : draft,
+      ),
+    );
+  };
+
+  const buildChoiceFromDraft = (draft: AdvancementDraft): AdvancementChoice | undefined => {
+    if (draft.mode === 'asi') {
+      return draft.asiSplit
+        ? { type: 'asi', increases: [{ ability: draft.asiPrimary, amount: 1 }, { ability: draft.asiSecondary, amount: 1 }] }
+        : { type: 'asi', increases: [{ ability: draft.asiPrimary, amount: 2 }] };
+    }
+    if (!draft.featId) return undefined;
+    return {
+      type: 'feat',
+      featId: draft.featId,
+      selection: {
+        abilityChoices: draft.selection.abilityChoices as AbilityKey[],
+        saveChoices: draft.selection.saveChoices as AbilityKey[],
+        skillChoices: draft.selection.skillChoices,
+        toolChoices: draft.selection.toolChoices,
+        weaponChoices: draft.selection.weaponChoices,
+        languageChoices: draft.selection.languageChoices,
+      },
+    };
+  };
+
+  const draftErrors = character
+    ? advancementDrafts.map((draft, index) => {
+      const choice = buildChoiceFromDraft(draft);
+      if (!choice) return ['Select a feat.'];
+      const priorChoices = advancementDrafts.slice(0, index).map(buildChoiceFromDraft).filter((x): x is AdvancementChoice => Boolean(x));
+      const baseline = applyAdvancementChoices(character, priorChoices);
+      if (choice.type === 'asi') return validateAsiChoice(baseline, choice);
+      return validateFeatChoice(baseline, choice);
+    })
+    : [];
+
+  const canSubmitLevelUp = character
+    ? targetLevel > character.identity.level &&
+      targetLevel <= 20 &&
+      (hpMethod !== 'manual' || manualHp >= 1) &&
+      draftErrors.every((errors) => errors.length === 0)
+    : false;
 
   if (!character) {
     return (
@@ -40,13 +162,6 @@ export function CharacterWorkspace() {
       </section>
     );
   }
-
-  const onImportFile = async (file: File | null) => {
-    if (!file) return;
-    setImportFileName(file.name);
-    const raw = await file.text();
-    await importJson(raw);
-  };
 
   return (
     <section>
@@ -128,20 +243,185 @@ export function CharacterWorkspace() {
                 <input type="number" min={1} value={manualHp} onChange={(e) => setManualHp(Number(e.target.value))} />
               </label>
             )}
-            {featsEnabled && (
-              <label>
-                ASI / Feat choice (optional)
-                <input value={asiOrFeat} onChange={(e) => setAsiOrFeat(e.target.value)} placeholder="+2 STR / Great Weapon Master" />
-              </label>
-            )}
+            {asiOpportunities.length > 0 ? (
+              <div className="advancement-choice-wrap">
+                <h4>ASI / Feat Choices</h4>
+                <p>
+                  This level-up includes {asiOpportunities.length} ASI opportunity
+                  {asiOpportunities.length > 1 ? 'ies' : 'y'} at level
+                  {asiOpportunities.length > 1 ? 's ' : ' '}
+                  {asiOpportunities.join(', ')}.
+                </p>
+                {advancementDrafts.map((draft, idx) => {
+                  const feat = draft.featId ? feats.find((x) => x.id === draft.featId) : undefined;
+                  const reqs = feat ? getFeatChoiceRequirements(feat) : undefined;
+                  return (
+                    <div key={`adv-choice:${idx}`} className="advancement-choice">
+                      <strong>Choice {idx + 1}</strong>
+                      <div className="controls">
+                        <label className="inline-toggle">
+                          <input
+                            type="radio"
+                            checked={draft.mode === 'asi'}
+                            onChange={() => updateDraft(idx, { mode: 'asi' })}
+                          />
+                          Take ASI
+                        </label>
+                        {featsEnabled ? (
+                          <label className="inline-toggle">
+                            <input
+                              type="radio"
+                              checked={draft.mode === 'feat'}
+                              onChange={() => updateDraft(idx, { mode: 'feat' })}
+                            />
+                            Take Feat
+                          </label>
+                        ) : null}
+                      </div>
+
+                      {draft.mode === 'asi' ? (
+                        <div className="grid3">
+                          <label>
+                            ASI Pattern
+                            <select value={draft.asiSplit ? 'split' : 'single'} onChange={(e) => updateDraft(idx, { asiSplit: e.target.value === 'split' })}>
+                              <option value="single">+2 to one ability</option>
+                              <option value="split">+1 to two abilities</option>
+                            </select>
+                          </label>
+                          <label>
+                            Ability 1
+                            <select value={draft.asiPrimary} onChange={(e) => updateDraft(idx, { asiPrimary: e.target.value as AbilityKey })}>
+                              {abilityKeys.map((ability) => (
+                                <option key={`asi1:${idx}:${ability}`} value={ability}>{ability.toUpperCase()}</option>
+                              ))}
+                            </select>
+                          </label>
+                          {draft.asiSplit ? (
+                            <label>
+                              Ability 2
+                              <select value={draft.asiSecondary} onChange={(e) => updateDraft(idx, { asiSecondary: e.target.value as AbilityKey })}>
+                                {abilityKeys.map((ability) => (
+                                  <option key={`asi2:${idx}:${ability}`} value={ability}>{ability.toUpperCase()}</option>
+                                ))}
+                              </select>
+                            </label>
+                          ) : null}
+                        </div>
+                      ) : (
+                        <div className="feat-picker">
+                          <label>
+                            Search Feats
+                            <input
+                              value={featSearch}
+                              onChange={(e) => setFeatSearch(e.target.value)}
+                              placeholder="Search feat name or summary"
+                            />
+                          </label>
+                          <div className="feat-list">
+                            {filteredFeatEligibility.map((entry) => (
+                              <button
+                                key={`feat-row:${idx}:${entry.feat.id}`}
+                                type="button"
+                                className={draft.featId === entry.feat.id ? 'feat-row selected' : 'feat-row'}
+                                disabled={!entry.eligible}
+                                onClick={() => updateDraft(idx, { featId: entry.feat.id })}
+                              >
+                                <span><strong>{entry.feat.name}</strong> - {entry.feat.summary}</span>
+                                {!entry.eligible ? <small>{entry.reasons.join(' ')}</small> : null}
+                              </button>
+                            ))}
+                          </div>
+                          {feat && reqs ? (
+                            <div className="feat-choice-controls">
+                              {reqs.abilityChoices > 0 ? (
+                                <label>
+                                  Ability choice(s)
+                                  <select
+                                    multiple
+                                    value={draft.selection.abilityChoices}
+                                    onChange={(e) => updateSelection(idx, 'abilityChoices', [...e.target.selectedOptions].map((opt) => opt.value))}
+                                  >
+                                    {abilityKeys.map((ability) => (
+                                      <option key={`feat-ability:${idx}:${ability}`} value={ability}>{ability.toUpperCase()}</option>
+                                    ))}
+                                  </select>
+                                </label>
+                              ) : null}
+                              {reqs.saveChoices > 0 ? (
+                                <label>
+                                  Save proficiency choice(s)
+                                  <select
+                                    multiple
+                                    value={draft.selection.saveChoices}
+                                    onChange={(e) => updateSelection(idx, 'saveChoices', [...e.target.selectedOptions].map((opt) => opt.value))}
+                                  >
+                                    {abilityKeys.map((ability) => (
+                                      <option key={`feat-save:${idx}:${ability}`} value={ability}>{ability.toUpperCase()}</option>
+                                    ))}
+                                  </select>
+                                </label>
+                              ) : null}
+                              {reqs.skillChoices > 0 ? (
+                                <label>
+                                  Skill choice(s)
+                                  <select
+                                    multiple
+                                    value={draft.selection.skillChoices}
+                                    onChange={(e) => updateSelection(idx, 'skillChoices', [...e.target.selectedOptions].map((opt) => opt.value))}
+                                  >
+                                    {skillKeys.map((skill) => (
+                                      <option key={`feat-skill:${idx}:${skill}`} value={skill}>{skill.replaceAll('_', ' ')}</option>
+                                    ))}
+                                  </select>
+                                </label>
+                              ) : null}
+                              {reqs.weaponChoices > 0 ? (
+                                <label>
+                                  Weapon proficiency choice(s)
+                                  <select
+                                    multiple
+                                    value={draft.selection.weaponChoices}
+                                    onChange={(e) => updateSelection(idx, 'weaponChoices', [...e.target.selectedOptions].map((opt) => opt.value))}
+                                  >
+                                    {weaponOptions.map((weapon) => (
+                                      <option key={`feat-weapon:${idx}:${weapon}`} value={weapon}>{weapon.replaceAll('_', ' ')}</option>
+                                    ))}
+                                  </select>
+                                </label>
+                              ) : null}
+                              {reqs.languageChoices > 0 ? (
+                                <label>
+                                  Language choice(s)
+                                  <input
+                                    value={draft.selection.languageChoices.join(', ')}
+                                    onChange={(e) => updateSelection(idx, 'languageChoices', e.target.value.split(',').map((x) => x.trim()).filter(Boolean))}
+                                    placeholder="Comma-separated languages"
+                                  />
+                                </label>
+                              ) : null}
+                            </div>
+                          ) : null}
+                        </div>
+                      )}
+                      {draftErrors[idx]?.length ? (
+                        <div className="advancement-errors">
+                          {draftErrors[idx].map((error, errorIdx) => <p key={`adv-error:${idx}:${errorIdx}`}>{error}</p>)}
+                        </div>
+                      ) : null}
+                    </div>
+                  );
+                })}
+              </div>
+            ) : null}
             <p>Review Diff: {diffSummary}</p>
             <button
+              disabled={!canSubmitLevelUp}
               onClick={() =>
                 levelUp({
                   targetLevel,
                   hpMethod,
                   hpManualGain: hpMethod === 'manual' ? manualHp : undefined,
-                  featOrAsi: asiOrFeat || undefined,
+                  advancementChoices: advancementDrafts.map(buildChoiceFromDraft).filter((x): x is AdvancementChoice => Boolean(x)),
                 })
               }
             >
@@ -162,6 +442,11 @@ export function CharacterWorkspace() {
             {character.advancement.history.map((entry, idx) => (
               <li key={`${entry.timestamp}:${idx}`}>
                 {entry.timestamp}: L{entry.fromLevel} to L{entry.toLevel}, HP +{entry.hpGain}, method {entry.hpMethod}
+                {entry.advancementChoice ? (
+                  <> | {entry.advancementChoice.type === 'asi'
+                    ? `ASI (${entry.advancementChoice.increases.map((inc) => `+${inc.amount} ${inc.ability.toUpperCase()}`).join(', ')})`
+                    : `Feat (${entry.advancementChoice.featId.replaceAll('_', ' ')})`}</>
+                ) : entry.legacyAsiOrFeat ? <> | {entry.legacyAsiOrFeat}</> : null}
               </li>
             ))}
           </ul>

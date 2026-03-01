@@ -1,0 +1,383 @@
+[
+  {
+    "id": "actor",
+    "name": "Actor",
+    "summary": "+1 CHA and performance/deception mimicry benefits.",
+    "effects": {
+      "fixedAbilityBonuses": [{ "ability": "cha", "amount": 1 }]
+    },
+    "requiresManualResolution": true,
+    "manualResolutionReason": "Advantage and impersonation benefits are not modeled."
+  },
+  {
+    "id": "alert",
+    "name": "Alert",
+    "summary": "+5 initiative and heightened awareness.",
+    "effects": {
+      "initiativeBonus": 5
+    },
+    "requiresManualResolution": false
+  },
+  {
+    "id": "athlete",
+    "name": "Athlete",
+    "summary": "+1 STR or DEX and improved movement stunts.",
+    "effects": {
+      "abilityChoiceBonuses": [{ "choose": 1, "amount": 1, "from": ["str", "dex"] }]
+    },
+    "requiresManualResolution": true,
+    "manualResolutionReason": "Standing and climbing movement clauses are not modeled."
+  },
+  {
+    "id": "charger",
+    "name": "Charger",
+    "summary": "Dash attack/shove bonus action option.",
+    "requiresManualResolution": true,
+    "manualResolutionReason": "Conditional combat action is not modeled."
+  },
+  {
+    "id": "crossbow_expert",
+    "name": "Crossbow Expert",
+    "summary": "Crossbow loading and close-range benefits.",
+    "requiresManualResolution": true,
+    "manualResolutionReason": "Weapon property overrides and attack action interactions are not modeled."
+  },
+  {
+    "id": "defensive_duelist",
+    "name": "Defensive Duelist",
+    "summary": "Reaction AC bonus while wielding finesse weapon.",
+    "prerequisites": {
+      "abilityMin": [{ "ability": "dex", "min": 13 }]
+    },
+    "requiresManualResolution": true,
+    "manualResolutionReason": "Reaction-time conditional AC bonus is not modeled."
+  },
+  {
+    "id": "dual_wielder",
+    "name": "Dual Wielder",
+    "summary": "Dual wield flexibility and AC bonus while dual wielding.",
+    "requiresManualResolution": true,
+    "manualResolutionReason": "Conditional AC and weapon handling rules are not modeled."
+  },
+  {
+    "id": "dungeon_delver",
+    "name": "Dungeon Delver",
+    "summary": "Trap detection and resistance utility benefits.",
+    "requiresManualResolution": true,
+    "manualResolutionReason": "Exploration and trap-specific effects are not modeled."
+  },
+  {
+    "id": "durable",
+    "name": "Durable",
+    "summary": "+1 CON and stronger Hit Die healing floor.",
+    "effects": {
+      "fixedAbilityBonuses": [{ "ability": "con", "amount": 1 }]
+    },
+    "requiresManualResolution": true,
+    "manualResolutionReason": "Hit Die healing floor behavior is not modeled."
+  },
+  {
+    "id": "elemental_adept",
+    "name": "Elemental Adept",
+    "summary": "Element-specific spell damage tuning.",
+    "prerequisites": {
+      "spellcastingRequired": true
+    },
+    "requiresManualResolution": true,
+    "manualResolutionReason": "Elemental damage roll and resistance interactions are not modeled."
+  },
+  {
+    "id": "grappler",
+    "name": "Grappler",
+    "summary": "Grapple-focused combat options.",
+    "prerequisites": {
+      "abilityMin": [{ "ability": "str", "min": 13 }]
+    },
+    "requiresManualResolution": true,
+    "manualResolutionReason": "Grapple conditions and combat options are not modeled."
+  },
+  {
+    "id": "great_weapon_master",
+    "name": "Great Weapon Master",
+    "summary": "Heavy weapon power attack and bonus attack triggers.",
+    "requiresManualResolution": true,
+    "manualResolutionReason": "Conditional combat tradeoffs are not modeled."
+  },
+  {
+    "id": "healer",
+    "name": "Healer",
+    "summary": "Expanded healer's kit recovery actions.",
+    "requiresManualResolution": true,
+    "manualResolutionReason": "Item use healing actions are not modeled."
+  },
+  {
+    "id": "heavily_armored",
+    "name": "Heavily Armored",
+    "summary": "+1 STR and heavy armor proficiency.",
+    "prerequisites": {
+      "armorProficiencies": ["medium"]
+    },
+    "effects": {
+      "fixedAbilityBonuses": [{ "ability": "str", "amount": 1 }],
+      "addArmorProficiencies": ["heavy"]
+    },
+    "requiresManualResolution": false
+  },
+  {
+    "id": "heavy_armor_master",
+    "name": "Heavy Armor Master",
+    "summary": "+1 STR and nonmagical physical damage reduction in heavy armor.",
+    "prerequisites": {
+      "armorProficiencies": ["heavy"]
+    },
+    "effects": {
+      "fixedAbilityBonuses": [{ "ability": "str", "amount": 1 }]
+    },
+    "requiresManualResolution": true,
+    "manualResolutionReason": "Conditional damage reduction is not modeled."
+  },
+  {
+    "id": "inspiring_leader",
+    "name": "Inspiring Leader",
+    "summary": "Grant temporary hit points after speech.",
+    "prerequisites": {
+      "abilityMin": [{ "ability": "cha", "min": 13 }]
+    },
+    "requiresManualResolution": true,
+    "manualResolutionReason": "Temporary HP support and group targeting are not modeled."
+  },
+  {
+    "id": "keen_mind",
+    "name": "Keen Mind",
+    "summary": "+1 INT and memory/navigation benefits.",
+    "effects": {
+      "fixedAbilityBonuses": [{ "ability": "int", "amount": 1 }]
+    },
+    "requiresManualResolution": true,
+    "manualResolutionReason": "Memory and navigation benefits are not modeled."
+  },
+  {
+    "id": "lightly_armored",
+    "name": "Lightly Armored",
+    "summary": "+1 STR or DEX and light armor proficiency.",
+    "effects": {
+      "abilityChoiceBonuses": [{ "choose": 1, "amount": 1, "from": ["str", "dex"] }],
+      "addArmorProficiencies": ["light"]
+    },
+    "requiresManualResolution": false
+  },
+  {
+    "id": "linguist",
+    "name": "Linguist",
+    "summary": "+1 INT and three languages.",
+    "effects": {
+      "fixedAbilityBonuses": [{ "ability": "int", "amount": 1 }],
+      "addLanguages": ["choice", "choice", "choice"]
+    },
+    "requiresManualResolution": false
+  },
+  {
+    "id": "lucky",
+    "name": "Lucky",
+    "summary": "Luck points to reroll d20 checks.",
+    "requiresManualResolution": true,
+    "manualResolutionReason": "Per-rest luck point spend tracking is not modeled."
+  },
+  {
+    "id": "mage_slayer",
+    "name": "Mage Slayer",
+    "summary": "Anti-caster reaction and concentration pressure.",
+    "requiresManualResolution": true,
+    "manualResolutionReason": "Reaction timing and concentration disadvantage are not modeled."
+  },
+  {
+    "id": "magic_initiate",
+    "name": "Magic Initiate",
+    "summary": "Learn cantrips and one 1st-level spell from a class list.",
+    "requiresManualResolution": true,
+    "manualResolutionReason": "Cross-list spell learning and usage cadence are not modeled."
+  },
+  {
+    "id": "martial_adept",
+    "name": "Martial Adept",
+    "summary": "Gain maneuvers and superiority die.",
+    "requiresManualResolution": true,
+    "manualResolutionReason": "Maneuver and superiority die subsystem is not modeled."
+  },
+  {
+    "id": "medium_armor_master",
+    "name": "Medium Armor Master",
+    "summary": "Medium armor stealth and dex cap adjustments.",
+    "prerequisites": {
+      "armorProficiencies": ["medium"]
+    },
+    "requiresManualResolution": true,
+    "manualResolutionReason": "Armor property override logic is not modeled."
+  },
+  {
+    "id": "mobile",
+    "name": "Mobile",
+    "summary": "+10 speed and movement/attack mobility benefits.",
+    "effects": {
+      "speedBonus": 10
+    },
+    "requiresManualResolution": true,
+    "manualResolutionReason": "Conditional movement interaction rules are not modeled."
+  },
+  {
+    "id": "moderately_armored",
+    "name": "Moderately Armored",
+    "summary": "+1 STR or DEX and medium armor + shield proficiency.",
+    "prerequisites": {
+      "armorProficiencies": ["light"]
+    },
+    "effects": {
+      "abilityChoiceBonuses": [{ "choose": 1, "amount": 1, "from": ["str", "dex"] }],
+      "addArmorProficiencies": ["medium", "shield"]
+    },
+    "requiresManualResolution": false
+  },
+  {
+    "id": "mounted_combatant",
+    "name": "Mounted Combatant",
+    "summary": "Mounted combat offense/defense advantages.",
+    "requiresManualResolution": true,
+    "manualResolutionReason": "Mount combat subsystem is not modeled."
+  },
+  {
+    "id": "observant",
+    "name": "Observant",
+    "summary": "+1 INT or WIS and passive perception/investigation bonuses.",
+    "effects": {
+      "abilityChoiceBonuses": [{ "choose": 1, "amount": 1, "from": ["int", "wis"] }]
+    },
+    "requiresManualResolution": true,
+    "manualResolutionReason": "Passive skill score tracking is not modeled."
+  },
+  {
+    "id": "polearm_master",
+    "name": "Polearm Master",
+    "summary": "Bonus attacks and opportunity trigger with polearms.",
+    "requiresManualResolution": true,
+    "manualResolutionReason": "Conditional attack generation is not modeled."
+  },
+  {
+    "id": "resilient",
+    "name": "Resilient",
+    "summary": "+1 ability and proficiency in matching saving throw.",
+    "effects": {
+      "abilityChoiceBonuses": [{ "choose": 1, "amount": 1, "from": ["str", "dex", "con", "int", "wis", "cha"] }],
+      "saveProficiencyChoice": { "choose": 1, "from": ["str", "dex", "con", "int", "wis", "cha"] }
+    },
+    "requiresManualResolution": false
+  },
+  {
+    "id": "ritual_caster",
+    "name": "Ritual Caster",
+    "summary": "Ritual book and access to ritual spells.",
+    "prerequisites": {
+      "abilityMinAny": [
+        { "ability": "int", "min": 13 },
+        { "ability": "wis", "min": 13 }
+      ]
+    },
+    "requiresManualResolution": true,
+    "manualResolutionReason": "Ritual spellbook subsystem is not modeled."
+  },
+  {
+    "id": "savage_attacker",
+    "name": "Savage Attacker",
+    "summary": "Reroll melee damage once per turn.",
+    "requiresManualResolution": true,
+    "manualResolutionReason": "Per-turn damage reroll is not modeled."
+  },
+  {
+    "id": "sentinel",
+    "name": "Sentinel",
+    "summary": "Opportunity and movement control combat benefits.",
+    "requiresManualResolution": true,
+    "manualResolutionReason": "Reaction combat constraints are not modeled."
+  },
+  {
+    "id": "sharpshooter",
+    "name": "Sharpshooter",
+    "summary": "Ranged combat tradeoff and cover benefits.",
+    "requiresManualResolution": true,
+    "manualResolutionReason": "Conditional attack tradeoffs and cover rules are not modeled."
+  },
+  {
+    "id": "shield_master",
+    "name": "Shield Master",
+    "summary": "Shield bash and dexterity save shield benefits.",
+    "requiresManualResolution": true,
+    "manualResolutionReason": "Bonus action shove and save interaction logic are not modeled."
+  },
+  {
+    "id": "skilled",
+    "name": "Skilled",
+    "summary": "Gain three skill/tool proficiencies.",
+    "effects": {
+      "addSkillProficiencies": ["choice", "choice", "choice"]
+    },
+    "requiresManualResolution": false
+  },
+  {
+    "id": "skulker",
+    "name": "Skulker",
+    "summary": "Stealth and obscured vision benefits.",
+    "prerequisites": {
+      "abilityMin": [{ "ability": "dex", "min": 13 }]
+    },
+    "requiresManualResolution": true,
+    "manualResolutionReason": "Visibility and stealth interaction rules are not modeled."
+  },
+  {
+    "id": "spell_sniper",
+    "name": "Spell Sniper",
+    "summary": "Spell range and cover benefits with extra cantrip.",
+    "prerequisites": {
+      "spellcastingRequired": true
+    },
+    "requiresManualResolution": true,
+    "manualResolutionReason": "Spell range and cover override are not modeled."
+  },
+  {
+    "id": "tavern_brawler",
+    "name": "Tavern Brawler",
+    "summary": "+1 STR or CON and improvised combat benefits.",
+    "effects": {
+      "abilityChoiceBonuses": [{ "choose": 1, "amount": 1, "from": ["str", "con"] }]
+    },
+    "requiresManualResolution": true,
+    "manualResolutionReason": "Improvised weapon and grappling bonus action logic are not modeled."
+  },
+  {
+    "id": "tough",
+    "name": "Tough",
+    "summary": "+2 hit points per level.",
+    "effects": {
+      "hpPerLevelBonus": 2
+    },
+    "requiresManualResolution": false
+  },
+  {
+    "id": "war_caster",
+    "name": "War Caster",
+    "summary": "Concentration and somatic spellcasting benefits.",
+    "prerequisites": {
+      "spellcastingRequired": true
+    },
+    "requiresManualResolution": true,
+    "manualResolutionReason": "Concentration advantage and reaction casting are not modeled."
+  },
+  {
+    "id": "weapon_master",
+    "name": "Weapon Master",
+    "summary": "+1 STR or DEX and proficiency with four weapons.",
+    "effects": {
+      "abilityChoiceBonuses": [{ "choose": 1, "amount": 1, "from": ["str", "dex"] }],
+      "addWeaponProficiencies": ["choice", "choice", "choice", "choice"]
+    },
+    "requiresManualResolution": false
+  }
+]

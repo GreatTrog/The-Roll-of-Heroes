@@ -411,7 +411,7 @@ export function generateCharacter(input: GenerationInput): Character {
   const character: Character = {
     meta: {
       id: locked?.meta.id ?? uuid(),
-      schemaVersion: 1,
+      schemaVersion: 2,
       createdAt: locked?.meta.createdAt ?? now,
       updatedAt: now,
       seed,
@@ -489,6 +489,7 @@ export function generateCharacter(input: GenerationInput): Character {
       hpMethodTracking: locked?.advancement.hpMethodTracking ?? ['average'],
       spellSelectionTracking: locked?.advancement.spellSelectionTracking ?? [],
       asiFeatTracking: locked?.advancement.asiFeatTracking ?? [],
+      choices: locked?.advancement.choices ?? [],
       history: locked?.advancement.history ?? [],
       multiclassPlan: locked?.advancement.multiclassPlan ?? [],
     },

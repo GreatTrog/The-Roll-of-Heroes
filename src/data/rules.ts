@@ -6,10 +6,12 @@ import backgroundsRaw from './backgrounds.json';
 import equipmentRaw from './equipment.json';
 import spellsRaw from './spells.json';
 import featuresRaw from './features.json';
+import featsRaw from './feats.json';
 import {
   backgroundSchema,
   classSchema,
   equipmentSchema,
+  featSchema,
   featureSchema,
   raceSchema,
   spellSchema,
@@ -25,6 +27,7 @@ export const backgrounds = backgroundSchema.array().parse(backgroundsRaw);
 export const equipment = equipmentSchema.array().parse(equipmentRaw);
 export const spells = spellSchema.array().parse(spellsRaw);
 export const features = featureSchema.array().parse(featuresRaw);
+export const feats = featSchema.array().parse(featsRaw);
 
 export const classById = new Map(classes.map((x) => [x.id, x]));
 export const raceById = new Map(races.map((x) => [x.id, x]));
@@ -32,6 +35,7 @@ export const subraceById = new Map(subraces.map((x) => [x.id, x]));
 export const backgroundById = new Map(backgrounds.map((x) => [x.id, x]));
 export const equipmentById = new Map(equipment.map((x) => [x.id, x]));
 export const featureById = new Map(features.map((x) => [x.id, x]));
+export const featById = new Map(feats.map((x) => [x.id, x]));
 export const subclassesByClassId = new Map<string, typeof subclasses>();
 
 for (const subclass of subclasses) {

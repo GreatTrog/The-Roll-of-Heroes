@@ -83,6 +83,70 @@ export const featureSchema = z.object({
   summary: z.string(),
 });
 
+const featAbilityBonusSchema = z.object({
+  ability: z.enum(['str', 'dex', 'con', 'int', 'wis', 'cha']),
+  amount: z.number().int().positive(),
+});
+
+const featAbilityChoiceSchema = z.object({
+  choose: z.number().int().positive(),
+  amount: z.number().int().positive(),
+  from: z.array(z.enum(['str', 'dex', 'con', 'int', 'wis', 'cha'])).min(1),
+});
+
+const featPrerequisitesSchema = z.object({
+  abilityMin: z
+    .array(
+      z.object({
+        ability: z.enum(['str', 'dex', 'con', 'int', 'wis', 'cha']),
+        min: z.number().int().min(1).max(30),
+      }),
+    )
+    .optional(),
+  abilityMinAny: z
+    .array(
+      z.object({
+        ability: z.enum(['str', 'dex', 'con', 'int', 'wis', 'cha']),
+        min: z.number().int().min(1).max(30),
+      }),
+    )
+    .optional(),
+  raceIds: z.array(z.string()).optional(),
+  weaponProficiencies: z.array(z.string()).optional(),
+  armorProficiencies: z.array(z.string()).optional(),
+  toolProficiencies: z.array(z.string()).optional(),
+  spellcastingRequired: z.boolean().optional(),
+});
+
+const featEffectsSchema = z.object({
+  fixedAbilityBonuses: z.array(featAbilityBonusSchema).optional(),
+  abilityChoiceBonuses: z.array(featAbilityChoiceSchema).optional(),
+  addSkillProficiencies: z.array(z.string()).optional(),
+  addToolProficiencies: z.array(z.string()).optional(),
+  addWeaponProficiencies: z.array(z.string()).optional(),
+  addArmorProficiencies: z.array(z.string()).optional(),
+  addLanguages: z.array(z.string()).optional(),
+  initiativeBonus: z.number().int().optional(),
+  speedBonus: z.number().int().optional(),
+  hpPerLevelBonus: z.number().int().optional(),
+  saveProficiencyChoice: z
+    .object({
+      choose: z.number().int().positive(),
+      from: z.array(z.enum(['str', 'dex', 'con', 'int', 'wis', 'cha'])).min(1),
+    })
+    .optional(),
+});
+
+export const featSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  summary: z.string(),
+  prerequisites: featPrerequisitesSchema.optional(),
+  effects: featEffectsSchema.optional(),
+  requiresManualResolution: z.boolean().default(false),
+  manualResolutionReason: z.string().optional(),
+});
+
 export type ClassData = z.infer<typeof classSchema>;
 export type SubclassData = z.infer<typeof subclassSchema>;
 export type RaceData = z.infer<typeof raceSchema>;
@@ -91,3 +155,4 @@ export type BackgroundData = z.infer<typeof backgroundSchema>;
 export type EquipmentData = z.infer<typeof equipmentSchema>;
 export type SpellData = z.infer<typeof spellSchema>;
 export type FeatureData = z.infer<typeof featureSchema>;
+export type FeatData = z.infer<typeof featSchema>;

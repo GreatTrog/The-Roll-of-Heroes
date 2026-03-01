@@ -7,6 +7,7 @@ import { applyLevelUp, type LevelUpDecision } from '../engine/leveling';
 import { getLocalPortraitUrl, MockAIProvider, resolveLocalPortraitUrl } from '../ai/mockProvider';
 import { portraitPromptFromCharacter, type PortraitRequest } from '../ai/provider';
 import { buildGeminiPortraitPrompt, GeminiProvider } from '../ai/geminiProvider';
+import { getAsiOpportunities, getFeatEligibility, type FeatEligibility } from '../engine/feats';
 
 export type TabKey = 'sheet' | 'spells' | 'backstory' | 'portrait';
 type SavePromptChoice = 'save' | 'secondary' | 'cancel';
@@ -59,6 +60,8 @@ type AppState = {
   exportAllCharacters: () => Promise<void>;
   importJson: (raw: string) => Promise<void>;
   levelUp: (decision: LevelUpDecision) => void;
+  getAsiOpportunitiesForTarget: (targetLevel: number) => number[];
+  getFeatEligibilityForCurrent: () => FeatEligibility[];
   setFeatsEnabled: (value: boolean) => void;
   updateCharacterName: (name: string) => void;
   updateCharacterGender: (gender: Character['identity']['gender']) => void;
@@ -464,7 +467,7 @@ export const useAppStore = create<AppState>((set, get) => ({
     const character = get().character;
     if (!character) return;
     try {
-      const leveled = applyLevelUp(character, decision);
+      const leveled = applyLevelUp(character, { ...decision, featsEnabled: get().featsEnabled });
       set({ character: leveled, error: undefined });
       setUnsavedForOpenedCharacter(set);
       if (get().openedCharacterId && character.meta.id === get().openedCharacterId) {
@@ -483,6 +486,16 @@ export const useAppStore = create<AppState>((set, get) => ({
     } catch (error) {
       set({ error: error instanceof Error ? error.message : String(error) });
     }
+  },
+  getAsiOpportunitiesForTarget: (targetLevel) => {
+    const character = get().character;
+    if (!character) return [];
+    return getAsiOpportunities(character.identity.classId, character.identity.level, targetLevel);
+  },
+  getFeatEligibilityForCurrent: () => {
+    const character = get().character;
+    if (!character) return [];
+    return getFeatEligibility(character);
   },
   setFeatsEnabled: (value) => set({ featsEnabled: value }),
   updateCharacterName: (name) => {

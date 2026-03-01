@@ -349,6 +349,65 @@ button:hover {
   color: #5c4a36;
 }
 
+.advancement-choice-wrap {
+  margin-top: 0.7rem;
+  display: grid;
+  gap: 0.7rem;
+}
+
+.advancement-choice {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.6rem;
+  background: rgba(255, 250, 238, 0.84);
+  display: grid;
+  gap: 0.55rem;
+}
+
+.feat-picker {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.feat-list {
+  max-height: 220px;
+  overflow: auto;
+  display: grid;
+  gap: 0.3rem;
+  padding-right: 0.2rem;
+}
+
+.feat-row {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid #a9834e;
+  padding: 0.45rem 0.55rem;
+  text-align: left;
+  display: grid;
+  gap: 0.2rem;
+}
+
+.feat-row.selected {
+  border-color: #215348;
+  background: linear-gradient(180deg, #3f7f70, #2f6d5d);
+}
+
+.feat-choice-controls {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.advancement-errors {
+  border-left: 3px solid #8e2323;
+  padding-left: 0.5rem;
+  color: #8e2323;
+  font-size: 0.92rem;
+}
+
+.advancement-errors p {
+  margin: 0.15rem 0;
+}
+
 .lock-chip {
   border: 1px solid var(--border);
   border-radius: 999px;

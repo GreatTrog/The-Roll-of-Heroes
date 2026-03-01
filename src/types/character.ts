@@ -116,13 +116,40 @@ const imageSchema = z.object({
   createdAt: z.string(),
 });
 
+const abilityIncreaseSchema = z.object({
+  ability: z.enum(abilityKeys),
+  amount: z.number().int().min(1).max(2),
+});
+
+const featChoiceSelectionSchema = z.object({
+  abilityChoices: z.array(z.enum(abilityKeys)).optional(),
+  saveChoices: z.array(z.enum(abilityKeys)).optional(),
+  skillChoices: z.array(z.string()).optional(),
+  toolChoices: z.array(z.string()).optional(),
+  weaponChoices: z.array(z.string()).optional(),
+  languageChoices: z.array(z.string()).optional(),
+});
+
+const advancementChoiceSchema = z.discriminatedUnion('type', [
+  z.object({
+    type: z.literal('asi'),
+    increases: z.array(abilityIncreaseSchema).min(1).max(2),
+  }),
+  z.object({
+    type: z.literal('feat'),
+    featId: z.string(),
+    selection: featChoiceSelectionSchema.optional(),
+  }),
+]);
+
 const advancementEntrySchema = z.object({
   timestamp: z.string(),
   fromLevel: z.number().int().min(1).max(20),
   toLevel: z.number().int().min(1).max(20),
   hpMethod: z.enum(['average', 'roll', 'manual']),
   hpGain: z.number().int().nonnegative(),
-  asiOrFeat: z.string().optional(),
+  advancementChoice: advancementChoiceSchema.optional(),
+  legacyAsiOrFeat: z.string().optional(),
   spellsChanged: z.array(z.string()),
   beforeSnapshot: z.string(),
   afterSnapshot: z.string(),
@@ -213,7 +240,8 @@ export const CharacterSchema = z.object({
   advancement: z.object({
     hpMethodTracking: z.array(z.enum(['average', 'roll', 'manual'])),
     spellSelectionTracking: z.array(z.string()),
-    asiFeatTracking: z.array(z.string()),
+    asiFeatTracking: z.array(z.string()).optional(),
+    choices: z.array(advancementChoiceSchema).default([]),
     history: z.array(advancementEntrySchema),
     multiclassPlan: z.array(z.string()),
   }),
@@ -221,3 +249,5 @@ export const CharacterSchema = z.object({
 
 export type Character = z.infer<typeof CharacterSchema>;
 export type SpellSlots = z.infer<typeof spellSlotsSchema>;
+export type AdvancementChoice = z.infer<typeof advancementChoiceSchema>;
+export type FeatChoiceSelection = z.infer<typeof featChoiceSelectionSchema>;
