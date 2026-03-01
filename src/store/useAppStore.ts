@@ -8,6 +8,11 @@ import { getLocalPortraitUrl, MockAIProvider, resolveLocalPortraitUrl } from '..
 import { portraitPromptFromCharacter, type PortraitRequest } from '../ai/provider';
 import { buildGeminiPortraitPrompt, GeminiProvider } from '../ai/geminiProvider';
 import { getAsiOpportunities, getFeatEligibility, type FeatEligibility } from '../engine/feats';
+import {
+  getEligibleWeaponOptions,
+  MAX_LOADOUT_WEAPONS,
+  recomputeAttacksForCharacter,
+} from '../engine/weapons';
 
 export type TabKey = 'sheet' | 'spells' | 'backstory' | 'portrait';
 type SavePromptChoice = 'save' | 'secondary' | 'cancel';
@@ -34,6 +39,7 @@ type AppState = {
   error?: string;
   aiStatus?: string;
   saveNotice?: string;
+  lastCharacterOpenedAt?: number;
   openedCharacterId?: string;
   hasUnsavedChanges: boolean;
   savePrompt: SavePromptState;
@@ -65,6 +71,10 @@ type AppState = {
   setFeatsEnabled: (value: boolean) => void;
   updateCharacterName: (name: string) => void;
   updateCharacterGender: (gender: Character['identity']['gender']) => void;
+  getAvailableWeaponOptions: () => Array<{ id: string; name: string }>;
+  addWeaponToLoadout: (weaponId: string) => void;
+  removeWeaponFromLoadout: (weaponId: string) => void;
+  moveWeaponInLoadout: (fromIndex: number, toIndex: number) => void;
   generateBackstory: () => Promise<void>;
   generatePortrait: (request: PortraitRequest) => Promise<void>;
   clearAiStatus: () => void;
@@ -216,6 +226,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   aiPasswordValue: '',
   aiStatus: undefined,
   saveNotice: undefined,
+  lastCharacterOpenedAt: undefined,
   openedCharacterId: undefined,
   hasUnsavedChanges: false,
   savePrompt: {
@@ -395,7 +406,14 @@ export const useAppStore = create<AppState>((set, get) => ({
   openCharacter: async (id) => {
     const character = await CharacterRepository.get(id);
     if (!character) return;
-    set({ character, error: undefined, openedCharacterId: id, hasUnsavedChanges: false });
+    set({
+      character,
+      error: undefined,
+      openedCharacterId: id,
+      hasUnsavedChanges: false,
+      saveNotice: 'Character Sheet Opened',
+      lastCharacterOpenedAt: Date.now(),
+    });
   },
   duplicateCharacter: async (id) => {
     const duplicate = await CharacterRepository.duplicate(id);
@@ -458,6 +476,8 @@ export const useAppStore = create<AppState>((set, get) => ({
         aiStatus: undefined,
         openedCharacterId: undefined,
         hasUnsavedChanges: false,
+        saveNotice: 'Character Sheet Opened',
+        lastCharacterOpenedAt: Date.now(),
       });
     } catch (error) {
       set({ error: error instanceof Error ? error.message : String(error) });
@@ -574,6 +594,82 @@ export const useAppStore = create<AppState>((set, get) => ({
         });
       });
     }
+  },
+  getAvailableWeaponOptions: () => {
+    const character = get().character;
+    if (!character) return [];
+    return getEligibleWeaponOptions(character);
+  },
+  addWeaponToLoadout: (weaponId) => {
+    const character = get().character;
+    if (!character) return;
+    const eligible = new Set(getEligibleWeaponOptions(character).map((option) => option.id));
+    if (!eligible.has(weaponId)) {
+      set({ error: 'You are not proficient with that weapon.' });
+      return;
+    }
+    if (character.equipment.weaponIds.includes(weaponId)) {
+      set({ error: 'That weapon is already in the loadout.' });
+      return;
+    }
+    if (character.equipment.weaponIds.length >= MAX_LOADOUT_WEAPONS) {
+      set({ error: `Loadout is limited to ${MAX_LOADOUT_WEAPONS} weapons.` });
+      return;
+    }
+    const nextCharacter: Character = {
+      ...character,
+      equipment: {
+        ...character.equipment,
+        weaponIds: [...character.equipment.weaponIds, weaponId],
+      },
+      meta: { ...character.meta, updatedAt: new Date().toISOString() },
+    };
+    nextCharacter.combat.attacks = recomputeAttacksForCharacter(nextCharacter);
+    set({ character: nextCharacter, error: undefined });
+    setUnsavedForOpenedCharacter(set);
+  },
+  removeWeaponFromLoadout: (weaponId) => {
+    const character = get().character;
+    if (!character) return;
+    if (!character.equipment.weaponIds.includes(weaponId)) return;
+    const nextIds = character.equipment.weaponIds.filter((id) => id !== weaponId);
+    const nextCharacter: Character = {
+      ...character,
+      equipment: {
+        ...character.equipment,
+        weaponIds: nextIds,
+      },
+      meta: { ...character.meta, updatedAt: new Date().toISOString() },
+    };
+    nextCharacter.combat.attacks = recomputeAttacksForCharacter(nextCharacter);
+    set({ character: nextCharacter, error: undefined });
+    setUnsavedForOpenedCharacter(set);
+  },
+  moveWeaponInLoadout: (fromIndex, toIndex) => {
+    const character = get().character;
+    if (!character) return;
+    const ids = [...character.equipment.weaponIds];
+    if (
+      fromIndex < 0 ||
+      toIndex < 0 ||
+      fromIndex >= ids.length ||
+      toIndex >= ids.length ||
+      fromIndex === toIndex
+    ) return;
+    const [moved] = ids.splice(fromIndex, 1);
+    if (!moved) return;
+    ids.splice(toIndex, 0, moved);
+    const nextCharacter: Character = {
+      ...character,
+      equipment: {
+        ...character.equipment,
+        weaponIds: ids,
+      },
+      meta: { ...character.meta, updatedAt: new Date().toISOString() },
+    };
+    nextCharacter.combat.attacks = recomputeAttacksForCharacter(nextCharacter);
+    set({ character: nextCharacter, error: undefined });
+    setUnsavedForOpenedCharacter(set);
   },
   generateBackstory: async () => {
     const character = get().character;

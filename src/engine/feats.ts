@@ -180,6 +180,24 @@ export function validateFeatChoice(character: Character, choice: Extract<Advance
     errors.push('Selection choices must be unique.');
   }
 
+  // Validate ability choices against each feat-defined option group.
+  if ((feat.effects?.abilityChoiceBonuses?.length ?? 0) > 0) {
+    let cursor = 0;
+    for (const abilityChoiceDef of feat.effects?.abilityChoiceBonuses ?? []) {
+      for (let i = 0; i < abilityChoiceDef.choose; i += 1) {
+        const picked = abilityChoices[cursor] as AbilityKey | undefined;
+        if (!picked) {
+          cursor += 1;
+          continue;
+        }
+        if (!abilityChoiceDef.from.includes(picked)) {
+          errors.push(`Invalid ability choice ${picked.toUpperCase()} for ${feat.name}.`);
+        }
+        cursor += 1;
+      }
+    }
+  }
+
   return errors;
 }
 

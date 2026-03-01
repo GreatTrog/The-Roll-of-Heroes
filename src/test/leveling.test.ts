@@ -110,4 +110,29 @@ describe('leveling with ASI/feat choices', () => {
     expect(beforeSave).toBe(false);
     expect(next.proficiencies.savingThrows.wis).toBe(true);
   });
+
+  it('rejects invalid ability choices for constrained feats', () => {
+    const character = generateCharacter({
+      mode: 'guided',
+      level: 3,
+      classId: 'fighter',
+      raceId: 'human',
+      gender: 'female',
+      seed: 'lvl-feat-lightly-armored',
+    });
+
+    expect(() =>
+      applyLevelUp(character, {
+        targetLevel: 4,
+        hpMethod: 'average',
+        advancementChoices: [
+          {
+            type: 'feat',
+            featId: 'lightly_armored',
+            selection: { abilityChoices: ['wis'] },
+          },
+        ],
+      }),
+    ).toThrow(/Invalid ability choice WIS/);
+  });
 });
