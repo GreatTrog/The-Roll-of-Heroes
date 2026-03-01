@@ -138,6 +138,10 @@ export function validateFeatChoice(character: Character, choice: Extract<Advance
   const required = getFeatChoiceRequirements(feat);
   const abilityChoices = selection.abilityChoices ?? [];
   const saveChoices = selection.saveChoices ?? [];
+  const effectiveSaveChoices =
+    choice.featId === 'resilient' && saveChoices.length === 0 && abilityChoices.length === 1
+      ? abilityChoices
+      : saveChoices;
   const skillChoices = selection.skillChoices ?? [];
   const toolChoices = selection.toolChoices ?? [];
   const weaponChoices = selection.weaponChoices ?? [];
@@ -146,7 +150,7 @@ export function validateFeatChoice(character: Character, choice: Extract<Advance
   if (abilityChoices.length !== required.abilityChoices) {
     errors.push(`Requires ${required.abilityChoices} ability choice(s).`);
   }
-  if (saveChoices.length !== required.saveChoices) {
+  if (effectiveSaveChoices.length !== required.saveChoices) {
     errors.push(`Requires ${required.saveChoices} save proficiency choice(s).`);
   }
   if (skillChoices.length !== required.skillChoices) {
@@ -162,8 +166,8 @@ export function validateFeatChoice(character: Character, choice: Extract<Advance
     errors.push(`Requires ${required.languageChoices} language choice(s).`);
   }
 
-  if (choice.featId === 'resilient' && abilityChoices.length === 1 && saveChoices.length === 1) {
-    if (abilityChoices[0] !== saveChoices[0]) {
+  if (choice.featId === 'resilient' && abilityChoices.length === 1 && effectiveSaveChoices.length === 1) {
+    if (abilityChoices[0] !== effectiveSaveChoices[0]) {
       errors.push('Resilient save proficiency must match the ability increase.');
     }
   }
@@ -305,8 +309,13 @@ export function applyAdvancementChoices(baseCharacter: Character, choices: Advan
     initiativeBonus += feat.effects?.initiativeBonus ?? 0;
     speedBonus += feat.effects?.speedBonus ?? 0;
     hpPerLevelBonus += feat.effects?.hpPerLevelBonus ?? 0;
-    if (feat.effects?.saveProficiencyChoice) {
-      for (const save of choice.selection?.saveChoices ?? []) {
+  if (feat.effects?.saveProficiencyChoice) {
+      const rawSaveChoices = choice.selection?.saveChoices ?? [];
+      const effectiveSaveChoices =
+        choice.featId === 'resilient' && rawSaveChoices.length === 0 && (choice.selection?.abilityChoices?.length ?? 0) === 1
+          ? choice.selection?.abilityChoices ?? []
+          : rawSaveChoices;
+      for (const save of effectiveSaveChoices) {
         character.proficiencies.savingThrows[save] = true;
       }
     }

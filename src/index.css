@@ -397,6 +397,13 @@ button:hover {
   gap: 0.4rem;
 }
 
+.choice-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 0.3rem 0.5rem;
+  margin-top: 0.2rem;
+}
+
 .advancement-errors {
   border-left: 3px solid #8e2323;
   padding-left: 0.5rem;

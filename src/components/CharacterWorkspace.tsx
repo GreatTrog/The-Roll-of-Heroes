@@ -7,7 +7,7 @@ import { SheetTab } from './tabs/SheetTab';
 import { SpellsTab } from './tabs/SpellsTab';
 import { abilityKeys, skillKeys, type AbilityKey, type AdvancementChoice } from '../types/character';
 import { applyAdvancementChoices, getFeatChoiceRequirements, validateAsiChoice, validateFeatChoice } from '../engine/feats';
-import { equipment, feats } from '../data/rules';
+import { backgrounds, equipment, feats, races } from '../data/rules';
 
 const tabs: TabKey[] = ['sheet', 'spells', 'backstory', 'portrait'];
 
@@ -41,6 +41,15 @@ const defaultDraft = (featsEnabled: boolean): AdvancementDraft => ({
     weaponChoices: [],
     languageChoices: [],
   },
+});
+
+const emptySelection = (): AdvancementDraft['selection'] => ({
+  abilityChoices: [],
+  saveChoices: [],
+  skillChoices: [],
+  toolChoices: [],
+  weaponChoices: [],
+  languageChoices: [],
 });
 
 export function CharacterWorkspace() {
@@ -81,6 +90,7 @@ export function CharacterWorkspace() {
   const featEligibility = getFeatEligibilityForCurrent();
   const filteredFeatEligibility = featEligibility.filter((entry) => {
     const term = featSearch.trim().toLowerCase();
+    if (!entry.eligible) return false;
     if (!term) return true;
     return entry.feat.name.toLowerCase().includes(term) || entry.feat.summary.toLowerCase().includes(term);
   });
@@ -100,18 +110,66 @@ export function CharacterWorkspace() {
     () => equipment.filter((item) => item.type === 'weapon').map((item) => item.id),
     [],
   );
+  const languageOptions = useMemo(() => {
+    const all = new Set<string>();
+    for (const race of races) {
+      for (const language of race.languages) all.add(language);
+    }
+    for (const background of backgrounds) {
+      for (const language of background.languages) all.add(language);
+    }
+    return [...all].sort((a, b) => a.localeCompare(b));
+  }, []);
 
   const updateDraft = (index: number, next: Partial<AdvancementDraft>) => {
     setAdvancementDrafts((prev) => prev.map((draft, idx) => (idx === index ? { ...draft, ...next } : draft)));
   };
 
-  const updateSelection = (index: number, key: keyof AdvancementDraft['selection'], value: string[]) => {
+  const selectFeatForDraft = (index: number, featId: string) => {
     setAdvancementDrafts((prev) =>
       prev.map((draft, idx) =>
         idx === index
-          ? { ...draft, selection: { ...draft.selection, [key]: value } }
+          ? {
+              ...draft,
+              featId,
+              selection: emptySelection(),
+            }
           : draft,
       ),
+    );
+  };
+
+  const clearDraftSelection = (index: number) => {
+    setAdvancementDrafts((prev) =>
+      prev.map((draft, idx) =>
+        idx === index
+          ? {
+              ...draft,
+              featId: '',
+              selection: emptySelection(),
+            }
+          : draft,
+      ),
+    );
+  };
+
+  const toggleSelectionValue = (
+    index: number,
+    key: keyof AdvancementDraft['selection'],
+    value: string,
+    maxChoices: number,
+  ) => {
+    setAdvancementDrafts((prev) =>
+      prev.map((draft, idx) => {
+        if (idx !== index) return draft;
+        const current = draft.selection[key];
+        const exists = current.includes(value);
+        if (exists) {
+          return { ...draft, selection: { ...draft.selection, [key]: current.filter((item) => item !== value) } };
+        }
+        if (current.length >= maxChoices) return draft;
+        return { ...draft, selection: { ...draft.selection, [key]: [...current, value] } };
+      }),
     );
   };
 
@@ -127,7 +185,10 @@ export function CharacterWorkspace() {
       featId: draft.featId,
       selection: {
         abilityChoices: draft.selection.abilityChoices as AbilityKey[],
-        saveChoices: draft.selection.saveChoices as AbilityKey[],
+        saveChoices:
+          draft.featId === 'resilient' && draft.selection.abilityChoices.length === 1
+            ? (draft.selection.abilityChoices as AbilityKey[])
+            : (draft.selection.saveChoices as AbilityKey[]),
         skillChoices: draft.selection.skillChoices,
         toolChoices: draft.selection.toolChoices,
         weaponChoices: draft.selection.weaponChoices,
@@ -255,6 +316,7 @@ export function CharacterWorkspace() {
                 {advancementDrafts.map((draft, idx) => {
                   const feat = draft.featId ? feats.find((x) => x.id === draft.featId) : undefined;
                   const reqs = feat ? getFeatChoiceRequirements(feat) : undefined;
+                  const isResilient = feat?.id === 'resilient';
                   return (
                     <div key={`adv-choice:${idx}`} className="advancement-choice">
                       <strong>Choice {idx + 1}</strong>
@@ -318,86 +380,130 @@ export function CharacterWorkspace() {
                             />
                           </label>
                           <div className="feat-list">
-                            {filteredFeatEligibility.map((entry) => (
-                              <button
-                                key={`feat-row:${idx}:${entry.feat.id}`}
-                                type="button"
-                                className={draft.featId === entry.feat.id ? 'feat-row selected' : 'feat-row'}
-                                disabled={!entry.eligible}
-                                onClick={() => updateDraft(idx, { featId: entry.feat.id })}
-                              >
-                                <span><strong>{entry.feat.name}</strong> - {entry.feat.summary}</span>
-                                {!entry.eligible ? <small>{entry.reasons.join(' ')}</small> : null}
-                              </button>
-                            ))}
+                            {filteredFeatEligibility.length > 0 ? (
+                              filteredFeatEligibility.map((entry) => (
+                                <button
+                                  key={`feat-row:${idx}:${entry.feat.id}`}
+                                  type="button"
+                                  className={draft.featId === entry.feat.id ? 'feat-row selected' : 'feat-row'}
+                                  onClick={() => selectFeatForDraft(idx, entry.feat.id)}
+                                >
+                                  <span><strong>{entry.feat.name}</strong> - {entry.feat.summary}</span>
+                                </button>
+                              ))
+                            ) : (
+                              <p className="tiny">No selectable feats match current prerequisites and search.</p>
+                            )}
                           </div>
                           {feat && reqs ? (
                             <div className="feat-choice-controls">
+                              <div className="controls">
+                                <button type="button" onClick={() => clearDraftSelection(idx)}>Clear Feat Selection</button>
+                              </div>
                               {reqs.abilityChoices > 0 ? (
-                                <label>
-                                  Ability choice(s)
-                                  <select
-                                    multiple
-                                    value={draft.selection.abilityChoices}
-                                    onChange={(e) => updateSelection(idx, 'abilityChoices', [...e.target.selectedOptions].map((opt) => opt.value))}
-                                  >
-                                    {abilityKeys.map((ability) => (
-                                      <option key={`feat-ability:${idx}:${ability}`} value={ability}>{ability.toUpperCase()}</option>
-                                    ))}
-                                  </select>
-                                </label>
+                                <div>
+                                  <strong>{isResilient ? 'Ability + Save choice' : 'Ability choice(s)'}</strong>
+                                  <p className="tiny">Choose {reqs.abilityChoices}</p>
+                                  <div className="choice-grid">
+                                    {abilityKeys.map((ability) => {
+                                      const checked = draft.selection.abilityChoices.includes(ability);
+                                      return (
+                                        <label key={`feat-ability:${idx}:${ability}`} className="inline-toggle">
+                                          <input
+                                            type="checkbox"
+                                            checked={checked}
+                                            onChange={() => toggleSelectionValue(idx, 'abilityChoices', ability, reqs.abilityChoices)}
+                                          />
+                                          {ability.toUpperCase()}
+                                        </label>
+                                      );
+                                    })}
+                                  </div>
+                                </div>
                               ) : null}
-                              {reqs.saveChoices > 0 ? (
-                                <label>
-                                  Save proficiency choice(s)
-                                  <select
-                                    multiple
-                                    value={draft.selection.saveChoices}
-                                    onChange={(e) => updateSelection(idx, 'saveChoices', [...e.target.selectedOptions].map((opt) => opt.value))}
-                                  >
-                                    {abilityKeys.map((ability) => (
-                                      <option key={`feat-save:${idx}:${ability}`} value={ability}>{ability.toUpperCase()}</option>
-                                    ))}
-                                  </select>
-                                </label>
+                              {reqs.saveChoices > 0 && !isResilient ? (
+                                <div>
+                                  <strong>Save proficiency choice(s)</strong>
+                                  <p className="tiny">Choose {reqs.saveChoices}</p>
+                                  <div className="choice-grid">
+                                    {abilityKeys.map((ability) => {
+                                      const checked = draft.selection.saveChoices.includes(ability);
+                                      return (
+                                        <label key={`feat-save:${idx}:${ability}`} className="inline-toggle">
+                                          <input
+                                            type="checkbox"
+                                            checked={checked}
+                                            onChange={() => toggleSelectionValue(idx, 'saveChoices', ability, reqs.saveChoices)}
+                                          />
+                                          {ability.toUpperCase()}
+                                        </label>
+                                      );
+                                    })}
+                                  </div>
+                                </div>
                               ) : null}
                               {reqs.skillChoices > 0 ? (
-                                <label>
-                                  Skill choice(s)
-                                  <select
-                                    multiple
-                                    value={draft.selection.skillChoices}
-                                    onChange={(e) => updateSelection(idx, 'skillChoices', [...e.target.selectedOptions].map((opt) => opt.value))}
-                                  >
-                                    {skillKeys.map((skill) => (
-                                      <option key={`feat-skill:${idx}:${skill}`} value={skill}>{skill.replaceAll('_', ' ')}</option>
-                                    ))}
-                                  </select>
-                                </label>
+                                <div>
+                                  <strong>Skill choice(s)</strong>
+                                  <p className="tiny">Choose {reqs.skillChoices}</p>
+                                  <div className="choice-grid">
+                                    {skillKeys.map((skill) => {
+                                      const checked = draft.selection.skillChoices.includes(skill);
+                                      return (
+                                        <label key={`feat-skill:${idx}:${skill}`} className="inline-toggle">
+                                          <input
+                                            type="checkbox"
+                                            checked={checked}
+                                            onChange={() => toggleSelectionValue(idx, 'skillChoices', skill, reqs.skillChoices)}
+                                          />
+                                          {skill.replaceAll('_', ' ')}
+                                        </label>
+                                      );
+                                    })}
+                                  </div>
+                                </div>
                               ) : null}
                               {reqs.weaponChoices > 0 ? (
-                                <label>
-                                  Weapon proficiency choice(s)
-                                  <select
-                                    multiple
-                                    value={draft.selection.weaponChoices}
-                                    onChange={(e) => updateSelection(idx, 'weaponChoices', [...e.target.selectedOptions].map((opt) => opt.value))}
-                                  >
-                                    {weaponOptions.map((weapon) => (
-                                      <option key={`feat-weapon:${idx}:${weapon}`} value={weapon}>{weapon.replaceAll('_', ' ')}</option>
-                                    ))}
-                                  </select>
-                                </label>
+                                <div>
+                                  <strong>Weapon proficiency choice(s)</strong>
+                                  <p className="tiny">Choose {reqs.weaponChoices}</p>
+                                  <div className="choice-grid">
+                                    {weaponOptions.map((weapon) => {
+                                      const checked = draft.selection.weaponChoices.includes(weapon);
+                                      return (
+                                        <label key={`feat-weapon:${idx}:${weapon}`} className="inline-toggle">
+                                          <input
+                                            type="checkbox"
+                                            checked={checked}
+                                            onChange={() => toggleSelectionValue(idx, 'weaponChoices', weapon, reqs.weaponChoices)}
+                                          />
+                                          {weapon.replaceAll('_', ' ')}
+                                        </label>
+                                      );
+                                    })}
+                                  </div>
+                                </div>
                               ) : null}
                               {reqs.languageChoices > 0 ? (
-                                <label>
-                                  Language choice(s)
-                                  <input
-                                    value={draft.selection.languageChoices.join(', ')}
-                                    onChange={(e) => updateSelection(idx, 'languageChoices', e.target.value.split(',').map((x) => x.trim()).filter(Boolean))}
-                                    placeholder="Comma-separated languages"
-                                  />
-                                </label>
+                                <div>
+                                  <strong>Language choice(s)</strong>
+                                  <p className="tiny">Choose {reqs.languageChoices}</p>
+                                  <div className="choice-grid">
+                                    {languageOptions.map((language) => {
+                                      const checked = draft.selection.languageChoices.includes(language);
+                                      return (
+                                        <label key={`feat-language:${idx}:${language}`} className="inline-toggle">
+                                          <input
+                                            type="checkbox"
+                                            checked={checked}
+                                            onChange={() => toggleSelectionValue(idx, 'languageChoices', language, reqs.languageChoices)}
+                                          />
+                                          {language}
+                                        </label>
+                                      );
+                                    })}
+                                  </div>
+                                </div>
                               ) : null}
                             </div>
                           ) : null}

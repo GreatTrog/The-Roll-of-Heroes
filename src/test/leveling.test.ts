@@ -80,4 +80,34 @@ describe('leveling with ASI/feat choices', () => {
     expect(withTough.combat.hpMax).toBe(withAsi.combat.hpMax + 8);
     expect(withTough.advancement.choices.at(-1)).toEqual({ type: 'feat', featId: 'tough' });
   });
+
+  it('supports resilient with one linked ability/save choice', () => {
+    const character = generateCharacter({
+      mode: 'guided',
+      level: 3,
+      classId: 'fighter',
+      raceId: 'human',
+      gender: 'female',
+      seed: 'lvl-feat-resilient',
+    });
+
+    const beforeWis = character.abilities.scores.wis;
+    const beforeSave = character.proficiencies.savingThrows.wis;
+
+    const next = applyLevelUp(character, {
+      targetLevel: 4,
+      hpMethod: 'average',
+      advancementChoices: [
+        {
+          type: 'feat',
+          featId: 'resilient',
+          selection: { abilityChoices: ['wis'] },
+        },
+      ],
+    });
+
+    expect(next.abilities.scores.wis).toBe(beforeWis + 1);
+    expect(beforeSave).toBe(false);
+    expect(next.proficiencies.savingThrows.wis).toBe(true);
+  });
 });
