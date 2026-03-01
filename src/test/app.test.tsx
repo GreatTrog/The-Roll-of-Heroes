@@ -5,6 +5,6 @@ import App from '../App';
 describe('App', () => {
   it('renders title', () => {
     render(<App />);
-    expect(screen.getByText(/D&D 5e Character Generator/i)).toBeInTheDocument();
+    expect(screen.getByText(/THE ROLL OF HEROES/i)).toBeInTheDocument();
   });
 });
