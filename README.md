@@ -27,12 +27,16 @@ npm install
 cp .env.example .env
 ```
 
-Set `VITE_OPENAI_API_KEY` in `.env` (or leave empty to use mock provider fallback).
+Set these values in `.env`:
+
+- `GEMINI_API_KEY` (server-side only)
+- `AI_FEATURE_PASSWORD` (required to unlock AI actions)
+- Optional: `VITE_USE_MOCK_AI=true` or `VITE_ALLOW_AI_FALLBACK=true`
 
 3. Run:
 
 ```bash
-npm run dev
+npx vercel dev
 ```
 
 ## Scripts

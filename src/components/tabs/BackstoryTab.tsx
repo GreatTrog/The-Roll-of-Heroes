@@ -6,11 +6,14 @@ export function BackstoryTab({ character }: { character: Character }) {
   const loadingBackstory = useAppStore((s) => s.loadingBackstory);
 
   return (
-    <div className="panel">
+    <div>
       <h3>Backstory Pack</h3>
-      <button onClick={() => void generateBackstory()} disabled={loadingBackstory}>
-        {loadingBackstory ? 'Generating...' : 'Regenerate with AI'}
-      </button>
+      <div className="ai-action-row">
+        <button onClick={() => void generateBackstory()} disabled={loadingBackstory}>
+          {loadingBackstory ? 'Generating...' : 'Regenerate with AI'}
+        </button>
+        <span>(Password Required)</span>
+      </div>
       <p>{character.backstory.origin}</p>
       <h4>Defining Moments</h4>
       <ul>

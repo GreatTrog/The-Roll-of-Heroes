@@ -50,18 +50,22 @@ export function CharacterWorkspace() {
 
   return (
     <section>
-      <div className="tabs">
-        {tabs.map((tab) => (
-          <button key={tab} className={activeTab === tab ? 'tab active' : 'tab'} onClick={() => setActiveTab(tab)}>
-            {tab}
-          </button>
-        ))}
+      <div className={activeTab === 'sheet' ? 'panel tab-host sheet-panel' : 'panel tab-host'}>
+        <div className="tabs">
+          {tabs.map((tab) => (
+            <button key={tab} className={activeTab === tab ? 'tab active' : 'tab'} onClick={() => setActiveTab(tab)}>
+              {tab}
+            </button>
+          ))}
+        </div>
+
+        {activeTab === 'sheet' && <SheetTab character={character} />}
+        {activeTab === 'spells' && <SpellsTab character={character} />}
+        {activeTab === 'backstory' && <BackstoryTab character={character} />}
+        {activeTab === 'portrait' && <PortraitTab character={character} />}
       </div>
 
-      {activeTab === 'sheet' && <SheetTab character={character} />}
-      {activeTab === 'spells' && <SpellsTab character={character} />}
-      {activeTab === 'backstory' && <BackstoryTab character={character} />}
-      {activeTab === 'portrait' && <PortraitTab character={character} />}
+      <div className="section-divider" aria-hidden="true" />
 
       <div className="panel controls-wrap">
         <h2>Character Controls</h2>
@@ -146,6 +150,8 @@ export function CharacterWorkspace() {
           </div>
         </div>
       </div>
+
+      <div className="section-divider" aria-hidden="true" />
 
       <section className="panel">
         <h3>Advancement History</h3>

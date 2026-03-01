@@ -3,6 +3,12 @@ import { useState } from 'react';
 import type { Character } from '../types/character';
 import { skillAbilityMap, skillKeys } from '../types/character';
 import { equipmentById, spells } from '../data/rules';
+import iconD20 from '../assets/ui/icons/d20.png';
+import iconScroll from '../assets/ui/icons/icon-scroll.png';
+import iconShield from '../assets/ui/icons/icon-shield.png';
+import iconStar from '../assets/ui/icons/icon-star.png';
+import iconSword from '../assets/ui/icons/icon-sword.png';
+import iconPack from '../assets/ui/icons/icon-pack.png';
 
 Font.register({
   family: 'Oldenburg',
@@ -19,6 +25,8 @@ const styles = StyleSheet.create({
   headerRow: { flexDirection: 'row', alignItems: 'center', gap: 10, marginBottom: 8 },
   headerText: { flex: 1 },
   title: { fontSize: 22, marginBottom: 4, color: '#5e2416', fontFamily: 'EagleLake' },
+  titleRow: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 6 },
+  titleIcon: { width: 20, height: 20, objectFit: 'contain' },
   subtitle: { fontSize: 10, color: '#6f5640', marginBottom: 0, fontFamily: 'Oldenburg' },
   titleThumbWrap: { width: 54, height: 54, borderRadius: 6, border: '1 solid #cab089', overflow: 'hidden' },
   titleThumb: { width: '100%', height: '100%', objectFit: 'cover' },
@@ -45,6 +53,7 @@ const styles = StyleSheet.create({
   quickValue: { fontSize: 13, fontWeight: 'bold', marginTop: 1, fontFamily: 'Oldenburg', textAlign: 'center' },
   sheetOuter: { flexDirection: 'row', gap: 8, alignItems: 'stretch' },
   leftArea: { flex: 3, gap: 8 },
+  leftAreaFull: { gap: 8 },
   rightFeature: { flex: 1, minHeight: 520 },
   topBand: { flexDirection: 'row', gap: 8, minHeight: 320 },
   skillsTall: { flex: 1, minHeight: 320 },
@@ -59,6 +68,8 @@ const styles = StyleSheet.create({
   tallBlock: { flexGrow: 1, border: '1 solid #d6c2a2', borderRadius: 6, padding: 8, backgroundColor: '#fef8ef' },
   block: { marginBottom: 10, border: '1 solid #d6c2a2', borderRadius: 4, padding: 8, backgroundColor: '#fef8ef' },
   sectionTitle: { fontSize: 12, marginBottom: 5, color: '#4d2e13', fontFamily: 'EagleLake' },
+  sectionHeadingRow: { flexDirection: 'row', alignItems: 'center', marginBottom: 5 },
+  sectionIcon: { width: 12, height: 12, objectFit: 'contain', marginRight: 5 },
   smallHeading: { fontSize: 10, color: '#4d2e13', fontFamily: 'EagleLake' },
   smallHeadingBlock: { fontSize: 10, color: '#4d2e13', fontFamily: 'EagleLake', marginTop: 8, marginBottom: 3 },
   row: { flexDirection: 'row', justifyContent: 'space-between', gap: 8 },
@@ -73,13 +84,27 @@ const styles = StyleSheet.create({
   backstoryOrigin: { marginBottom: 8, lineHeight: 1.45 },
   backstoryListItem: { marginBottom: 3, lineHeight: 1.4 },
   backstoryInline: { marginTop: 6, lineHeight: 1.45 },
+  featuresColumns: { flexDirection: 'row', gap: 10 },
+  featuresColumn: { flex: 1 },
+  featureGroupBlock: { marginBottom: 8, border: '1 solid #d6c2a2', borderRadius: 4, padding: 6, backgroundColor: '#fffaf1' },
+  featureGroupTitle: { fontSize: 10, marginBottom: 4, color: '#4d2e13', fontFamily: 'EagleLake' },
 });
 
 function displayEquipmentName(id: string): string {
   return equipmentById.get(id)?.name ?? id.replaceAll('_', ' ');
 }
 
+function SectionHeading({ icon, text }: { icon: string; text: string }) {
+  return (
+    <View style={styles.sectionHeadingRow}>
+      <Image src={icon} style={styles.sectionIcon} />
+      <Text style={[styles.sectionTitle, { marginBottom: 0 }]}>{text}</Text>
+    </View>
+  );
+}
+
 function CharacterPdfDocument({ character }: { character: Character }) {
+  const splitFeaturesPage = character.identity.level > 10;
   const spellSlotText = Object.entries(character.spellcasting.slots)
     .map(([k, v]) => `${k.replace('level', 'L')}:${v}`)
     .join(' ');
@@ -88,6 +113,10 @@ function CharacterPdfDocument({ character }: { character: Character }) {
   const packItems = character.equipment.items
     .map((id) => equipmentById.get(id))
     .filter((item): item is NonNullable<typeof item> => Boolean(item && item.contains && item.contains.length > 0));
+  const featureColumns: Array<Character['features']> = [[], []];
+  character.features.forEach((feature, index) => {
+    featureColumns[index % 2]?.push(feature);
+  });
 
   const knownCantripRows = character.spellcasting.spellsKnown
     .filter((id) => (spellById.get(id)?.level ?? 0) === 0)
@@ -163,7 +192,7 @@ function CharacterPdfDocument({ character }: { character: Character }) {
           <View style={styles.leftArea}>
             <View style={styles.topBand}>
               <View style={[styles.skillsTall, styles.tallBlock]}>
-                <Text style={styles.sectionTitle}>Skills</Text>
+                <SectionHeading icon={iconScroll} text="Skills" />
                 {skillKeys.map((skill) => {
                   const proficient = character.proficiencies.skills[skill];
                   const base = character.abilities.modifiers[skillAbilityMap[skill]];
@@ -180,7 +209,7 @@ function CharacterPdfDocument({ character }: { character: Character }) {
               <View style={styles.centerStack}>
                 <View style={styles.topPair}>
                   <View style={[styles.pairCell, styles.compactBlock]}>
-                    <Text style={styles.sectionTitle}>Saving Throws</Text>
+                    <SectionHeading icon={iconShield} text={'Saving\nThrows'} />
                     {Object.entries(character.proficiencies.savingThrows).map(([k, proficient]) => {
                       const ability = k as keyof typeof character.abilities.modifiers;
                       const value = character.abilities.modifiers[ability] + (proficient ? pb : 0);
@@ -193,7 +222,7 @@ function CharacterPdfDocument({ character }: { character: Character }) {
                     })}
                   </View>
                   <View style={[styles.pairCell, styles.compactBlock]}>
-                    <Text style={styles.sectionTitle}>Abilities</Text>
+                    <SectionHeading icon={iconStar} text="Abilities" />
                     {Object.entries(character.abilities.scores).map(([key, score]) => (
                       <View key={key} style={styles.lineBetween}>
                         <Text style={styles.tiny}>{key.toUpperCase()}</Text>
@@ -203,7 +232,7 @@ function CharacterPdfDocument({ character }: { character: Character }) {
                   </View>
                 </View>
                 <View style={[styles.attacksWide, styles.compactBlock]}>
-                  <Text style={styles.sectionTitle}>Attacks</Text>
+                  <SectionHeading icon={iconSword} text="Attacks" />
                   {character.combat.attacks.map((a) => (
                     <Text key={a.id} style={styles.tiny}>{`${a.name}: +${a.toHit} to hit - ${a.damage}`}</Text>
                   ))}
@@ -212,7 +241,7 @@ function CharacterPdfDocument({ character }: { character: Character }) {
             </View>
 
             <View style={[styles.equipmentWide, styles.compactBlock]}>
-              <Text style={styles.sectionTitle}>Equipment</Text>
+              <SectionHeading icon={iconPack} text="Equipment" />
               <Text style={styles.tiny}>
                 <Text style={styles.smallHeading}>Armor: </Text>
                 {`${character.equipment.armorId ? displayEquipmentName(character.equipment.armorId) : 'none'} ${
@@ -242,7 +271,7 @@ function CharacterPdfDocument({ character }: { character: Character }) {
                     <View key={pack.id} style={styles.packCol}>
                       <Text style={styles.smallHeading}>{pack.name}</Text>
                       {pack.contains?.map((entry) => (
-                        <Text key={`${pack.id}:${entry}`} style={[styles.tiny, styles.listItem]}>{`• ${entry}`}</Text>
+                        <Text key={`${pack.id}:${entry}`} style={[styles.tiny, styles.listItem]}>{`\u2022 ${entry}`}</Text>
                       ))}
                     </View>
                   ))}
@@ -252,7 +281,7 @@ function CharacterPdfDocument({ character }: { character: Character }) {
                   <View key={pack.id}>
                     <Text style={styles.smallHeading}>{pack.name}</Text>
                     {pack.contains?.map((entry) => (
-                      <Text key={`${pack.id}:${entry}`} style={[styles.tiny, styles.listItem]}>{`• ${entry}`}</Text>
+                      <Text key={`${pack.id}:${entry}`} style={[styles.tiny, styles.listItem]}>{`\u2022 ${entry}`}</Text>
                     ))}
                   </View>
                 ))
@@ -260,20 +289,48 @@ function CharacterPdfDocument({ character }: { character: Character }) {
             </View>
           </View>
 
-          <View style={[styles.rightFeature, styles.tallBlock]}>
-            <Text style={styles.sectionTitle}>Features</Text>
-            {character.features.map((f) => (
-              <Text key={`${f.level}:${f.id}`} style={styles.tiny}>{`L${f.level} ${f.name}: ${f.summary}`}</Text>
-            ))}
-          </View>
+          {!splitFeaturesPage ? (
+            <View style={[styles.rightFeature, styles.tallBlock]}>
+              <SectionHeading icon={iconScroll} text="Features" />
+              {character.features.map((f) => (
+                <Text key={`${f.level}:${f.id}`} style={styles.tiny}>{`L${f.level} ${f.name}: ${f.summary}`}</Text>
+              ))}
+            </View>
+          ) : null}
         </View>
       </Page>
 
+      {splitFeaturesPage ? (
+        <Page size="A4" style={styles.page}>
+          <View style={styles.titleRow}>
+            <Image src={iconD20} style={styles.titleIcon} />
+            <Text style={styles.title}>Features</Text>
+          </View>
+          <View style={styles.featuresColumns}>
+            {featureColumns.map((column, columnIndex) => (
+              <View key={`feature-col:${columnIndex}`} style={styles.featuresColumn}>
+                <View style={styles.featureGroupBlock}>
+                  <Text style={styles.featureGroupTitle}>{columnIndex === 0 ? 'Features I' : 'Features II'}</Text>
+                  {column.map((feature, idx) => (
+                    <Text key={`feature:${columnIndex}:${idx}`} style={[styles.tiny, styles.listItem]}>
+                      {`\u2022 L${feature.level} ${feature.name}: ${feature.summary}`}
+                    </Text>
+                  ))}
+                </View>
+              </View>
+            ))}
+          </View>
+        </Page>
+      ) : null}
+
       <Page size="A4" style={styles.page}>
-        <Text style={styles.title}>Spells and Portrait</Text>
+        <View style={styles.titleRow}>
+          <Image src={iconD20} style={styles.titleIcon} />
+          <Text style={styles.title}>Spells and Portrait</Text>
+        </View>
 
         <View style={styles.block}>
-          <Text style={styles.sectionTitle}>Spellcasting</Text>
+          <SectionHeading icon={iconStar} text="Spellcasting" />
           <Text style={styles.tiny}>{`Enabled: ${character.spellcasting.enabled ? 'Yes' : 'No'} - Type: ${character.spellcasting.knownType}`}</Text>
           <Text style={styles.tiny}>{`Ability: ${character.spellcasting.castingAbility ?? 'n/a'} - Save DC: ${character.spellcasting.saveDc ?? 'n/a'} - Attack Bonus: ${character.spellcasting.spellAttackBonus ?? 'n/a'}`}</Text>
           <Text style={styles.tiny}>{`Slots: ${spellSlotText}`}</Text>
@@ -282,7 +339,7 @@ function CharacterPdfDocument({ character }: { character: Character }) {
           <Text style={[styles.sectionTitle, { marginTop: 6 }]}>Cantrips</Text>
           {knownCantripRows.length > 0 ? (
             knownCantripRows.map((line, idx) => (
-              <Text key={`cantrip:${idx}`} style={[styles.tiny, styles.listItem]}>{`• ${line}`}</Text>
+              <Text key={`cantrip:${idx}`} style={[styles.tiny, styles.listItem]}>{`\u2022 ${line}`}</Text>
             ))
           ) : (
             <Text style={styles.tiny}>None</Text>
@@ -290,7 +347,7 @@ function CharacterPdfDocument({ character }: { character: Character }) {
           <Text style={[styles.sectionTitle, { marginTop: 6 }]}>Known Spells</Text>
           {knownLeveledRows.length > 0 ? (
             knownLeveledRows.map((line, idx) => (
-              <Text key={`known:${idx}`} style={[styles.tiny, styles.listItem]}>{`• ${line}`}</Text>
+              <Text key={`known:${idx}`} style={[styles.tiny, styles.listItem]}>{`\u2022 ${line}`}</Text>
             ))
           ) : (
             <Text style={styles.tiny}>None</Text>
@@ -298,7 +355,7 @@ function CharacterPdfDocument({ character }: { character: Character }) {
           <Text style={[styles.sectionTitle, { marginTop: 6 }]}>Prepared Spells</Text>
           {preparedSpellRows.length > 0 ? (
             preparedSpellRows.map((line, idx) => (
-              <Text key={`prep:${idx}`} style={[styles.tiny, styles.listItem]}>{`• ${line}`}</Text>
+              <Text key={`prep:${idx}`} style={[styles.tiny, styles.listItem]}>{`\u2022 ${line}`}</Text>
             ))
           ) : (
             <Text style={styles.tiny}>None</Text>
@@ -306,7 +363,7 @@ function CharacterPdfDocument({ character }: { character: Character }) {
         </View>
 
         <View style={styles.block}>
-          <Text style={styles.sectionTitle}>Portrait</Text>
+          <SectionHeading icon={iconSword} text="Portrait" />
           {character.image?.url ? (
             <View style={styles.portraitEmbedWrap}>
               <Image src={character.image.url} style={styles.portraitEmbed} />
@@ -318,7 +375,10 @@ function CharacterPdfDocument({ character }: { character: Character }) {
       </Page>
 
       <Page size="A4" style={styles.page}>
-        <Text style={styles.title}>Backstory Pack</Text>
+        <View style={styles.titleRow}>
+          <Image src={iconD20} style={styles.titleIcon} />
+          <Text style={styles.title}>Backstory Pack</Text>
+        </View>
         <View style={styles.block}>
           <Text style={[styles.tiny, styles.backstoryOrigin]}>{character.backstory.origin}</Text>
           <Text style={styles.smallHeadingBlock}>Defining Moments</Text>
@@ -379,3 +439,4 @@ export function CharacterPdfDownload({ character }: { character: Character }) {
     </button>
   );
 }
+

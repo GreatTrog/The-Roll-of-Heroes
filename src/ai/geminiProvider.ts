@@ -4,17 +4,6 @@ import { portraitPromptFromCharacter } from './provider';
 import { buildRng, randomInt } from '../utils/random';
 import { classById, equipmentById, raceById } from '../data/rules';
 
-const TEXT_MODEL_CANDIDATES = [
-  'gemini-3-flash-preview',
-  'gemini-2.5-flash',
-  'gemini-2.0-flash-001',
-];
-
-const IMAGE_MODEL_CANDIDATES = [
-  'gemini-3-pro-image-preview',
-  'gemini-2.0-flash-preview-image-generation',
-];
-
 function formatAbilityList(ids: string[]): string {
   return ids.map((x) => x.toUpperCase()).join(', ');
 }
@@ -121,12 +110,24 @@ function buildPortraitVisualContext(character: Character): string {
 export function buildGeminiPortraitPrompt(character: Character, request: PortraitRequest, seed: number): string {
   const prompt = portraitPromptFromCharacter(character, request.stylePreset);
   const visualContext = buildPortraitVisualContext(character);
-  return `${prompt}
-Visual context:
-${visualContext}
-Composition requirement: square 1:1 portrait framing.
-Negative prompt: ${request.negativePrompt}
-Seed: ${seed}`;
+  return `${prompt}\nVisual context:\n${visualContext}\nComposition requirement: square 1:1 portrait framing.\nNegative prompt: ${request.negativePrompt}\nSeed: ${seed}`;
+}
+
+export function buildGeminiBackstoryPrompt(character: Character): string {
+  const classRaceContext = buildClassRaceContext(character);
+  return [
+    'Return only strict JSON with keys:',
+    'origin, definingMoments (array length 3), allies (array length 2), rival, secret, rumor, roleplayPrompts (array length 3), questHook.',
+    'No markdown, no explanation text.',
+    'Writing constraints: suitable for UKS2 pupils (ages 9-11), clear and age-appropriate vocabulary, short sentences, adventurous but school-safe tone, British English spellings.',
+    'Use the class/race profile and loadout details below to keep the backstory mechanically and thematically coherent.',
+    classRaceContext,
+    JSON.stringify({
+      identity: character.identity,
+      abilities: character.abilities.scores,
+      personality: character.personality,
+    }),
+  ].join('\n');
 }
 
 function normalizeBackstory(character: Character, input: Partial<BackstoryResult>): BackstoryResult {
@@ -150,135 +151,46 @@ function normalizeBackstory(character: Character, input: Partial<BackstoryResult
   };
 }
 
-function extractFirstTextPart(response: unknown): string {
-  const text = (response as { candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }> })
-    ?.candidates?.[0]?.content?.parts?.find((p) => typeof p.text === 'string')?.text;
-  if (!text) throw new Error('Gemini response missing text content.');
-  return text;
-}
+async function postJson<TResponse>(url: string, body: Record<string, unknown>): Promise<TResponse> {
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
 
-function extractJsonObject(raw: string): string {
-  const start = raw.indexOf('{');
-  const end = raw.lastIndexOf('}');
-  if (start === -1 || end === -1 || end <= start) {
-    throw new Error('Model did not return JSON.');
-  }
-  return raw.slice(start, end + 1);
-}
-
-function extractInlineImageDataUrl(response: unknown): string | undefined {
-  const parts =
-    (response as { candidates?: Array<{ content?: { parts?: Array<{ inlineData?: { mimeType?: string; data?: string } }> } }> })
-      ?.candidates?.[0]?.content?.parts ?? [];
-  const withImage = parts.find((p) => p.inlineData?.data);
-  if (!withImage?.inlineData?.data) return undefined;
-  const mime = withImage.inlineData.mimeType || 'image/png';
-  return `data:${mime};base64,${withImage.inlineData.data}`;
-}
-
-function parseApiError(bodyText: string): { code?: number; message: string } {
-  try {
-    const parsed = JSON.parse(bodyText) as { error?: { code?: number; message?: string } };
-    return {
-      code: parsed.error?.code,
-      message: parsed.error?.message ?? bodyText,
-    };
-  } catch {
-    return { message: bodyText };
-  }
-}
-
-async function callGenerateContent(
-  apiKey: string,
-  models: string[],
-  body: Record<string, unknown>,
-): Promise<{ model: string; data: unknown }> {
-  let lastError = 'Unknown Gemini error.';
-
-  for (const model of models) {
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
-      },
-    );
-
-    if (response.ok) {
-      return { model, data: await response.json() };
-    }
-
-    const bodyText = await response.text();
-    const parsed = parseApiError(bodyText);
-    lastError = `Model ${model} failed (${response.status}): ${parsed.message}`;
-
-    // Retry with next candidate only for model-availability style failures.
-    const modelUnavailable = response.status === 404 || parsed.message.toLowerCase().includes('no longer available');
-    if (!modelUnavailable) {
-      break;
-    }
+  const data = (await response.json().catch(() => ({}))) as { error?: string } & TResponse;
+  if (!response.ok) {
+    const message = data?.error || `Request failed (${response.status}).`;
+    throw new Error(message);
   }
 
-  throw new Error(lastError);
+  return data;
 }
 
 export class GeminiProvider implements AIProvider {
-  private readonly apiKey: string;
-
-  constructor(apiKey: string) {
-    this.apiKey = apiKey;
-  }
-
   async generateBackstory(character: Character): Promise<BackstoryResult> {
-    const classRaceContext = buildClassRaceContext(character);
-    const prompt = [
-      'Return only strict JSON with keys:',
-      'origin, definingMoments (array length 3), allies (array length 2), rival, secret, rumor, roleplayPrompts (array length 3), questHook.',
-      'No markdown, no explanation text.',
-      'Writing constraints: suitable for UKS2 pupils (ages 9-11), clear and age-appropriate vocabulary, short sentences, adventurous but school-safe tone, British English spellings.',
-      'Use the class/race profile and loadout details below to keep the backstory mechanically and thematically coherent.',
-      classRaceContext,
-      JSON.stringify({
-        identity: character.identity,
-        abilities: character.abilities.scores,
-        personality: character.personality,
-      }),
-    ].join('\n');
-
-    const { data } = await callGenerateContent(this.apiKey, TEXT_MODEL_CANDIDATES, {
-      contents: [{ parts: [{ text: prompt }] }],
-      generationConfig: {
-        temperature: 0.8,
-        responseMimeType: 'application/json',
-      },
-    });
-    const text = extractFirstTextPart(data);
-    const parsed = JSON.parse(extractJsonObject(text)) as Partial<BackstoryResult>;
-    return normalizeBackstory(character, parsed);
+    const prompt = buildGeminiBackstoryPrompt(character);
+    const response = await postJson<{ backstory?: Partial<BackstoryResult> }>('/api/ai/backstory', { prompt });
+    return normalizeBackstory(character, response.backstory ?? {});
   }
 
   async generatePortrait(character: Character, request: PortraitRequest): Promise<PortraitResult> {
     const seed = randomInt(buildRng(character.meta.sectionSeeds.portraitSeed), 1, 999_999);
     const fullPrompt = buildGeminiPortraitPrompt(character, request, seed);
 
-    const { model, data } = await callGenerateContent(this.apiKey, IMAGE_MODEL_CANDIDATES, {
-      contents: [{ parts: [{ text: fullPrompt }] }],
-      generationConfig: {
-        responseModalities: ['TEXT', 'IMAGE'],
-      },
+    const response = await postJson<{ model?: string; url?: string; thumbnail?: string }>('/api/ai/portrait', {
+      prompt: fullPrompt,
     });
-    const imageUrl = extractInlineImageDataUrl(data);
 
     return {
       prompt: fullPrompt,
       negativePrompt: request.negativePrompt,
       seed,
       stylePreset: request.stylePreset,
-      provider: 'gemini',
-      model,
-      url: imageUrl,
-      thumbnail: imageUrl,
+      provider: 'gemini-server',
+      model: response.model ?? 'gemini',
+      url: response.url,
+      thumbnail: response.thumbnail ?? response.url,
       createdAt: new Date().toISOString(),
     };
   }

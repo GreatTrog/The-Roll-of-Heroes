@@ -504,6 +504,90 @@
                      ]
     },
     {
+        "id":  "priests_pack",
+        "name":  "Priest\u0027s Pack",
+        "type":  "gear",
+        "contains":  [
+                         "backpack",
+                         "blanket",
+                         "10 candles",
+                         "tinderbox",
+                         "alms box",
+                         "2 blocks incense",
+                         "censer",
+                         "vestments",
+                         "2 days rations",
+                         "waterskin"
+                     ]
+    },
+    {
+        "id":  "scholars_pack",
+        "name":  "Scholar\u0027s Pack",
+        "type":  "gear",
+        "contains":  [
+                         "backpack",
+                         "book of lore",
+                         "bottle of ink",
+                         "ink pen",
+                         "10 sheets parchment",
+                         "little bag of sand",
+                         "small knife"
+                     ]
+    },
+    {
+        "id":  "burglars_pack",
+        "name":  "Burglar\u0027s Pack",
+        "type":  "gear",
+        "contains":  [
+                         "backpack",
+                         "bag of 1,000 ball bearings",
+                         "10 feet string",
+                         "bell",
+                         "5 candles",
+                         "crowbar",
+                         "hammer",
+                         "10 pitons",
+                         "hooded lantern",
+                         "2 flasks oil",
+                         "5 days rations",
+                         "tinderbox",
+                         "waterskin",
+                         "50 feet hempen rope"
+                     ]
+    },
+    {
+        "id":  "entertainers_pack",
+        "name":  "Entertainer\u0027s Pack",
+        "type":  "gear",
+        "contains":  [
+                         "backpack",
+                         "bedroll",
+                         "2 costumes",
+                         "5 candles",
+                         "5 days rations",
+                         "waterskin",
+                         "disguise kit"
+                     ]
+    },
+    {
+        "id":  "diplomats_pack",
+        "name":  "Diplomat\u0027s Pack",
+        "type":  "gear",
+        "contains":  [
+                         "chest",
+                         "2 map and scroll cases",
+                         "set of fine clothes",
+                         "bottle of ink",
+                         "ink pen",
+                         "lamp",
+                         "2 flasks oil",
+                         "5 sheets paper",
+                         "vial of perfume",
+                         "sealing wax",
+                         "soap"
+                     ]
+    },
+    {
         "id":  "component_pouch",
         "name":  "Component Pouch",
         "type":  "gear",
@@ -522,6 +606,16 @@
     {
         "id":  "holy_symbol",
         "name":  "Holy Symbol",
+        "type":  "gear"
+    },
+    {
+        "id":  "druidic_focus",
+        "name":  "Druidic Focus",
+        "type":  "gear"
+    },
+    {
+        "id":  "musical_instrument",
+        "name":  "Musical Instrument",
         "type":  "gear"
     },
     {

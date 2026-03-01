@@ -4,6 +4,8 @@ import { GeneratorPanel } from './components/GeneratorPanel';
 import { SavedCharactersPanel } from './components/SavedCharactersPanel';
 import { validateRulesReferences } from './data/rules';
 import { useAppStore } from './store/useAppStore';
+import d20Icon from './assets/ui/icons/d20.png';
+import rollOfHeroesWordmark from './assets/ui/icons/roll-of-heroes.png';
 import './index.css';
 
 function App() {
@@ -29,8 +31,11 @@ function App() {
   return (
     <main className="app-shell">
       <header className="hero">
-        <h1>D&D 5e Character Generator</h1>
-        <p>Minimal inputs to full sheet, backstory, portrait, persistent save, and 1-20 leveling.</p>
+        <h1 className="hero-title">
+          <img src={d20Icon} alt="" aria-hidden="true" className="hero-title-icon" />
+          <span>THE ROLL OF HEROES</span>
+          <img src={rollOfHeroesWordmark} alt="" aria-hidden="true" className="hero-title-wordmark" />
+        </h1>
       </header>
 
       {dataIssues.length > 0 && (
@@ -64,8 +69,14 @@ function App() {
       ) : null}
 
       <GeneratorPanel />
+      <div className="section-divider" aria-hidden="true" />
       <CharacterWorkspace />
+      <div className="section-divider" aria-hidden="true" />
       <SavedCharactersPanel />
+
+      <footer className="app-footer">
+        <a href="/attributions.html">Attributions</a>
+      </footer>
     </main>
   );
 }

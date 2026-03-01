@@ -14,7 +14,7 @@ export function SpellsTab({ character }: { character: Character }) {
   const knownLeveledSpells = character.spellcasting.spellsKnown.filter((id) => (spellById.get(id)?.level ?? 99) > 0);
 
   return (
-    <div className="panel">
+    <div>
       <h3>Spells</h3>
       {!character.spellcasting.enabled ? (
         <p>This class does not have spellcasting.</p>

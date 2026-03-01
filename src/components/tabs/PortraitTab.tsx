@@ -9,7 +9,7 @@ export function PortraitTab({ character }: { character: Character }) {
   const [negativePrompt, setNegativePrompt] = useState('text, watermark, blurry, deformed anatomy, duplicate face');
 
   return (
-    <div className="panel">
+    <div>
       <h3>Portrait</h3>
       <div className="grid2">
         <label>
@@ -25,9 +25,12 @@ export function PortraitTab({ character }: { character: Character }) {
           <input value={negativePrompt} onChange={(e) => setNegativePrompt(e.target.value)} />
         </label>
       </div>
-      <button className="portrait-actions" onClick={() => void generatePortrait({ stylePreset, negativePrompt })} disabled={loadingPortrait}>
-        {loadingPortrait ? 'Generating...' : 'Generate Portrait'}
-      </button>
+      <div className="ai-action-row">
+        <button className="portrait-actions" onClick={() => void generatePortrait({ stylePreset, negativePrompt })} disabled={loadingPortrait}>
+          {loadingPortrait ? 'Generating...' : 'Generate Portrait'}
+        </button>
+        <span>(Password Required)</span>
+      </div>
 
       {character.image ? (
         <div className="portrait-layout">

@@ -4,7 +4,7 @@ import type { Character } from '../types/character';
 import { CharacterRepository, type StoredCharacter } from '../persistence/db';
 import { migrateCharacterJson } from '../engine/migrations';
 import { applyLevelUp, type LevelUpDecision } from '../engine/leveling';
-import { MockAIProvider } from '../ai/openaiProvider';
+import { getLocalPortraitUrl, MockAIProvider, resolveLocalPortraitUrl } from '../ai/mockProvider';
 import { portraitPromptFromCharacter, type PortraitRequest } from '../ai/provider';
 import { buildGeminiPortraitPrompt, GeminiProvider } from '../ai/geminiProvider';
 
@@ -16,6 +16,7 @@ type AppState = {
   activeTab: TabKey;
   search: string;
   sort: 'updatedAt' | 'name' | 'level';
+  aiUnlockedUntil?: number;
   locks: Record<'class' | 'race' | 'background' | 'name' | 'spells' | 'equipment' | 'backstory', boolean>;
   error?: string;
   aiStatus?: string;
@@ -51,22 +52,66 @@ type AppState = {
 };
 
 function getAiProvider() {
-  const key = (import.meta.env.VITE_GEMINI_API_KEY ?? import.meta.env.GEMINI_API_KEY ?? '').trim();
   const useMock = String(import.meta.env.VITE_USE_MOCK_AI ?? '').toLowerCase() === 'true';
   if (useMock) return new MockAIProvider();
-  if (!key) {
-    throw new Error('Missing Gemini API key. Set VITE_GEMINI_API_KEY or GEMINI_API_KEY in .env and restart dev server.');
-  }
-  return new GeminiProvider(key);
-}
-
-function isQuotaOrBillingError(error: unknown): boolean {
-  const message = error instanceof Error ? error.message : String(error);
-  return message.includes('429') || message.toLowerCase().includes('quota') || message.toLowerCase().includes('billing');
+  return new GeminiProvider();
 }
 
 function allowAiFallback(): boolean {
   return String(import.meta.env.VITE_ALLOW_AI_FALLBACK ?? '').toLowerCase() === 'true';
+}
+
+const AI_UNLOCK_KEY = 'ai_unlock_until';
+const DEFAULT_AI_UNLOCK_MS = 30 * 60 * 1000;
+
+function getInitialAiUnlockUntil(): number | undefined {
+  if (typeof window === 'undefined') return undefined;
+  const raw = window.sessionStorage.getItem(AI_UNLOCK_KEY);
+  if (!raw) return undefined;
+  const value = Number(raw);
+  if (!Number.isFinite(value) || value <= Date.now()) {
+    window.sessionStorage.removeItem(AI_UNLOCK_KEY);
+    return undefined;
+  }
+  return value;
+}
+
+function persistAiUnlockUntil(until: number | undefined) {
+  if (typeof window === 'undefined') return;
+  if (!until || until <= Date.now()) {
+    window.sessionStorage.removeItem(AI_UNLOCK_KEY);
+    return;
+  }
+  window.sessionStorage.setItem(AI_UNLOCK_KEY, String(until));
+}
+
+async function requestAiUnlockUntil(): Promise<number | undefined> {
+  const password = window.prompt('Enter AI feature password');
+  if (!password) return undefined;
+
+  const response = await fetch('/api/ai-auth/unlock', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ password }),
+  });
+
+  if (!response.ok) {
+    let message = `AI unlock failed (${response.status}).`;
+    try {
+      const data = await response.json() as { error?: string };
+      if (data.error) message = data.error;
+    } catch {
+      // Ignore parse errors and keep generic message.
+    }
+    throw new Error(message);
+  }
+
+  const data = await response.json() as { unlockForSeconds?: number };
+  const ttlMs =
+    typeof data.unlockForSeconds === 'number' && data.unlockForSeconds > 0
+      ? data.unlockForSeconds * 1000
+      : DEFAULT_AI_UNLOCK_MS;
+  return Date.now() + ttlMs;
 }
 
 export const useAppStore = create<AppState>((set, get) => ({
@@ -75,6 +120,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   activeTab: 'sheet',
   search: '',
   sort: 'updatedAt',
+  aiUnlockedUntil: getInitialAiUnlockUntil(),
   locks: {
     class: false,
     race: false,
@@ -104,11 +150,47 @@ export const useAppStore = create<AppState>((set, get) => ({
           lockedCharacter: current,
           locks,
         });
-        const generated = { ...character, image: undefined };
+        const seedValue = Number(character.meta.sectionSeeds.portraitSeed.slice(-6)) || 424242;
+        const defaultStyle: PortraitRequest['stylePreset'] = 'fantasy_painting';
+        const defaultNegativePrompt = 'text, watermark, blurry, deformed anatomy, duplicate face';
+        const placeholderUrl = getLocalPortraitUrl(character);
+        const generated: Character = {
+          ...character,
+          image: {
+            prompt: portraitPromptFromCharacter(character, defaultStyle),
+            negativePrompt: defaultNegativePrompt,
+            seed: seedValue,
+            stylePreset: defaultStyle,
+            provider: 'local-portrait',
+            model: 'class-gender-png',
+            url: placeholderUrl || undefined,
+            thumbnail: placeholderUrl || undefined,
+            createdAt: new Date().toISOString(),
+          },
+        };
         set({
           character: generated,
           error: undefined,
           aiStatus: attempt > 0 ? 'Auto-rerolled due equipment/proficiency mismatch.' : undefined,
+        });
+        void resolveLocalPortraitUrl(character).then((resolvedUrl) => {
+          set((state) => {
+            const current = state.character;
+            if (!current || current.meta.id !== generated.meta.id || !current.image || !current.image.provider.includes('local')) {
+              return {};
+            }
+            if (current.image.url === resolvedUrl && current.image.thumbnail === resolvedUrl) return {};
+            return {
+              character: {
+                ...current,
+                image: {
+                  ...current.image,
+                  url: resolvedUrl ?? undefined,
+                  thumbnail: resolvedUrl ?? undefined,
+                },
+              },
+            };
+          });
         });
         return;
       } catch (error) {
@@ -305,41 +387,87 @@ export const useAppStore = create<AppState>((set, get) => ({
             ),
           };
         } else {
+          const nextLocalUrl = getLocalPortraitUrl(nextCharacter);
           nextCharacter.image = {
             ...nextCharacter.image,
             prompt: portraitPromptFromCharacter(nextCharacter, style),
+            ...(nextCharacter.image.provider.includes('local')
+              ? {
+                  url: nextLocalUrl || undefined,
+                  thumbnail: nextLocalUrl || undefined,
+                }
+              : {}),
           };
         }
       }
     }
 
     set({ character: nextCharacter });
+    if (nextCharacter.image?.provider.includes('local')) {
+      void resolveLocalPortraitUrl(nextCharacter).then((resolvedUrl) => {
+        set((state) => {
+          const current = state.character;
+          if (!current || current.meta.id !== nextCharacter.meta.id || !current.image || !current.image.provider.includes('local')) {
+            return {};
+          }
+          if (current.image.url === resolvedUrl && current.image.thumbnail === resolvedUrl) return {};
+          return {
+            character: {
+              ...current,
+              image: {
+                ...current.image,
+                url: resolvedUrl ?? undefined,
+                thumbnail: resolvedUrl ?? undefined,
+              },
+            },
+          };
+        });
+      });
+    }
   },
   generateBackstory: async () => {
     const character = get().character;
     if (!character) return;
+    const unlockedUntil = get().aiUnlockedUntil;
+    if (!unlockedUntil || unlockedUntil <= Date.now()) {
+      try {
+        const nextUnlock = await requestAiUnlockUntil();
+        if (!nextUnlock) {
+          set({ aiStatus: 'AI generation cancelled.', error: undefined });
+          return;
+        }
+        persistAiUnlockUntil(nextUnlock);
+        set({ aiUnlockedUntil: nextUnlock, aiStatus: 'AI features unlocked for 30 minutes.' });
+      } catch (error) {
+        persistAiUnlockUntil(undefined);
+        set({
+          aiUnlockedUntil: undefined,
+          error: error instanceof Error ? error.message : String(error),
+          aiStatus: 'AI unlock failed.',
+        });
+        return;
+      }
+    }
     set({ loadingBackstory: true, error: undefined, aiStatus: 'Generating backstory...' });
     try {
       const ai = getAiProvider();
       const backstory = await ai.generateBackstory(character);
       set({ character: { ...character, backstory }, loadingBackstory: false, aiStatus: 'Backstory generated successfully.' });
     } catch (error) {
-      if (isQuotaOrBillingError(error) && allowAiFallback()) {
+      if (allowAiFallback()) {
         const mock = new MockAIProvider();
         const backstory = await mock.generateBackstory(character);
         set({
           character: { ...character, backstory },
           loadingBackstory: false,
           error: undefined,
-          aiStatus: 'Live Gemini call failed due quota/billing; generated backstory using local fallback.',
+          aiStatus: 'Live AI unavailable; generated backstory using local fallback.',
         });
       } else {
         set({
           loadingBackstory: false,
           error: error instanceof Error ? error.message : String(error),
-          aiStatus: isQuotaOrBillingError(error)
-            ? 'Live AI unavailable (quota/billing). No fallback used.'
-            : 'Backstory generation failed.',
+          aiStatus: 'Backstory generation failed.',
         });
       }
     }
@@ -347,6 +475,35 @@ export const useAppStore = create<AppState>((set, get) => ({
   generatePortrait: async (request) => {
     const character = get().character;
     if (!character) return;
+    const unlockedUntil = get().aiUnlockedUntil;
+    if (!unlockedUntil || unlockedUntil <= Date.now()) {
+      try {
+        const nextUnlock = await requestAiUnlockUntil();
+        if (!nextUnlock) {
+          const mock = new MockAIProvider();
+          const image = await mock.generatePortrait(character, request);
+          set({
+            character: { ...character, image },
+            aiStatus: 'AI generation cancelled. Local class portrait kept.',
+            error: undefined,
+          });
+          return;
+        }
+        persistAiUnlockUntil(nextUnlock);
+        set({ aiUnlockedUntil: nextUnlock, aiStatus: 'AI features unlocked for 30 minutes.' });
+      } catch (error) {
+        persistAiUnlockUntil(undefined);
+        const mock = new MockAIProvider();
+        const image = await mock.generatePortrait(character, request);
+        set({
+          character: { ...character, image },
+          aiUnlockedUntil: undefined,
+          error: undefined,
+          aiStatus: `AI unlock failed. Applied local class portrait (${error instanceof Error ? error.message : String(error)}).`,
+        });
+        return;
+      }
+    }
     set({ loadingPortrait: true, error: undefined, aiStatus: 'Generating portrait...' });
     try {
       const ai = getAiProvider();
@@ -369,24 +526,14 @@ export const useAppStore = create<AppState>((set, get) => ({
       }
       set({ character: { ...character, image }, loadingPortrait: false, aiStatus: 'Portrait generated successfully.' });
     } catch (error) {
-      if (isQuotaOrBillingError(error) && allowAiFallback()) {
-        const mock = new MockAIProvider();
-        const image = await mock.generatePortrait(character, request);
-        set({
-          character: { ...character, image },
-          loadingPortrait: false,
-          error: undefined,
-          aiStatus: 'Live Gemini call failed due quota/billing; generated portrait metadata using local fallback.',
-        });
-      } else {
-        set({
-          loadingPortrait: false,
-          error: error instanceof Error ? error.message : String(error),
-          aiStatus: isQuotaOrBillingError(error)
-            ? 'Live AI unavailable (quota/billing). No fallback used.'
-            : 'Portrait generation failed.',
-        });
-      }
+      const mock = new MockAIProvider();
+      const image = await mock.generatePortrait(character, request);
+      set({
+        character: { ...character, image },
+        loadingPortrait: false,
+        error: undefined,
+        aiStatus: `Live AI unavailable; using local class portrait (${error instanceof Error ? error.message : String(error)}).`,
+      });
     }
   },
   clearAiStatus: () => set({ aiStatus: undefined }),

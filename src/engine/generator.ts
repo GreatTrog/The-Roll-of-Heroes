@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid';
-import { backgrounds, classById, classes, featureById, raceById, races, spellsByClassId, subclassesByClassId } from '../data/rules';
+import { backgrounds, classById, classes, equipment, featureById, raceById, races, spellsByClassId, subclassesByClassId } from '../data/rules';
 import type { ClassData } from '../data/schemas';
 import { abilityKeys, CharacterSchema, skillAbilityMap, type AbilityKey, type Character, type SkillKey } from '../types/character';
 import { generateName } from '../utils/names';
@@ -135,18 +135,131 @@ function sanitizeSpells(classDef: ClassData, level: number, knownType: Character
   return { known: [...cantripPick, ...known], prepared: [], cantripsKnown: cantripsKnown };
 }
 
-function pickEquipment(classDef: ClassData, seed: string): Character['equipment'] {
+function pickEquipment(classDef: ClassData, input: GenerationInput, seed: string): Character['equipment'] {
   const rng = buildRng(seed);
   const defaultArmor = classDef.armorProficiencies.includes('all_armor') ? 'chain_mail' : classDef.armorProficiencies.includes('medium') ? 'chain_shirt' : classDef.armorProficiencies.includes('light') ? 'leather' : undefined;
-  const martialWeaponPool = ['longsword', 'rapier', 'longbow'];
-  const simpleWeaponPool = ['dagger', 'quarterstaff', 'spear', 'shortbow'];
-  const weaponPool = classDef.weaponProficiencies.includes('martial') ? martialWeaponPool : simpleWeaponPool;
+
+  const classPackOptions: Record<string, string[]> = {
+    barbarian: ['explorers_pack'],
+    bard: ['diplomats_pack', 'entertainers_pack'],
+    cleric: ['priests_pack', 'explorers_pack'],
+    druid: ['explorers_pack'],
+    fighter: ['dungeoneers_pack', 'explorers_pack'],
+    monk: ['dungeoneers_pack', 'explorers_pack'],
+    paladin: ['priests_pack', 'explorers_pack'],
+    ranger: ['dungeoneers_pack', 'explorers_pack'],
+    rogue: ['burglars_pack', 'dungeoneers_pack', 'explorers_pack'],
+    sorcerer: ['dungeoneers_pack', 'explorers_pack'],
+    warlock: ['scholars_pack', 'dungeoneers_pack'],
+    wizard: ['scholars_pack', 'explorers_pack'],
+  };
+
+  const classFocusOptions: Record<string, string[]> = {
+    bard: ['musical_instrument'],
+    cleric: ['holy_symbol'],
+    druid: ['druidic_focus'],
+    paladin: ['holy_symbol'],
+    sorcerer: ['arcane_focus', 'component_pouch'],
+    warlock: ['arcane_focus', 'component_pouch'],
+    wizard: ['arcane_focus', 'component_pouch'],
+  };
+
+  const weightedPick = (options: string[], weights: Record<string, number>): string => {
+    if (options.length === 1) return options[0]!;
+    const total = options.reduce((sum, option) => sum + Math.max(0.01, weights[option] ?? 1), 0);
+    let roll = rng() * total;
+    for (const option of options) {
+      roll -= Math.max(0.01, weights[option] ?? 1);
+      if (roll <= 0) return option;
+    }
+    return options[options.length - 1]!;
+  };
+
+  const buildPackWeights = (packPool: string[]): Record<string, number> => {
+    const weights = Object.fromEntries(packPool.map((pack) => [pack, 1])) as Record<string, number>;
+    const tags = (input.tags ?? []).map((tag) => tag.toLowerCase().trim());
+    const tagText = tags.join(' ');
+    const role = input.combatRole ?? '';
+
+    const boost = (packId: string, amount: number) => {
+      if (weights[packId] !== undefined) weights[packId] += amount;
+    };
+
+    if (/social|court|urban|noble|diplomat|merchant/.test(tagText)) {
+      boost('diplomats_pack', 2);
+      boost('scholars_pack', 1);
+    }
+    if (/stealth|criminal|heist|shadow|thief|rogue/.test(tagText)) {
+      boost('burglars_pack', 2);
+    }
+    if (/faith|holy|divine|temple|church|saint/.test(tagText)) {
+      boost('priests_pack', 2);
+    }
+    if (/arcane|scholar|library|wizard|study|tome/.test(tagText)) {
+      boost('scholars_pack', 2);
+    }
+    if (/wild|nature|forest|ranger|hunter|survival|gritty|ruin|dungeon|cave/.test(tagText)) {
+      boost('explorers_pack', 1.5);
+      boost('dungeoneers_pack', 1.5);
+    }
+    if (/comic|perform|music|bard|show/.test(tagText)) {
+      boost('entertainers_pack', 2);
+    }
+
+    if (role === 'tank' || role === 'damage') {
+      boost('dungeoneers_pack', 1.2);
+      boost('explorers_pack', 1.2);
+    }
+    if (role === 'support') {
+      boost('priests_pack', 1.2);
+      boost('diplomats_pack', 1.2);
+    }
+    if (role === 'control') {
+      boost('scholars_pack', 1.2);
+    }
+
+    return weights;
+  };
+
+  const compatibleWeapons = equipment
+    .filter((item) => item.type === 'weapon')
+    .filter((weapon) => {
+      const proficiency = weapon.proficiency;
+      return Boolean(
+        proficiency &&
+        (classDef.weaponProficiencies.includes(proficiency) || classDef.weaponProficiencies.includes(weapon.id)),
+      );
+    })
+    .map((weapon) => weapon.id);
+
+  const classPreferredWeapons: Record<string, string[]> = {
+    barbarian: ['greataxe', 'greatsword', 'maul', 'battleaxe', 'warhammer', 'javelin', 'spear', 'handaxe'],
+    bard: ['rapier', 'shortsword', 'longsword', 'hand_crossbow', 'light_crossbow', 'dagger'],
+    cleric: ['mace', 'warhammer', 'spear', 'light_crossbow'],
+    druid: ['scimitar', 'quarterstaff', 'spear', 'sling', 'dagger'],
+    fighter: ['longsword', 'greatsword', 'greataxe', 'maul', 'halberd', 'warhammer', 'longbow', 'heavy_crossbow'],
+    monk: ['shortsword', 'quarterstaff', 'spear', 'dagger'],
+    paladin: ['longsword', 'warhammer', 'battleaxe', 'greatsword', 'maul', 'javelin'],
+    ranger: ['longbow', 'shortbow', 'longsword', 'shortsword', 'scimitar', 'spear', 'handaxe'],
+    rogue: ['rapier', 'shortsword', 'dagger', 'shortbow', 'hand_crossbow'],
+    sorcerer: ['light_crossbow', 'quarterstaff', 'dagger', 'sling', 'dart'],
+    warlock: ['light_crossbow', 'quarterstaff', 'dagger', 'spear'],
+    wizard: ['light_crossbow', 'quarterstaff', 'dagger', 'sling', 'dart'],
+  };
+
+  const preferredPool = (classPreferredWeapons[classDef.id] ?? []).filter((weaponId) => compatibleWeapons.includes(weaponId));
+  const weaponPool = preferredPool.length > 0 ? preferredPool : compatibleWeapons;
+  const packPool = classPackOptions[classDef.id] ?? ['explorers_pack'];
+  const focusPool = classFocusOptions[classDef.id] ?? [];
+  const pickedPack = weightedPick(packPool, buildPackWeights(packPool));
+  const pickedFocus = focusPool.length > 0 ? pickOne(rng, focusPool) : undefined;
+  const miscItems = [pickedPack, pickedFocus].filter((item): item is string => Boolean(item));
 
   return {
     armorId: defaultArmor,
     shield: classDef.armorProficiencies.includes('shield') && rng() > 0.5,
-    weaponIds: [pickOne(rng, weaponPool)],
-    items: ['explorers_pack', 'component_pouch'],
+    weaponIds: weaponPool.length > 0 ? [pickOne(rng, weaponPool)] : ['dagger'],
+    items: miscItems,
   };
 }
 
@@ -275,7 +388,7 @@ export function generateCharacter(input: GenerationInput): Character {
   const gender = locked?.identity.gender ?? input.gender ?? 'other';
   const name = locks.name && locked ? locked.identity.name : generateName(nameRng, classId, raceId, gender);
   const subclass = (subclassesByClassId.get(classDef.id) ?? [])[0];
-  const eq = locks.equipment && locked ? locked.equipment : pickEquipment(classDef, sectionSeeds.equipmentSeed);
+  const eq = locks.equipment && locked ? locked.equipment : pickEquipment(classDef, input, sectionSeeds.equipmentSeed);
 
   const savingThrows = Object.fromEntries(abilityKeys.map((k) => [k, classDef.savingThrows.includes(k)]));
   const skills = computeSkills(classDef, backgroundId, sectionSeeds.identitySeed);
