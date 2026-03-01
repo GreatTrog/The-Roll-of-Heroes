@@ -1,0 +1,14 @@
+[
+  { "id": "champion", "classId": "fighter", "name": "Champion", "features": ["improved_critical"] },
+  { "id": "thief", "classId": "rogue", "name": "Thief", "features": ["fast_hands"] },
+  { "id": "life", "classId": "cleric", "name": "Life Domain", "features": ["disciple_of_life"] },
+  { "id": "evocation", "classId": "wizard", "name": "School of Evocation", "features": ["sculpt_spells"] },
+  { "id": "berserker", "classId": "barbarian", "name": "Path of the Berserker", "features": ["frenzy"] },
+  { "id": "lore", "classId": "bard", "name": "College of Lore", "features": ["bonus_proficiencies"] },
+  { "id": "moon", "classId": "druid", "name": "Circle of the Moon", "features": ["combat_wild_shape"] },
+  { "id": "open_hand", "classId": "monk", "name": "Way of the Open Hand", "features": ["open_hand_technique"] },
+  { "id": "devotion", "classId": "paladin", "name": "Oath of Devotion", "features": ["sacred_weapon"] },
+  { "id": "hunter", "classId": "ranger", "name": "Hunter", "features": ["hunters_prey"] },
+  { "id": "draconic", "classId": "sorcerer", "name": "Draconic Bloodline", "features": ["draconic_resilience"] },
+  { "id": "fiend", "classId": "warlock", "name": "The Fiend", "features": ["dark_ones_blessing"] }
+]

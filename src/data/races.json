@@ -1,0 +1,11 @@
+[
+  { "id": "human", "name": "Human", "speed": 30, "abilityBonuses": { "all": 1 }, "languages": ["common", "choice"], "traits": ["Versatile and ambitious."] },
+  { "id": "elf", "name": "Elf", "speed": 30, "abilityBonuses": { "dex": 2 }, "languages": ["common", "elvish"], "traits": ["Darkvision", "Keen Senses", "Fey Ancestry", "Trance"] },
+  { "id": "dwarf", "name": "Dwarf", "speed": 25, "abilityBonuses": { "con": 2 }, "languages": ["common", "dwarvish"], "traits": ["Darkvision", "Dwarven Resilience"] },
+  { "id": "halfling", "name": "Halfling", "speed": 25, "abilityBonuses": { "dex": 2 }, "languages": ["common", "halfling"], "traits": ["Lucky", "Brave", "Halfling Nimbleness"] },
+  { "id": "dragonborn", "name": "Dragonborn", "speed": 30, "abilityBonuses": { "str": 2, "cha": 1 }, "languages": ["common", "draconic"], "traits": ["Draconic Ancestry", "Breath Weapon", "Damage Resistance"] },
+  { "id": "gnome", "name": "Gnome", "speed": 25, "abilityBonuses": { "int": 2 }, "languages": ["common", "gnomish"], "traits": ["Darkvision", "Gnome Cunning"] },
+  { "id": "half_elf", "name": "Half-Elf", "speed": 30, "abilityBonuses": { "cha": 2, "choice2": 1 }, "languages": ["common", "elvish", "choice"], "traits": ["Darkvision", "Fey Ancestry", "Skill Versatility"] },
+  { "id": "half_orc", "name": "Half-Orc", "speed": 30, "abilityBonuses": { "str": 2, "con": 1 }, "languages": ["common", "orc"], "traits": ["Darkvision", "Relentless Endurance", "Savage Attacks"] },
+  { "id": "tiefling", "name": "Tiefling", "speed": 30, "abilityBonuses": { "int": 1, "cha": 2 }, "languages": ["common", "infernal"], "traits": ["Darkvision", "Hellish Resistance", "Infernal Legacy"] }
+]

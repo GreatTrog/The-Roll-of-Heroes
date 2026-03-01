@@ -1,0 +1,8 @@
+[
+  { "id": "high_elf", "raceId": "elf", "name": "High Elf", "abilityBonuses": { "int": 1 }, "traits": ["Elf Weapon Training", "Cantrip", "Extra Language"] },
+  { "id": "wood_elf", "raceId": "elf", "name": "Wood Elf", "abilityBonuses": { "wis": 1 }, "traits": ["Fleet of Foot", "Mask of the Wild"] },
+  { "id": "hill_dwarf", "raceId": "dwarf", "name": "Hill Dwarf", "abilityBonuses": { "wis": 1 }, "traits": ["Dwarven Toughness"] },
+  { "id": "mountain_dwarf", "raceId": "dwarf", "name": "Mountain Dwarf", "abilityBonuses": { "str": 2 }, "traits": ["Dwarven Armor Training"] },
+  { "id": "lightfoot", "raceId": "halfling", "name": "Lightfoot Halfling", "abilityBonuses": { "cha": 1 }, "traits": ["Naturally Stealthy"] },
+  { "id": "stout", "raceId": "halfling", "name": "Stout Halfling", "abilityBonuses": { "con": 1 }, "traits": ["Stout Resilience"] }
+]

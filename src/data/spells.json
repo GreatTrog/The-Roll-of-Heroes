@@ -1,0 +1,3122 @@
+[
+  {
+    "id": "acid_splash",
+    "name": "Acid Splash",
+    "level": 0,
+    "school": "conjuration",
+    "classes": [
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "Hurl acid at nearby targets."
+  },
+  {
+    "id": "blade_ward",
+    "name": "Blade Ward",
+    "level": 0,
+    "school": "abjuration",
+    "classes": [
+      "bard",
+      "sorcerer",
+      "warlock",
+      "wizard"
+    ],
+    "summary": "Gain brief resistance to weapon damage."
+  },
+  {
+    "id": "chill_touch",
+    "name": "Chill Touch",
+    "level": 0,
+    "school": "necromancy",
+    "classes": [
+      "sorcerer",
+      "warlock",
+      "wizard"
+    ],
+    "summary": "Spectral hand damages and blocks healing."
+  },
+  {
+    "id": "dancing_lights",
+    "name": "Dancing Lights",
+    "level": 0,
+    "school": "evocation",
+    "classes": [
+      "bard",
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "Create and move floating lights."
+  },
+  {
+    "id": "druidcraft",
+    "name": "Druidcraft",
+    "level": 0,
+    "school": "transmutation",
+    "classes": [
+      "druid"
+    ],
+    "summary": "Create small natural magical effects."
+  },
+  {
+    "id": "eldritch_blast",
+    "name": "Eldritch Blast",
+    "level": 0,
+    "school": "evocation",
+    "classes": [
+      "warlock"
+    ],
+    "summary": "Force beam cantrip attack."
+  },
+  {
+    "id": "fire_bolt",
+    "name": "Fire Bolt",
+    "level": 0,
+    "school": "evocation",
+    "classes": [
+      "wizard",
+      "sorcerer",
+      "warlock"
+    ],
+    "summary": "Ranged fire cantrip attack."
+  },
+  {
+    "id": "friends",
+    "name": "Friends",
+    "level": 0,
+    "school": "enchantment",
+    "classes": [
+      "bard",
+      "sorcerer",
+      "warlock",
+      "wizard"
+    ],
+    "summary": "Gain advantage on one social check."
+  },
+  {
+    "id": "guidance",
+    "name": "Guidance",
+    "level": 0,
+    "school": "divination",
+    "classes": [
+      "cleric",
+      "druid"
+    ],
+    "summary": "Target adds d4 to one ability check."
+  },
+  {
+    "id": "light",
+    "name": "Light",
+    "level": 0,
+    "school": "evocation",
+    "classes": [
+      "bard",
+      "cleric",
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "Object shines bright light."
+  },
+  {
+    "id": "mage_hand",
+    "name": "Mage Hand",
+    "level": 0,
+    "school": "conjuration",
+    "classes": [
+      "bard",
+      "sorcerer",
+      "warlock",
+      "wizard"
+    ],
+    "summary": "Summon spectral hand."
+  },
+  {
+    "id": "mending",
+    "name": "Mending",
+    "level": 0,
+    "school": "transmutation",
+    "classes": [
+      "bard",
+      "cleric",
+      "druid",
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "Repair a small break or tear."
+  },
+  {
+    "id": "message",
+    "name": "Message",
+    "level": 0,
+    "school": "transmutation",
+    "classes": [
+      "bard",
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "Whisper at range and receive reply."
+  },
+  {
+    "id": "minor_illusion",
+    "name": "Minor Illusion",
+    "level": 0,
+    "school": "illusion",
+    "classes": [
+      "bard",
+      "sorcerer",
+      "warlock",
+      "wizard"
+    ],
+    "summary": "Create a tiny sound or image illusion."
+  },
+  {
+    "id": "poison_spray",
+    "name": "Poison Spray",
+    "level": 0,
+    "school": "conjuration",
+    "classes": [
+      "druid",
+      "sorcerer",
+      "warlock",
+      "wizard"
+    ],
+    "summary": "Blast a creature with toxic fumes."
+  },
+  {
+    "id": "prestidigitation",
+    "name": "Prestidigitation",
+    "level": 0,
+    "school": "transmutation",
+    "classes": [
+      "bard",
+      "sorcerer",
+      "warlock",
+      "wizard"
+    ],
+    "summary": "Perform small magical tricks."
+  },
+  {
+    "id": "produce_flame",
+    "name": "Produce Flame",
+    "level": 0,
+    "school": "conjuration",
+    "classes": [
+      "druid"
+    ],
+    "summary": "Conjure fire for light or attack."
+  },
+  {
+    "id": "ray_of_frost",
+    "name": "Ray of Frost",
+    "level": 0,
+    "school": "evocation",
+    "classes": [
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "Cold beam that slows the target."
+  },
+  {
+    "id": "resistance",
+    "name": "Resistance",
+    "level": 0,
+    "school": "abjuration",
+    "classes": [
+      "cleric",
+      "druid"
+    ],
+    "summary": "Add d4 to one saving throw."
+  },
+  {
+    "id": "sacred_flame",
+    "name": "Sacred Flame",
+    "level": 0,
+    "school": "evocation",
+    "classes": [
+      "cleric"
+    ],
+    "summary": "Radiant cantrip save spell."
+  },
+  {
+    "id": "shillelagh",
+    "name": "Shillelagh",
+    "level": 0,
+    "school": "transmutation",
+    "classes": [
+      "druid"
+    ],
+    "summary": "Empower a club or staff for combat."
+  },
+  {
+    "id": "shocking_grasp",
+    "name": "Shocking Grasp",
+    "level": 0,
+    "school": "evocation",
+    "classes": [
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "Lightning touch prevents reactions."
+  },
+  {
+    "id": "spare_the_dying",
+    "name": "Spare the Dying",
+    "level": 0,
+    "school": "necromancy",
+    "classes": [
+      "cleric"
+    ],
+    "summary": "Stabilise a dying creature."
+  },
+  {
+    "id": "thaumaturgy",
+    "name": "Thaumaturgy",
+    "level": 0,
+    "school": "transmutation",
+    "classes": [
+      "cleric"
+    ],
+    "summary": "Create minor divine signs."
+  },
+  {
+    "id": "thorn_whip",
+    "name": "Thorn Whip",
+    "level": 0,
+    "school": "transmutation",
+    "classes": [
+      "druid"
+    ],
+    "summary": "Vine lash pulls a creature closer."
+  },
+  {
+    "id": "true_strike",
+    "name": "True Strike",
+    "level": 0,
+    "school": "divination",
+    "classes": [
+      "bard",
+      "sorcerer",
+      "warlock",
+      "wizard"
+    ],
+    "summary": "Briefly read a target's defences."
+  },
+  {
+    "id": "vicious_mockery",
+    "name": "Vicious Mockery",
+    "level": 0,
+    "school": "enchantment",
+    "classes": [
+      "bard"
+    ],
+    "summary": "Psychic insult cantrip."
+  },
+  {
+    "id": "alarm",
+    "name": "Alarm",
+    "level": 1,
+    "school": "abjuration",
+    "classes": [
+      "ranger",
+      "wizard"
+    ],
+    "summary": "Ward an area with an alert trigger."
+  },
+  {
+    "id": "bane",
+    "name": "Bane",
+    "level": 1,
+    "school": "enchantment",
+    "classes": [
+      "bard",
+      "cleric"
+    ],
+    "summary": "Reduce enemies' attacks and saves."
+  },
+  {
+    "id": "bless",
+    "name": "Bless",
+    "level": 1,
+    "school": "enchantment",
+    "classes": [
+      "cleric",
+      "paladin"
+    ],
+    "summary": "Buff attack rolls and saves."
+  },
+  {
+    "id": "burning_hands",
+    "name": "Burning Hands",
+    "level": 1,
+    "school": "evocation",
+    "classes": [
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "Short cone of fire damage."
+  },
+  {
+    "id": "charm_person",
+    "name": "Charm Person",
+    "level": 1,
+    "school": "enchantment",
+    "classes": [
+      "bard",
+      "druid",
+      "sorcerer",
+      "warlock",
+      "wizard"
+    ],
+    "summary": "Charm a humanoid temporarily."
+  },
+  {
+    "id": "command",
+    "name": "Command",
+    "level": 1,
+    "school": "enchantment",
+    "classes": [
+      "cleric",
+      "paladin"
+    ],
+    "summary": "Force one-word obedience."
+  },
+  {
+    "id": "cure_wounds",
+    "name": "Cure Wounds",
+    "level": 1,
+    "school": "evocation",
+    "classes": [
+      "bard",
+      "cleric",
+      "druid",
+      "paladin",
+      "ranger"
+    ],
+    "summary": "Touch healing spell."
+  },
+  {
+    "id": "detect_evil_and_good",
+    "name": "Detect Evil and Good",
+    "level": 1,
+    "school": "divination",
+    "classes": [
+      "cleric",
+      "paladin"
+    ],
+    "summary": "Sense certain supernatural creature types."
+  },
+  {
+    "id": "detect_magic",
+    "name": "Detect Magic",
+    "level": 1,
+    "school": "divination",
+    "classes": [
+      "bard",
+      "cleric",
+      "druid",
+      "paladin",
+      "ranger",
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "Sense nearby magic auras."
+  },
+  {
+    "id": "detect_poison_and_disease",
+    "name": "Detect Poison and Disease",
+    "level": 1,
+    "school": "divination",
+    "classes": [
+      "cleric",
+      "druid",
+      "paladin",
+      "ranger"
+    ],
+    "summary": "Locate poisons, venom, and disease."
+  },
+  {
+    "id": "disguise_self",
+    "name": "Disguise Self",
+    "level": 1,
+    "school": "illusion",
+    "classes": [
+      "bard",
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "Alter your appearance illusion."
+  },
+  {
+    "id": "entangle",
+    "name": "Entangle",
+    "level": 1,
+    "school": "conjuration",
+    "classes": [
+      "druid",
+      "ranger"
+    ],
+    "summary": "Restraining plants erupt from ground."
+  },
+  {
+    "id": "faerie_fire",
+    "name": "Faerie Fire",
+    "level": 1,
+    "school": "evocation",
+    "classes": [
+      "bard",
+      "druid"
+    ],
+    "summary": "Outline creatures granting advantage."
+  },
+  {
+    "id": "feather_fall",
+    "name": "Feather Fall",
+    "level": 1,
+    "school": "transmutation",
+    "classes": [
+      "bard",
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "Slow falls for several creatures."
+  },
+  {
+    "id": "find_familiar",
+    "name": "Find Familiar",
+    "level": 1,
+    "school": "conjuration",
+    "classes": [
+      "wizard"
+    ],
+    "summary": "Summon a magical spirit companion."
+  },
+  {
+    "id": "fog_cloud",
+    "name": "Fog Cloud",
+    "level": 1,
+    "school": "conjuration",
+    "classes": [
+      "druid",
+      "ranger",
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "Create heavily obscuring mist."
+  },
+  {
+    "id": "guiding_bolt",
+    "name": "Guiding Bolt",
+    "level": 1,
+    "school": "evocation",
+    "classes": [
+      "cleric"
+    ],
+    "summary": "Radiant ranged attack with advantage rider."
+  },
+  {
+    "id": "healing_word",
+    "name": "Healing Word",
+    "level": 1,
+    "school": "evocation",
+    "classes": [
+      "bard",
+      "cleric",
+      "druid"
+    ],
+    "summary": "Bonus action healing."
+  },
+  {
+    "id": "heroism",
+    "name": "Heroism",
+    "level": 1,
+    "school": "enchantment",
+    "classes": [
+      "bard",
+      "paladin"
+    ],
+    "summary": "Bolster courage and temporary vitality."
+  },
+  {
+    "id": "identify",
+    "name": "Identify",
+    "level": 1,
+    "school": "divination",
+    "classes": [
+      "bard",
+      "wizard"
+    ],
+    "summary": "Learn a magic item's properties."
+  },
+  {
+    "id": "inflict_wounds",
+    "name": "Inflict Wounds",
+    "level": 1,
+    "school": "necromancy",
+    "classes": [
+      "cleric"
+    ],
+    "summary": "Necrotic touch attack."
+  },
+  {
+    "id": "jump",
+    "name": "Jump",
+    "level": 1,
+    "school": "transmutation",
+    "classes": [
+      "druid",
+      "ranger",
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "Greatly increase jumping distance."
+  },
+  {
+    "id": "longstrider",
+    "name": "Longstrider",
+    "level": 1,
+    "school": "transmutation",
+    "classes": [
+      "bard",
+      "druid",
+      "ranger",
+      "wizard"
+    ],
+    "summary": "Increase movement speed for an hour."
+  },
+  {
+    "id": "mage_armor",
+    "name": "Mage Armor",
+    "level": 1,
+    "school": "abjuration",
+    "classes": [
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "Protect unarmoured target with magical AC."
+  },
+  {
+    "id": "magic_missile",
+    "name": "Magic Missile",
+    "level": 1,
+    "school": "evocation",
+    "classes": [
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "Auto-hit force darts."
+  },
+  {
+    "id": "protection_from_evil_and_good",
+    "name": "Protection from Evil and Good",
+    "level": 1,
+    "school": "abjuration",
+    "classes": [
+      "cleric",
+      "paladin",
+      "warlock",
+      "wizard"
+    ],
+    "summary": "Ward target against supernatural foes."
+  },
+  {
+    "id": "purify_food_and_drink",
+    "name": "Purify Food and Drink",
+    "level": 1,
+    "school": "transmutation",
+    "classes": [
+      "cleric",
+      "druid",
+      "paladin"
+    ],
+    "summary": "Cleanse food and water of toxins."
+  },
+  {
+    "id": "sanctuary",
+    "name": "Sanctuary",
+    "level": 1,
+    "school": "abjuration",
+    "classes": [
+      "cleric"
+    ],
+    "summary": "Protect a creature from attacks."
+  },
+  {
+    "id": "shield",
+    "name": "Shield",
+    "level": 1,
+    "school": "abjuration",
+    "classes": [
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "Reaction AC boost."
+  },
+  {
+    "id": "sleep",
+    "name": "Sleep",
+    "level": 1,
+    "school": "enchantment",
+    "classes": [
+      "bard",
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "Put creatures to sleep."
+  },
+  {
+    "id": "thunderwave",
+    "name": "Thunderwave",
+    "level": 1,
+    "school": "evocation",
+    "classes": [
+      "bard",
+      "druid",
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "Shockwave pushes creatures away."
+  },
+  {
+    "id": "unseen_servant",
+    "name": "Unseen Servant",
+    "level": 1,
+    "school": "conjuration",
+    "classes": [
+      "bard",
+      "warlock",
+      "wizard"
+    ],
+    "summary": "Summon an invisible helper."
+  },
+  {
+    "id": "witch_bolt",
+    "name": "Witch Bolt",
+    "level": 1,
+    "school": "evocation",
+    "classes": [
+      "sorcerer",
+      "warlock",
+      "wizard"
+    ],
+    "summary": "Sustained lightning link to target."
+  },
+  {
+    "id": "aid",
+    "name": "Aid",
+    "level": 2,
+    "school": "abjuration",
+    "classes": [
+      "cleric",
+      "paladin"
+    ],
+    "summary": "Increase max and current hit points."
+  },
+  {
+    "id": "alter_self",
+    "name": "Alter Self",
+    "level": 2,
+    "school": "transmutation",
+    "classes": [
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "Adapt your body in useful ways."
+  },
+  {
+    "id": "blindness_deafness",
+    "name": "Blindness/Deafness",
+    "level": 2,
+    "school": "necromancy",
+    "classes": [
+      "bard",
+      "cleric",
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "Inflict blindness or deafness."
+  },
+  {
+    "id": "calm_emotions",
+    "name": "Calm Emotions",
+    "level": 2,
+    "school": "enchantment",
+    "classes": [
+      "bard",
+      "cleric"
+    ],
+    "summary": "Suppress strong feelings or charms."
+  },
+  {
+    "id": "darkvision",
+    "name": "Darkvision",
+    "level": 2,
+    "school": "transmutation",
+    "classes": [
+      "druid",
+      "ranger",
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "Grant sight in darkness."
+  },
+  {
+    "id": "detect_thoughts",
+    "name": "Detect Thoughts",
+    "level": 2,
+    "school": "divination",
+    "classes": [
+      "bard",
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "Read surface thoughts."
+  },
+  {
+    "id": "enhance_ability",
+    "name": "Enhance Ability",
+    "level": 2,
+    "school": "transmutation",
+    "classes": [
+      "bard",
+      "cleric",
+      "druid",
+      "sorcerer"
+    ],
+    "summary": "Boost one ability's checks."
+  },
+  {
+    "id": "enthrall",
+    "name": "Enthrall",
+    "level": 2,
+    "school": "enchantment",
+    "classes": [
+      "bard",
+      "warlock"
+    ],
+    "summary": "Captivate a nearby audience."
+  },
+  {
+    "id": "gentle_repose",
+    "name": "Gentle Repose",
+    "level": 2,
+    "school": "necromancy",
+    "classes": [
+      "cleric",
+      "wizard"
+    ],
+    "summary": "Preserve a corpse from decay."
+  },
+  {
+    "id": "hold_person",
+    "name": "Hold Person",
+    "level": 2,
+    "school": "enchantment",
+    "classes": [
+      "bard",
+      "cleric",
+      "druid",
+      "sorcerer",
+      "warlock",
+      "wizard"
+    ],
+    "summary": "Paralyze humanoid target."
+  },
+  {
+    "id": "invisibility",
+    "name": "Invisibility",
+    "level": 2,
+    "school": "illusion",
+    "classes": [
+      "bard",
+      "sorcerer",
+      "warlock",
+      "wizard"
+    ],
+    "summary": "Turn creature invisible temporarily."
+  },
+  {
+    "id": "knock",
+    "name": "Knock",
+    "level": 2,
+    "school": "transmutation",
+    "classes": [
+      "bard",
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "Open locked doors or containers."
+  },
+  {
+    "id": "lesser_restoration",
+    "name": "Lesser Restoration",
+    "level": 2,
+    "school": "abjuration",
+    "classes": [
+      "bard",
+      "cleric",
+      "druid",
+      "paladin",
+      "ranger"
+    ],
+    "summary": "Cure disease or one condition."
+  },
+  {
+    "id": "levitate",
+    "name": "Levitate",
+    "level": 2,
+    "school": "transmutation",
+    "classes": [
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "Lift creature or object vertically."
+  },
+  {
+    "id": "locate_object",
+    "name": "Locate Object",
+    "level": 2,
+    "school": "divination",
+    "classes": [
+      "bard",
+      "cleric",
+      "druid",
+      "paladin",
+      "ranger",
+      "wizard"
+    ],
+    "summary": "Sense a known object nearby."
+  },
+  {
+    "id": "mirror_image",
+    "name": "Mirror Image",
+    "level": 2,
+    "school": "illusion",
+    "classes": [
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "Create illusory duplicates for defence."
+  },
+  {
+    "id": "misty_step",
+    "name": "Misty Step",
+    "level": 2,
+    "school": "conjuration",
+    "classes": [
+      "sorcerer",
+      "warlock",
+      "wizard"
+    ],
+    "summary": "Bonus action teleport."
+  },
+  {
+    "id": "moonbeam",
+    "name": "Moonbeam",
+    "level": 2,
+    "school": "evocation",
+    "classes": [
+      "druid"
+    ],
+    "summary": "Radiant beam damages shapechangers strongly."
+  },
+  {
+    "id": "pass_without_trace",
+    "name": "Pass without Trace",
+    "level": 2,
+    "school": "abjuration",
+    "classes": [
+      "druid",
+      "ranger"
+    ],
+    "summary": "Grant stealth bonus and hide tracks."
+  },
+  {
+    "id": "prayer_of_healing",
+    "name": "Prayer of Healing",
+    "level": 2,
+    "school": "evocation",
+    "classes": [
+      "cleric"
+    ],
+    "summary": "Heal multiple allies outside combat."
+  },
+  {
+    "id": "scorching_ray",
+    "name": "Scorching Ray",
+    "level": 2,
+    "school": "evocation",
+    "classes": [
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "Multiple fire rays."
+  },
+  {
+    "id": "shatter",
+    "name": "Shatter",
+    "level": 2,
+    "school": "evocation",
+    "classes": [
+      "bard",
+      "sorcerer",
+      "warlock",
+      "wizard"
+    ],
+    "summary": "Thunder burst damages creatures and objects."
+  },
+  {
+    "id": "silence",
+    "name": "Silence",
+    "level": 2,
+    "school": "illusion",
+    "classes": [
+      "bard",
+      "cleric",
+      "ranger"
+    ],
+    "summary": "Create zone where sound is blocked."
+  },
+  {
+    "id": "spider_climb",
+    "name": "Spider Climb",
+    "level": 2,
+    "school": "transmutation",
+    "classes": [
+      "sorcerer",
+      "warlock",
+      "wizard"
+    ],
+    "summary": "Walk on walls and ceilings."
+  },
+  {
+    "id": "spiritual_weapon",
+    "name": "Spiritual Weapon",
+    "level": 2,
+    "school": "evocation",
+    "classes": [
+      "cleric"
+    ],
+    "summary": "Summon floating weapon."
+  },
+  {
+    "id": "suggestion",
+    "name": "Suggestion",
+    "level": 2,
+    "school": "enchantment",
+    "classes": [
+      "bard",
+      "sorcerer",
+      "warlock",
+      "wizard"
+    ],
+    "summary": "Plant a compelling course of action."
+  },
+  {
+    "id": "web",
+    "name": "Web",
+    "level": 2,
+    "school": "conjuration",
+    "classes": [
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "Create sticky restraining webs."
+  },
+  {
+    "id": "animate_dead",
+    "name": "Animate Dead",
+    "level": 3,
+    "school": "necromancy",
+    "classes": [
+      "cleric",
+      "wizard"
+    ],
+    "summary": "Raise skeletons or zombies."
+  },
+  {
+    "id": "beacon_of_hope",
+    "name": "Beacon of Hope",
+    "level": 3,
+    "school": "abjuration",
+    "classes": [
+      "cleric"
+    ],
+    "summary": "Boost healing and key saving throws."
+  },
+  {
+    "id": "bestow_curse",
+    "name": "Bestow Curse",
+    "level": 3,
+    "school": "necromancy",
+    "classes": [
+      "bard",
+      "cleric",
+      "wizard"
+    ],
+    "summary": "Afflict target with a harmful curse."
+  },
+  {
+    "id": "call_lightning",
+    "name": "Call Lightning",
+    "level": 3,
+    "school": "conjuration",
+    "classes": [
+      "druid"
+    ],
+    "summary": "Summon repeatable lightning strikes."
+  },
+  {
+    "id": "clairvoyance",
+    "name": "Clairvoyance",
+    "level": 3,
+    "school": "divination",
+    "classes": [
+      "bard",
+      "cleric",
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "See or hear from a distant point."
+  },
+  {
+    "id": "counterspell",
+    "name": "Counterspell",
+    "level": 3,
+    "school": "abjuration",
+    "classes": [
+      "sorcerer",
+      "warlock",
+      "wizard"
+    ],
+    "summary": "Interrupt another spell."
+  },
+  {
+    "id": "create_food_and_water",
+    "name": "Create Food and Water",
+    "level": 3,
+    "school": "conjuration",
+    "classes": [
+      "cleric",
+      "paladin"
+    ],
+    "summary": "Conjure simple sustenance."
+  },
+  {
+    "id": "daylight",
+    "name": "Daylight",
+    "level": 3,
+    "school": "evocation",
+    "classes": [
+      "cleric",
+      "druid",
+      "paladin",
+      "ranger",
+      "sorcerer"
+    ],
+    "summary": "Create a bright light sphere."
+  },
+  {
+    "id": "dispel_magic",
+    "name": "Dispel Magic",
+    "level": 3,
+    "school": "abjuration",
+    "classes": [
+      "bard",
+      "cleric",
+      "druid",
+      "paladin",
+      "sorcerer",
+      "warlock",
+      "wizard"
+    ],
+    "summary": "End ongoing magical effects."
+  },
+  {
+    "id": "fear",
+    "name": "Fear",
+    "level": 3,
+    "school": "illusion",
+    "classes": [
+      "bard",
+      "sorcerer",
+      "warlock",
+      "wizard"
+    ],
+    "summary": "Cause creatures to flee in terror."
+  },
+  {
+    "id": "fireball",
+    "name": "Fireball",
+    "level": 3,
+    "school": "evocation",
+    "classes": [
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "Large area fire explosion."
+  },
+  {
+    "id": "fly",
+    "name": "Fly",
+    "level": 3,
+    "school": "transmutation",
+    "classes": [
+      "sorcerer",
+      "warlock",
+      "wizard"
+    ],
+    "summary": "Grant flying speed to a creature."
+  },
+  {
+    "id": "gaseous_form",
+    "name": "Gaseous Form",
+    "level": 3,
+    "school": "transmutation",
+    "classes": [
+      "sorcerer",
+      "warlock",
+      "wizard"
+    ],
+    "summary": "Turn target into drifting mist."
+  },
+  {
+    "id": "glyph_of_warding",
+    "name": "Glyph of Warding",
+    "level": 3,
+    "school": "abjuration",
+    "classes": [
+      "bard",
+      "cleric",
+      "wizard"
+    ],
+    "summary": "Inscribe magical trap glyph."
+  },
+  {
+    "id": "haste",
+    "name": "Haste",
+    "level": 3,
+    "school": "transmutation",
+    "classes": [
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "Supercharge speed, defence, and actions."
+  },
+  {
+    "id": "hypnotic_pattern",
+    "name": "Hypnotic Pattern",
+    "level": 3,
+    "school": "illusion",
+    "classes": [
+      "bard",
+      "sorcerer",
+      "warlock",
+      "wizard"
+    ],
+    "summary": "Charm and incapacitate with a visual pattern."
+  },
+  {
+    "id": "lightning_bolt",
+    "name": "Lightning Bolt",
+    "level": 3,
+    "school": "evocation",
+    "classes": [
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "Long line of lightning damage."
+  },
+  {
+    "id": "major_image",
+    "name": "Major Image",
+    "level": 3,
+    "school": "illusion",
+    "classes": [
+      "bard",
+      "sorcerer",
+      "warlock",
+      "wizard"
+    ],
+    "summary": "Create a large sensory illusion."
+  },
+  {
+    "id": "mass_healing_word",
+    "name": "Mass Healing Word",
+    "level": 3,
+    "school": "evocation",
+    "classes": [
+      "cleric"
+    ],
+    "summary": "Bonus-action healing for multiple allies."
+  },
+  {
+    "id": "plant_growth",
+    "name": "Plant Growth",
+    "level": 3,
+    "school": "transmutation",
+    "classes": [
+      "bard",
+      "druid",
+      "ranger"
+    ],
+    "summary": "Enrich land or hinder movement."
+  },
+  {
+    "id": "remove_curse",
+    "name": "Remove Curse",
+    "level": 3,
+    "school": "abjuration",
+    "classes": [
+      "cleric",
+      "paladin",
+      "warlock",
+      "wizard"
+    ],
+    "summary": "End a curse on creature or object."
+  },
+  {
+    "id": "revivify",
+    "name": "Revivify",
+    "level": 3,
+    "school": "necromancy",
+    "classes": [
+      "cleric",
+      "paladin"
+    ],
+    "summary": "Return a creature to life shortly after death."
+  },
+  {
+    "id": "sending",
+    "name": "Sending",
+    "level": 3,
+    "school": "evocation",
+    "classes": [
+      "bard",
+      "cleric",
+      "wizard"
+    ],
+    "summary": "Deliver a brief message over distance."
+  },
+  {
+    "id": "sleet_storm",
+    "name": "Sleet Storm",
+    "level": 3,
+    "school": "conjuration",
+    "classes": [
+      "druid",
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "Create icy storm that disrupts area."
+  },
+  {
+    "id": "slow",
+    "name": "Slow",
+    "level": 3,
+    "school": "transmutation",
+    "classes": [
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "Debuff speed, actions, and defences."
+  },
+  {
+    "id": "speak_with_dead",
+    "name": "Speak with Dead",
+    "level": 3,
+    "school": "necromancy",
+    "classes": [
+      "bard",
+      "cleric"
+    ],
+    "summary": "Ask a corpse limited questions."
+  },
+  {
+    "id": "speak_with_plants",
+    "name": "Speak with Plants",
+    "level": 3,
+    "school": "transmutation",
+    "classes": [
+      "bard",
+      "druid",
+      "ranger"
+    ],
+    "summary": "Communicate and influence plants."
+  },
+  {
+    "id": "spirit_guardians",
+    "name": "Spirit Guardians",
+    "level": 3,
+    "school": "conjuration",
+    "classes": [
+      "cleric"
+    ],
+    "summary": "Summon damaging protective spirits."
+  },
+  {
+    "id": "stinking_cloud",
+    "name": "Stinking Cloud",
+    "level": 3,
+    "school": "conjuration",
+    "classes": [
+      "bard",
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "Nauseating gas cloud hinders foes."
+  },
+  {
+    "id": "tongues",
+    "name": "Tongues",
+    "level": 3,
+    "school": "divination",
+    "classes": [
+      "bard",
+      "cleric",
+      "sorcerer",
+      "warlock",
+      "wizard"
+    ],
+    "summary": "Understand and speak any language."
+  },
+  {
+    "id": "vampiric_touch",
+    "name": "Vampiric Touch",
+    "level": 3,
+    "school": "necromancy",
+    "classes": [
+      "warlock",
+      "wizard"
+    ],
+    "summary": "Necrotic touch that heals caster."
+  },
+  {
+    "id": "water_breathing",
+    "name": "Water Breathing",
+    "level": 3,
+    "school": "transmutation",
+    "classes": [
+      "druid",
+      "ranger",
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "Let creatures breathe underwater."
+  },
+  {
+    "id": "water_walk",
+    "name": "Water Walk",
+    "level": 3,
+    "school": "transmutation",
+    "classes": [
+      "cleric",
+      "druid",
+      "ranger",
+      "sorcerer"
+    ],
+    "summary": "Walk across liquid surfaces."
+  },
+  {
+    "id": "wind_wall",
+    "name": "Wind Wall",
+    "level": 3,
+    "school": "evocation",
+    "classes": [
+      "druid",
+      "ranger"
+    ],
+    "summary": "Summon wall of strong wind."
+  },
+  {
+    "id": "arcane-eye",
+    "name": "Arcane Eye",
+    "level": 4,
+    "school": "divination",
+    "classes": [
+      "cleric",
+      "wizard"
+    ],
+    "summary": "You create an invisible, magical eye within range that hovers in the air for the duration"
+  },
+  {
+    "id": "banishment",
+    "name": "Banishment",
+    "level": 4,
+    "school": "abjuration",
+    "classes": [
+      "cleric",
+      "paladin",
+      "sorcerer",
+      "warlock",
+      "wizard"
+    ],
+    "summary": "You attempt to send one creature that you can see within range to another plane of exis..."
+  },
+  {
+    "id": "black-tentacles",
+    "name": "Black Tentacles",
+    "level": 4,
+    "school": "conjuration",
+    "classes": [
+      "wizard"
+    ],
+    "summary": "Squirming, ebony tentacles fill a 20-foot square on ground that you can see within range"
+  },
+  {
+    "id": "blight",
+    "name": "Blight",
+    "level": 4,
+    "school": "necromancy",
+    "classes": [
+      "druid",
+      "sorcerer",
+      "warlock",
+      "wizard"
+    ],
+    "summary": "Necromantic energy washes over a creature of your choice that you can see within range,..."
+  },
+  {
+    "id": "compulsion",
+    "name": "Compulsion",
+    "level": 4,
+    "school": "enchantment",
+    "classes": [
+      "bard"
+    ],
+    "summary": "Creatures of your choice that you can see within range and that can hear you must make..."
+  },
+  {
+    "id": "confusion",
+    "name": "Confusion",
+    "level": 4,
+    "school": "enchantment",
+    "classes": [
+      "bard",
+      "druid",
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "This spell assaults and twists creatures' minds, spawning delusions and provoking uncon..."
+  },
+  {
+    "id": "conjure-minor-elementals",
+    "name": "Conjure Minor Elementals",
+    "level": 4,
+    "school": "conjuration",
+    "classes": [
+      "druid",
+      "wizard"
+    ],
+    "summary": "You summon elementals that appear in unoccupied spaces that you can see within range"
+  },
+  {
+    "id": "conjure-woodland-beings",
+    "name": "Conjure Woodland Beings",
+    "level": 4,
+    "school": "conjuration",
+    "classes": [
+      "druid",
+      "ranger"
+    ],
+    "summary": "You summon fey creatures that appear in unoccupied spaces that you can see within range"
+  },
+  {
+    "id": "control-water",
+    "name": "Control Water",
+    "level": 4,
+    "school": "transmutation",
+    "classes": [
+      "cleric",
+      "druid",
+      "wizard"
+    ],
+    "summary": "Until the spell ends, you control any freestanding water inside an area you choose that..."
+  },
+  {
+    "id": "death-ward",
+    "name": "Death Ward",
+    "level": 4,
+    "school": "abjuration",
+    "classes": [
+      "cleric",
+      "paladin"
+    ],
+    "summary": "You touch a creature and grant it a measure of protection from death"
+  },
+  {
+    "id": "dimension-door",
+    "name": "Dimension Door",
+    "level": 4,
+    "school": "conjuration",
+    "classes": [
+      "bard",
+      "sorcerer",
+      "warlock",
+      "wizard"
+    ],
+    "summary": "You teleport yourself from your current location to any other spot within range"
+  },
+  {
+    "id": "divination",
+    "name": "Divination",
+    "level": 4,
+    "school": "divination",
+    "classes": [
+      "druid"
+    ],
+    "summary": "Your magic and an offering put you in contact with a god or a god's servants"
+  },
+  {
+    "id": "dominate-beast",
+    "name": "Dominate Beast",
+    "level": 4,
+    "school": "enchantment",
+    "classes": [
+      "druid",
+      "sorcerer"
+    ],
+    "summary": "You attempt to beguile a creature that you can see within range"
+  },
+  {
+    "id": "fabricate",
+    "name": "Fabricate",
+    "level": 4,
+    "school": "transmutation",
+    "classes": [
+      "wizard"
+    ],
+    "summary": "You convert raw materials into products of the same material"
+  },
+  {
+    "id": "faithful-hound",
+    "name": "Faithful Hound",
+    "level": 4,
+    "school": "conjuration",
+    "classes": [
+      "wizard"
+    ],
+    "summary": "You conjure a phantom watchdog in an unoccupied space that you can see within range, wh..."
+  },
+  {
+    "id": "fire-shield",
+    "name": "Fire Shield",
+    "level": 4,
+    "school": "evocation",
+    "classes": [
+      "wizard"
+    ],
+    "summary": "Thin and vaporous flame surround your body for the duration of the spell, radiating a b..."
+  },
+  {
+    "id": "freedom-of-movement",
+    "name": "Freedom of Movement",
+    "level": 4,
+    "school": "abjuration",
+    "classes": [
+      "bard",
+      "cleric",
+      "druid",
+      "ranger"
+    ],
+    "summary": "You touch a willing creature"
+  },
+  {
+    "id": "giant-insect",
+    "name": "Giant Insect",
+    "level": 4,
+    "school": "transmutation",
+    "classes": [
+      "druid"
+    ],
+    "summary": "You transform up to ten centipedes, three spiders, five wasps, or one scorpion within r..."
+  },
+  {
+    "id": "greater-invisibility",
+    "name": "Greater Invisibility",
+    "level": 4,
+    "school": "illusion",
+    "classes": [
+      "bard",
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "You or a creature you touch becomes invisible until the spell ends"
+  },
+  {
+    "id": "guardian-of-faith",
+    "name": "Guardian of Faith",
+    "level": 4,
+    "school": "conjuration",
+    "classes": [
+      "cleric"
+    ],
+    "summary": "A Large spectral guardian appears and hovers for the duration in an unoccupied space of..."
+  },
+  {
+    "id": "hallucinatory-terrain",
+    "name": "Hallucinatory Terrain",
+    "level": 4,
+    "school": "illusion",
+    "classes": [
+      "bard",
+      "druid",
+      "warlock",
+      "wizard"
+    ],
+    "summary": "You make natural terrain in a 150-foot cube in range look, sound, and smell like some o..."
+  },
+  {
+    "id": "ice-storm",
+    "name": "Ice Storm",
+    "level": 4,
+    "school": "evocation",
+    "classes": [
+      "druid",
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "A hail of rock-hard ice pounds to the ground in a 20-foot-radius, 40-foot-high cylinder..."
+  },
+  {
+    "id": "locate-creature",
+    "name": "Locate Creature",
+    "level": 4,
+    "school": "divination",
+    "classes": [
+      "bard",
+      "cleric",
+      "druid",
+      "paladin",
+      "ranger",
+      "wizard"
+    ],
+    "summary": "Describe or name a creature that is familiar to you"
+  },
+  {
+    "id": "phantasmal-killer",
+    "name": "Phantasmal Killer",
+    "level": 4,
+    "school": "illusion",
+    "classes": [
+      "wizard"
+    ],
+    "summary": "You tap into the nightmares of a creature you can see within range and create an illuso..."
+  },
+  {
+    "id": "polymorph",
+    "name": "Polymorph",
+    "level": 4,
+    "school": "transmutation",
+    "classes": [
+      "bard",
+      "druid",
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "This spell transforms a creature that you can see within range into a new form"
+  },
+  {
+    "id": "private-sanctum",
+    "name": "Private Sanctum",
+    "level": 4,
+    "school": "abjuration",
+    "classes": [
+      "wizard"
+    ],
+    "summary": "You make an area within range magically secure"
+  },
+  {
+    "id": "resilient-sphere",
+    "name": "Resilient Sphere",
+    "level": 4,
+    "school": "evocation",
+    "classes": [
+      "wizard"
+    ],
+    "summary": "A sphere of shimmering force encloses a creature or object of Large size or smaller wit..."
+  },
+  {
+    "id": "secret-chest",
+    "name": "Secret Chest",
+    "level": 4,
+    "school": "conjuration",
+    "classes": [
+      "wizard"
+    ],
+    "summary": "You hide a chest, and all its contents, on the Ethereal Plane"
+  },
+  {
+    "id": "stone-shape",
+    "name": "Stone Shape",
+    "level": 4,
+    "school": "transmutation",
+    "classes": [
+      "cleric",
+      "druid",
+      "wizard"
+    ],
+    "summary": "You touch a stone object of Medium size or smaller or a section of stone no more than 5..."
+  },
+  {
+    "id": "stoneskin",
+    "name": "Stoneskin",
+    "level": 4,
+    "school": "abjuration",
+    "classes": [
+      "druid",
+      "ranger",
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "This spell turns the flesh of a willing creature you touch as hard as stone"
+  },
+  {
+    "id": "wall-of-fire",
+    "name": "Wall of Fire",
+    "level": 4,
+    "school": "evocation",
+    "classes": [
+      "druid",
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "You create a wall of fire on a solid surface within range"
+  },
+  {
+    "id": "animate-objects",
+    "name": "Animate Objects",
+    "level": 5,
+    "school": "transmutation",
+    "classes": [
+      "bard",
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "Objects come to life at your command"
+  },
+  {
+    "id": "antilife-shell",
+    "name": "Antilife Shell",
+    "level": 5,
+    "school": "abjuration",
+    "classes": [
+      "druid"
+    ],
+    "summary": "A shimmering barrier extends out from you in a 10-foot radius and moves with you, remai..."
+  },
+  {
+    "id": "arcane-hand",
+    "name": "Arcane Hand",
+    "level": 5,
+    "school": "evocation",
+    "classes": [
+      "wizard"
+    ],
+    "summary": "You create a Large hand of shimmering, translucent force in an unoccupied space that yo..."
+  },
+  {
+    "id": "awaken",
+    "name": "Awaken",
+    "level": 5,
+    "school": "transmutation",
+    "classes": [
+      "bard",
+      "druid"
+    ],
+    "summary": "After spending the casting time tracing magical pathways within a precious gemstone, yo..."
+  },
+  {
+    "id": "cloudkill",
+    "name": "Cloudkill",
+    "level": 5,
+    "school": "conjuration",
+    "classes": [
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "You create a 20-foot-radius sphere of poisonous, yellow-green fog centered on a point y..."
+  },
+  {
+    "id": "commune",
+    "name": "Commune",
+    "level": 5,
+    "school": "divination",
+    "classes": [
+      "cleric"
+    ],
+    "summary": "You contact your deity or a divine proxy and ask up to three questions that can be answ..."
+  },
+  {
+    "id": "commune-with-nature",
+    "name": "Commune With Nature",
+    "level": 5,
+    "school": "divination",
+    "classes": [
+      "druid",
+      "ranger"
+    ],
+    "summary": "You briefly become one with nature and gain knowledge of the surrounding territory"
+  },
+  {
+    "id": "cone-of-cold",
+    "name": "Cone of Cold",
+    "level": 5,
+    "school": "evocation",
+    "classes": [
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "A blast of cold air erupts from your hands"
+  },
+  {
+    "id": "conjure-elemental",
+    "name": "Conjure Elemental",
+    "level": 5,
+    "school": "conjuration",
+    "classes": [
+      "druid",
+      "wizard"
+    ],
+    "summary": "You call forth an elemental servant"
+  },
+  {
+    "id": "contact-other-plane",
+    "name": "Contact Other Plane",
+    "level": 5,
+    "school": "divination",
+    "classes": [
+      "warlock",
+      "wizard"
+    ],
+    "summary": "You mentally contact a demigod, the spirit of a long-dead sage, or some other mysteriou..."
+  },
+  {
+    "id": "contagion",
+    "name": "Contagion",
+    "level": 5,
+    "school": "necromancy",
+    "classes": [
+      "cleric",
+      "druid"
+    ],
+    "summary": "Your touch inflicts disease"
+  },
+  {
+    "id": "creation",
+    "name": "Creation",
+    "level": 5,
+    "school": "illusion",
+    "classes": [
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "You pull wisps of shadow material from the Shadowfell to create a nonliving object of v..."
+  },
+  {
+    "id": "dispel-evil-and-good",
+    "name": "Dispel Evil and Good",
+    "level": 5,
+    "school": "abjuration",
+    "classes": [
+      "cleric",
+      "paladin"
+    ],
+    "summary": "Shimmering energy surrounds and protects you from fey, undead, and creatures originatin..."
+  },
+  {
+    "id": "dominate-person",
+    "name": "Dominate Person",
+    "level": 5,
+    "school": "enchantment",
+    "classes": [
+      "bard",
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "You attempt to beguile a humanoid that you can see within range"
+  },
+  {
+    "id": "dream",
+    "name": "Dream",
+    "level": 5,
+    "school": "illusion",
+    "classes": [
+      "bard",
+      "warlock",
+      "wizard"
+    ],
+    "summary": "This spell shapes a creature's dreams"
+  },
+  {
+    "id": "flame-strike",
+    "name": "Flame Strike",
+    "level": 5,
+    "school": "evocation",
+    "classes": [
+      "cleric"
+    ],
+    "summary": "A vertical column of divine fire roars down from the heavens in a location you specify"
+  },
+  {
+    "id": "geas",
+    "name": "Geas",
+    "level": 5,
+    "school": "enchantment",
+    "classes": [
+      "bard",
+      "cleric",
+      "druid",
+      "paladin",
+      "wizard"
+    ],
+    "summary": "You place a magical command on a creature that you can see within range, forcing it to..."
+  },
+  {
+    "id": "greater-restoration",
+    "name": "Greater Restoration",
+    "level": 5,
+    "school": "abjuration",
+    "classes": [
+      "bard",
+      "cleric",
+      "druid"
+    ],
+    "summary": "You imbue a creature you touch with positive energy to undo a debilitating effect"
+  },
+  {
+    "id": "hallow",
+    "name": "Hallow",
+    "level": 5,
+    "school": "evocation",
+    "classes": [
+      "cleric"
+    ],
+    "summary": "You touch a point and infuse an area around it with holy (or unholy) power"
+  },
+  {
+    "id": "hold-monster",
+    "name": "Hold Monster",
+    "level": 5,
+    "school": "enchantment",
+    "classes": [
+      "bard",
+      "sorcerer",
+      "warlock",
+      "wizard"
+    ],
+    "summary": "Choose a creature you can see and reach"
+  },
+  {
+    "id": "insect-plague",
+    "name": "Insect Plague",
+    "level": 5,
+    "school": "conjuration",
+    "classes": [
+      "cleric",
+      "druid",
+      "sorcerer"
+    ],
+    "summary": "Swarming, biting locusts fill a 20-foot-radius sphere centered on a point you choose wi..."
+  },
+  {
+    "id": "legend-lore",
+    "name": "Legend Lore",
+    "level": 5,
+    "school": "divination",
+    "classes": [
+      "bard",
+      "cleric",
+      "wizard"
+    ],
+    "summary": "Name or describe a person, place, or object"
+  },
+  {
+    "id": "mass-cure-wounds",
+    "name": "Mass Cure Wounds",
+    "level": 5,
+    "school": "conjuration",
+    "classes": [
+      "bard",
+      "cleric",
+      "druid"
+    ],
+    "summary": "A wave of healing energy washes out from a point of your choice within range"
+  },
+  {
+    "id": "mislead",
+    "name": "Mislead",
+    "level": 5,
+    "school": "illusion",
+    "classes": [
+      "bard",
+      "wizard"
+    ],
+    "summary": "You become invisible at the same time that an illusory double of you appears where you..."
+  },
+  {
+    "id": "modify-memory",
+    "name": "Modify Memory",
+    "level": 5,
+    "school": "enchantment",
+    "classes": [
+      "bard",
+      "wizard"
+    ],
+    "summary": "You attempt to reshape another creature's memories"
+  },
+  {
+    "id": "passwall",
+    "name": "Passwall",
+    "level": 5,
+    "school": "transmutation",
+    "classes": [
+      "wizard"
+    ],
+    "summary": "A passage appears at a point of your choice that you can see on a wooden, plaster, or s..."
+  },
+  {
+    "id": "planar-binding",
+    "name": "Planar Binding",
+    "level": 5,
+    "school": "abjuration",
+    "classes": [
+      "bard",
+      "cleric",
+      "druid",
+      "wizard"
+    ],
+    "summary": "With this spell, you attempt to bind a celestial, an elemental, a fey, or a fiend to yo..."
+  },
+  {
+    "id": "raise-dead",
+    "name": "Raise Dead",
+    "level": 5,
+    "school": "necromancy",
+    "classes": [
+      "bard",
+      "cleric",
+      "paladin"
+    ],
+    "summary": "You return a dead creature you touch to life, provided that it has been dead no longer..."
+  },
+  {
+    "id": "reincarnate",
+    "name": "Reincarnate",
+    "level": 5,
+    "school": "transmutation",
+    "classes": [
+      "druid"
+    ],
+    "summary": "You touch a dead humanoid or a piece of a dead humanoid"
+  },
+  {
+    "id": "scrying",
+    "name": "Scrying",
+    "level": 5,
+    "school": "divination",
+    "classes": [
+      "bard",
+      "cleric",
+      "druid",
+      "warlock",
+      "wizard"
+    ],
+    "summary": "You can see and hear a particular creature you choose that is on the same plane of exis..."
+  },
+  {
+    "id": "seeming",
+    "name": "Seeming",
+    "level": 5,
+    "school": "illusion",
+    "classes": [
+      "bard",
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "This spell allows you to change the appearance of any number of creatures that you can..."
+  },
+  {
+    "id": "telekinesis",
+    "name": "Telekinesis",
+    "level": 5,
+    "school": "transmutation",
+    "classes": [
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "You gain the ability to move or manipulate creatures or objects by thought"
+  },
+  {
+    "id": "telepathic-bond",
+    "name": "Telepathic Bond",
+    "level": 5,
+    "school": "divination",
+    "classes": [
+      "wizard"
+    ],
+    "summary": "You forge a telepathic link among up to eight willing creatures of your choice within r..."
+  },
+  {
+    "id": "teleportation-circle",
+    "name": "Teleportation Circle",
+    "level": 5,
+    "school": "conjuration",
+    "classes": [
+      "bard",
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "As you cast the spell, you draw a 10-foot-diameter circle on the ground inscribed with..."
+  },
+  {
+    "id": "tree-stride",
+    "name": "Tree Stride",
+    "level": 5,
+    "school": "conjuration",
+    "classes": [
+      "druid",
+      "ranger"
+    ],
+    "summary": "You gain the ability to enter a tree and move from inside it to inside another tree of..."
+  },
+  {
+    "id": "wall-of-force",
+    "name": "Wall of Force",
+    "level": 5,
+    "school": "evocation",
+    "classes": [
+      "wizard"
+    ],
+    "summary": "An invisible wall of force springs into existence at a point you choose within range"
+  },
+  {
+    "id": "wall-of-stone",
+    "name": "Wall of Stone",
+    "level": 5,
+    "school": "evocation",
+    "classes": [
+      "druid",
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "A nonmagical wall of solid stone springs into existence at a point you choose within range"
+  },
+  {
+    "id": "blade-barrier",
+    "name": "Blade Barrier",
+    "level": 6,
+    "school": "evocation",
+    "classes": [
+      "cleric"
+    ],
+    "summary": "You create a vertical wall of whirling, razor-sharp blades made of magical energy"
+  },
+  {
+    "id": "chain-lightning",
+    "name": "Chain Lightning",
+    "level": 6,
+    "school": "evocation",
+    "classes": [
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "You create a bolt of lightning that arcs toward a target of your choice that you can se..."
+  },
+  {
+    "id": "circle-of-death",
+    "name": "Circle of Death",
+    "level": 6,
+    "school": "necromancy",
+    "classes": [
+      "sorcerer",
+      "warlock",
+      "wizard"
+    ],
+    "summary": "A sphere of negative energy ripples out in a 60-foot radius sphere from a point within..."
+  },
+  {
+    "id": "conjure-fey",
+    "name": "Conjure Fey",
+    "level": 6,
+    "school": "conjuration",
+    "classes": [
+      "druid",
+      "warlock"
+    ],
+    "summary": "You summon a fey creature of challenge rating 6 or lower, or a fey spirit that takes th..."
+  },
+  {
+    "id": "contingency",
+    "name": "Contingency",
+    "level": 6,
+    "school": "evocation",
+    "classes": [
+      "wizard"
+    ],
+    "summary": "Choose a spell of 5th level or lower that you can cast, that has a casting time of 1 ac..."
+  },
+  {
+    "id": "create-undead",
+    "name": "Create Undead",
+    "level": 6,
+    "school": "necromancy",
+    "classes": [
+      "cleric",
+      "warlock",
+      "wizard"
+    ],
+    "summary": "You can cast this spell only at night"
+  },
+  {
+    "id": "disintegrate",
+    "name": "Disintegrate",
+    "level": 6,
+    "school": "transmutation",
+    "classes": [
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "A thin green ray springs from your pointing finger to a target that you can see within..."
+  },
+  {
+    "id": "eyebite",
+    "name": "Eyebite",
+    "level": 6,
+    "school": "necromancy",
+    "classes": [
+      "bard",
+      "sorcerer",
+      "warlock",
+      "wizard"
+    ],
+    "summary": "For the spell's duration, your eyes become an inky void imbued with dread power"
+  },
+  {
+    "id": "find-the-path",
+    "name": "Find the Path",
+    "level": 6,
+    "school": "divination",
+    "classes": [
+      "bard",
+      "cleric",
+      "druid"
+    ],
+    "summary": "This spell allows you to find the shortest, most direct physical route to a specific fi..."
+  },
+  {
+    "id": "flesh-to-stone",
+    "name": "Flesh to Stone",
+    "level": 6,
+    "school": "transmutation",
+    "classes": [
+      "warlock",
+      "wizard"
+    ],
+    "summary": "You attempt to turn one creature that you can see within range into stone"
+  },
+  {
+    "id": "forbiddance",
+    "name": "Forbiddance",
+    "level": 6,
+    "school": "abjuration",
+    "classes": [
+      "cleric"
+    ],
+    "summary": "You create a ward against magical travel that protects up to 40,000 square feet of floo..."
+  },
+  {
+    "id": "freezing-sphere",
+    "name": "Freezing Sphere",
+    "level": 6,
+    "school": "evocation",
+    "classes": [
+      "wizard"
+    ],
+    "summary": "A frigid globe of cold energy streaks from your fingertips to a point of your choice wi..."
+  },
+  {
+    "id": "globe-of-invulnerability",
+    "name": "Globe of Invulnerability",
+    "level": 6,
+    "school": "abjuration",
+    "classes": [
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "An immobile, faintly shimmering barrier springs into existence in a 10-foot radius arou..."
+  },
+  {
+    "id": "guards-and-wards",
+    "name": "Guards and Wards",
+    "level": 6,
+    "school": "abjuration",
+    "classes": [
+      "bard",
+      "wizard"
+    ],
+    "summary": "You create a ward that protects up to 2,500 square feet of floor space (an area 50 feet..."
+  },
+  {
+    "id": "harm",
+    "name": "Harm",
+    "level": 6,
+    "school": "necromancy",
+    "classes": [
+      "cleric"
+    ],
+    "summary": "You unleash a virulent disease on a creature that you can see within range"
+  },
+  {
+    "id": "heal",
+    "name": "Heal",
+    "level": 6,
+    "school": "evocation",
+    "classes": [
+      "cleric",
+      "druid"
+    ],
+    "summary": "Choose a creature that you can see within range"
+  },
+  {
+    "id": "heroes-feast",
+    "name": "Heroes' Feast",
+    "level": 6,
+    "school": "conjuration",
+    "classes": [
+      "cleric",
+      "druid"
+    ],
+    "summary": "You bring forth a great feast, including magnificent food and drink"
+  },
+  {
+    "id": "instant-summons",
+    "name": "Instant Summons",
+    "level": 6,
+    "school": "conjuration",
+    "classes": [
+      "wizard"
+    ],
+    "summary": "You touch an object weighing 10 pounds or less whose longest dimension is 6 feet or less"
+  },
+  {
+    "id": "irresistible-dance",
+    "name": "Irresistible Dance",
+    "level": 6,
+    "school": "enchantment",
+    "classes": [
+      "bard",
+      "wizard"
+    ],
+    "summary": "Choose one creature that you can see within range"
+  },
+  {
+    "id": "magic-jar",
+    "name": "Magic Jar",
+    "level": 6,
+    "school": "necromancy",
+    "classes": [
+      "wizard"
+    ],
+    "summary": "Your body falls into a catatonic state as your soul leaves it and enters the container..."
+  },
+  {
+    "id": "mass-suggestion",
+    "name": "Mass Suggestion",
+    "level": 6,
+    "school": "enchantment",
+    "classes": [
+      "bard",
+      "sorcerer",
+      "warlock",
+      "wizard"
+    ],
+    "summary": "You suggest a course of activity (limited to a sentence or two) and magically influence..."
+  },
+  {
+    "id": "move-earth",
+    "name": "Move Earth",
+    "level": 6,
+    "school": "transmutation",
+    "classes": [
+      "druid",
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "Choose an area of terrain no larger than 40 feet on a side within range"
+  },
+  {
+    "id": "planar-ally",
+    "name": "Planar Ally",
+    "level": 6,
+    "school": "conjuration",
+    "classes": [
+      "cleric"
+    ],
+    "summary": "You beseech an otherworldly entity for aid"
+  },
+  {
+    "id": "programmed-illusion",
+    "name": "Programmed Illusion",
+    "level": 6,
+    "school": "illusion",
+    "classes": [
+      "bard",
+      "wizard"
+    ],
+    "summary": "You create an illusion of an object, a creature, or some other visible phenomenon withi..."
+  },
+  {
+    "id": "sunbeam",
+    "name": "Sunbeam",
+    "level": 6,
+    "school": "evocation",
+    "classes": [
+      "druid",
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "A beam of brilliant light flashes out from your hand in a 5-foot-wide, 60-foot-long line"
+  },
+  {
+    "id": "transport-via-plants",
+    "name": "Transport via Plants",
+    "level": 6,
+    "school": "conjuration",
+    "classes": [
+      "druid"
+    ],
+    "summary": "This spell creates a magical link between a Large or larger inanimate plant within rang..."
+  },
+  {
+    "id": "true-seeing",
+    "name": "True Seeing",
+    "level": 6,
+    "school": "divination",
+    "classes": [
+      "bard",
+      "cleric",
+      "sorcerer",
+      "warlock",
+      "wizard"
+    ],
+    "summary": "This spell gives the willing creature you touch the ability to see things as they actua..."
+  },
+  {
+    "id": "wall-of-ice",
+    "name": "Wall of Ice",
+    "level": 6,
+    "school": "evocation",
+    "classes": [
+      "wizard"
+    ],
+    "summary": "You create a wall of ice on a solid surface within range"
+  },
+  {
+    "id": "wall-of-thorns",
+    "name": "Wall of Thorns",
+    "level": 6,
+    "school": "conjuration",
+    "classes": [
+      "druid"
+    ],
+    "summary": "You create a wall of tough, pliable, tangled brush bristling with needle-sharp thorns"
+  },
+  {
+    "id": "wind-walk",
+    "name": "Wind Walk",
+    "level": 6,
+    "school": "transmutation",
+    "classes": [
+      "druid"
+    ],
+    "summary": "You and up to ten willing creatures you can see within range assume a gaseous form for..."
+  },
+  {
+    "id": "word-of-recall",
+    "name": "Word of Recall",
+    "level": 6,
+    "school": "conjuration",
+    "classes": [
+      "cleric"
+    ],
+    "summary": "You and up to five willing creatures within 5 feet of you instantly teleport to a previ..."
+  },
+  {
+    "id": "arcane-sword",
+    "name": "Arcane Sword",
+    "level": 7,
+    "school": "evocation",
+    "classes": [
+      "bard",
+      "wizard"
+    ],
+    "summary": "You create a sword-shaped plane of force that hovers within range"
+  },
+  {
+    "id": "conjure-celestial",
+    "name": "Conjure Celestial",
+    "level": 7,
+    "school": "conjuration",
+    "classes": [
+      "cleric"
+    ],
+    "summary": "You summon a celestial of challenge rating 4 or lower, which appears in an unoccupied s..."
+  },
+  {
+    "id": "delayed-blast-fireball",
+    "name": "Delayed Blast Fireball",
+    "level": 7,
+    "school": "evocation",
+    "classes": [
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "A beam of yellow light flashes from your pointing finger, then condenses to linger at a..."
+  },
+  {
+    "id": "divine-word",
+    "name": "Divine Word",
+    "level": 7,
+    "school": "evocation",
+    "classes": [
+      "cleric"
+    ],
+    "summary": "You utter a divine word, imbued with the power that shaped the world at the dawn of cre..."
+  },
+  {
+    "id": "etherealness",
+    "name": "Etherealness",
+    "level": 7,
+    "school": "transmutation",
+    "classes": [
+      "bard",
+      "cleric",
+      "sorcerer",
+      "warlock",
+      "wizard"
+    ],
+    "summary": "You step into the border regions of the Ethereal Plane, in the area where it overlaps w..."
+  },
+  {
+    "id": "finger-of-death",
+    "name": "Finger of Death",
+    "level": 7,
+    "school": "necromancy",
+    "classes": [
+      "sorcerer",
+      "warlock",
+      "wizard"
+    ],
+    "summary": "You send negative energy coursing through a creature that you can see within range, cau..."
+  },
+  {
+    "id": "fire-storm",
+    "name": "Fire Storm",
+    "level": 7,
+    "school": "evocation",
+    "classes": [
+      "cleric",
+      "druid",
+      "sorcerer"
+    ],
+    "summary": "A storm made up of sheets of roaring flame appears in a location you choose within range"
+  },
+  {
+    "id": "forcecage",
+    "name": "Forcecage",
+    "level": 7,
+    "school": "evocation",
+    "classes": [
+      "bard",
+      "warlock",
+      "wizard"
+    ],
+    "summary": "An immobile, invisible, cube-shaped prison composed of magical force springs into exist..."
+  },
+  {
+    "id": "magnificent-mansion",
+    "name": "Magnificent Mansion",
+    "level": 7,
+    "school": "conjuration",
+    "classes": [
+      "bard",
+      "wizard"
+    ],
+    "summary": "You conjure an extradimensional dwelling in range that lasts for the duration"
+  },
+  {
+    "id": "mirage-arcane",
+    "name": "Mirage Arcane",
+    "level": 7,
+    "school": "illusion",
+    "classes": [
+      "bard",
+      "druid",
+      "wizard"
+    ],
+    "summary": "You make terrain in an area up to 1 mile square look, sound, smell, and even feel like..."
+  },
+  {
+    "id": "plane-shift",
+    "name": "Plane Shift",
+    "level": 7,
+    "school": "conjuration",
+    "classes": [
+      "cleric",
+      "druid",
+      "sorcerer",
+      "warlock",
+      "wizard"
+    ],
+    "summary": "You and up to eight willing creatures who link hands in a circle are transported to a d..."
+  },
+  {
+    "id": "prismatic-spray",
+    "name": "Prismatic Spray",
+    "level": 7,
+    "school": "evocation",
+    "classes": [
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "Eight multicolored rays of light flash from your hand"
+  },
+  {
+    "id": "project-image",
+    "name": "Project Image",
+    "level": 7,
+    "school": "illusion",
+    "classes": [
+      "bard",
+      "wizard"
+    ],
+    "summary": "You create an illusory copy of yourself that lasts for the duration"
+  },
+  {
+    "id": "regenerate",
+    "name": "Regenerate",
+    "level": 7,
+    "school": "transmutation",
+    "classes": [
+      "bard",
+      "cleric",
+      "druid"
+    ],
+    "summary": "You touch a creature and stimulate its natural healing ability"
+  },
+  {
+    "id": "resurrection",
+    "name": "Resurrection",
+    "level": 7,
+    "school": "necromancy",
+    "classes": [
+      "bard",
+      "cleric"
+    ],
+    "summary": "You touch a dead creature that has been dead for no more than a century, that didn't di..."
+  },
+  {
+    "id": "reverse-gravity",
+    "name": "Reverse Gravity",
+    "level": 7,
+    "school": "transmutation",
+    "classes": [
+      "druid",
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "This spell reverses gravity in a 50-foot-radius, 100-foot high cylinder centered on a p..."
+  },
+  {
+    "id": "sequester",
+    "name": "Sequester",
+    "level": 7,
+    "school": "transmutation",
+    "classes": [
+      "wizard"
+    ],
+    "summary": "By means of this spell, a willing creature or an object can be hidden away, safe from d..."
+  },
+  {
+    "id": "simulacrum",
+    "name": "Simulacrum",
+    "level": 7,
+    "school": "illusion",
+    "classes": [
+      "wizard"
+    ],
+    "summary": "You shape an illusory duplicate of one beast or humanoid that is within range for the e..."
+  },
+  {
+    "id": "symbol",
+    "name": "Symbol",
+    "level": 7,
+    "school": "abjuration",
+    "classes": [
+      "bard",
+      "cleric",
+      "wizard"
+    ],
+    "summary": "When you cast this spell, you inscribe a harmful glyph either on a surface (such as a s..."
+  },
+  {
+    "id": "teleport",
+    "name": "Teleport",
+    "level": 7,
+    "school": "conjuration",
+    "classes": [
+      "bard",
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "This spell instantly transports you and up to eight willing creatures of your choice th..."
+  },
+  {
+    "id": "animal-shapes",
+    "name": "Animal Shapes",
+    "level": 8,
+    "school": "transmutation",
+    "classes": [
+      "druid"
+    ],
+    "summary": "Your magic turns others into beasts"
+  },
+  {
+    "id": "antimagic-field",
+    "name": "Antimagic Field",
+    "level": 8,
+    "school": "abjuration",
+    "classes": [
+      "cleric",
+      "wizard"
+    ],
+    "summary": "A 10-foot-radius invisible sphere of antimagic surrounds you"
+  },
+  {
+    "id": "antipathy-sympathy",
+    "name": "Antipathy/Sympathy",
+    "level": 8,
+    "school": "enchantment",
+    "classes": [
+      "druid",
+      "wizard"
+    ],
+    "summary": "This spell attracts or repels creatures of your choice"
+  },
+  {
+    "id": "clone",
+    "name": "Clone",
+    "level": 8,
+    "school": "necromancy",
+    "classes": [
+      "wizard"
+    ],
+    "summary": "This spell grows an inert duplicate of a living creature as a safeguard against death"
+  },
+  {
+    "id": "control-weather",
+    "name": "Control Weather",
+    "level": 8,
+    "school": "transmutation",
+    "classes": [
+      "cleric",
+      "druid",
+      "wizard"
+    ],
+    "summary": "You take control of the weather within 5 miles of you for the duration"
+  },
+  {
+    "id": "demiplane",
+    "name": "Demiplane",
+    "level": 8,
+    "school": "conjuration",
+    "classes": [
+      "warlock",
+      "wizard"
+    ],
+    "summary": "You create a shadowy door on a flat solid surface that you can see within range"
+  },
+  {
+    "id": "dominate-monster",
+    "name": "Dominate Monster",
+    "level": 8,
+    "school": "enchantment",
+    "classes": [
+      "bard",
+      "sorcerer",
+      "warlock",
+      "wizard"
+    ],
+    "summary": "You attempt to beguile a creature that you can see within range"
+  },
+  {
+    "id": "earthquake",
+    "name": "Earthquake",
+    "level": 8,
+    "school": "evocation",
+    "classes": [
+      "cleric",
+      "druid",
+      "sorcerer"
+    ],
+    "summary": "You create a seismic disturbance at a point on the ground that you can see within range"
+  },
+  {
+    "id": "feeblemind",
+    "name": "Feeblemind",
+    "level": 8,
+    "school": "enchantment",
+    "classes": [
+      "bard",
+      "druid",
+      "warlock",
+      "wizard"
+    ],
+    "summary": "You blast the mind of a creature that you can see within range, attempting to shatter i..."
+  },
+  {
+    "id": "glibness",
+    "name": "Glibness",
+    "level": 8,
+    "school": "transmutation",
+    "classes": [
+      "bard",
+      "warlock"
+    ],
+    "summary": "Until the spell ends, when you make a Charisma check, you can replace the number you ro..."
+  },
+  {
+    "id": "holy-aura",
+    "name": "Holy Aura",
+    "level": 8,
+    "school": "abjuration",
+    "classes": [
+      "cleric"
+    ],
+    "summary": "Divine light washes out from you and coalesces in a soft radiance in a 30-foot radius a..."
+  },
+  {
+    "id": "incendiary-cloud",
+    "name": "Incendiary Cloud",
+    "level": 8,
+    "school": "conjuration",
+    "classes": [
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "A swirling cloud of smoke shot through with white-hot embers appears in a 20-foot-radiu..."
+  },
+  {
+    "id": "maze",
+    "name": "Maze",
+    "level": 8,
+    "school": "conjuration",
+    "classes": [
+      "wizard"
+    ],
+    "summary": "You banish a creature that you can see within range into a labyrinthine demiplane"
+  },
+  {
+    "id": "mind-blank",
+    "name": "Mind Blank",
+    "level": 8,
+    "school": "abjuration",
+    "classes": [
+      "bard",
+      "wizard"
+    ],
+    "summary": "Until the spell ends, one willing creature you touch is immune to psychic damage, any e..."
+  },
+  {
+    "id": "power-word-stun",
+    "name": "Power Word Stun",
+    "level": 8,
+    "school": "enchantment",
+    "classes": [
+      "bard",
+      "sorcerer",
+      "warlock",
+      "wizard"
+    ],
+    "summary": "You speak a word of power that can overwhelm the mind of one creature you can see withi..."
+  },
+  {
+    "id": "sunburst",
+    "name": "Sunburst",
+    "level": 8,
+    "school": "evocation",
+    "classes": [
+      "druid",
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "Brilliant sunlight flashes in a 60-foot radius centered on a point you choose within range"
+  },
+  {
+    "id": "astral-projection",
+    "name": "Astral Projection",
+    "level": 9,
+    "school": "necromancy",
+    "classes": [
+      "cleric",
+      "warlock",
+      "wizard"
+    ],
+    "summary": "You and up to eight willing creatures within range project your astral bodies into the..."
+  },
+  {
+    "id": "foresight",
+    "name": "Foresight",
+    "level": 9,
+    "school": "divination",
+    "classes": [
+      "bard",
+      "druid",
+      "warlock",
+      "wizard"
+    ],
+    "summary": "You touch a willing creature and bestow a limited ability to see into the immediate future"
+  },
+  {
+    "id": "gate",
+    "name": "Gate",
+    "level": 9,
+    "school": "conjuration",
+    "classes": [
+      "cleric",
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "You conjure a portal linking an unoccupied space you can see within range to a precise..."
+  },
+  {
+    "id": "imprisonment",
+    "name": "Imprisonment",
+    "level": 9,
+    "school": "abjuration",
+    "classes": [
+      "warlock",
+      "wizard"
+    ],
+    "summary": "You create a magical restraint to hold a creature that you can see within range"
+  },
+  {
+    "id": "mass-heal",
+    "name": "Mass Heal",
+    "level": 9,
+    "school": "conjuration",
+    "classes": [
+      "cleric"
+    ],
+    "summary": "A flood of healing energy flows from you into injured creatures around you"
+  },
+  {
+    "id": "meteor-swarm",
+    "name": "Meteor Swarm",
+    "level": 9,
+    "school": "evocation",
+    "classes": [
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "Blazing orbs of fire plummet to the ground at four different points you can see within..."
+  },
+  {
+    "id": "power-word-kill",
+    "name": "Power Word Kill",
+    "level": 9,
+    "school": "enchantment",
+    "classes": [
+      "bard",
+      "sorcerer",
+      "warlock",
+      "wizard"
+    ],
+    "summary": "You utter a word of power that can compel one creature you can see within range to die..."
+  },
+  {
+    "id": "prismatic-wall",
+    "name": "Prismatic Wall",
+    "level": 9,
+    "school": "abjuration",
+    "classes": [
+      "wizard"
+    ],
+    "summary": "A shimmering, multicolored plane of light forms a vertical opaque wall--up to 90 feet l..."
+  },
+  {
+    "id": "shapechange",
+    "name": "Shapechange",
+    "level": 9,
+    "school": "transmutation",
+    "classes": [
+      "druid",
+      "wizard"
+    ],
+    "summary": "You assume the form of a different creature for the duration"
+  },
+  {
+    "id": "storm-of-vengeance",
+    "name": "Storm of Vengeance",
+    "level": 9,
+    "school": "conjuration",
+    "classes": [
+      "druid"
+    ],
+    "summary": "A churning storm cloud forms, centered on a point you can see and spreading to a radius..."
+  },
+  {
+    "id": "time-stop",
+    "name": "Time Stop",
+    "level": 9,
+    "school": "transmutation",
+    "classes": [
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "You briefly stop the flow of time for everyone but yourself"
+  },
+  {
+    "id": "true-polymorph",
+    "name": "True Polymorph",
+    "level": 9,
+    "school": "transmutation",
+    "classes": [
+      "bard",
+      "warlock",
+      "wizard"
+    ],
+    "summary": "Choose one creature or nonmagical object that you can see within range"
+  },
+  {
+    "id": "true-resurrection",
+    "name": "True Resurrection",
+    "level": 9,
+    "school": "necromancy",
+    "classes": [
+      "cleric",
+      "druid"
+    ],
+    "summary": "You touch a creature that has been dead for no longer than 200 years and that died for..."
+  },
+  {
+    "id": "weird",
+    "name": "Weird",
+    "level": 9,
+    "school": "illusion",
+    "classes": [
+      "wizard"
+    ],
+    "summary": "Drawing on the deepest fears of a group of creatures, you create illusory creatures in..."
+  },
+  {
+    "id": "wish",
+    "name": "Wish",
+    "level": 9,
+    "school": "conjuration",
+    "classes": [
+      "sorcerer",
+      "wizard"
+    ],
+    "summary": "Wish is the mightiest spell a mortal creature can cast"
+  }
+]

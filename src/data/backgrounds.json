@@ -1,0 +1,7 @@
+[
+  { "id": "acolyte", "name": "Acolyte", "skills": ["insight", "religion"], "toolProficiencies": [], "languages": ["choice", "choice"], "equipment": ["holy_symbol", "prayer_book", "incense", "vestments", "common_clothes", "belt_pouch"] },
+  { "id": "criminal", "name": "Criminal", "skills": ["deception", "stealth"], "toolProficiencies": ["thieves_tools", "gaming_set"], "languages": [], "equipment": ["crowbar", "dark_common_clothes", "belt_pouch"] },
+  { "id": "folk_hero", "name": "Folk Hero", "skills": ["animal_handling", "survival"], "toolProficiencies": ["artisan_tools", "vehicles_land"], "languages": [], "equipment": ["artisan_tools", "shovel", "iron_pot", "common_clothes", "belt_pouch"] },
+  { "id": "sage", "name": "Sage", "skills": ["arcana", "history"], "toolProficiencies": [], "languages": ["choice", "choice"], "equipment": ["ink", "quill", "small_knife", "letter", "common_clothes", "belt_pouch"] },
+  { "id": "soldier", "name": "Soldier", "skills": ["athletics", "intimidation"], "toolProficiencies": ["gaming_set", "vehicles_land"], "languages": [], "equipment": ["insignia", "trophy", "dice_set", "common_clothes", "belt_pouch"] }
+]

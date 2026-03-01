@@ -1,0 +1,612 @@
+[
+    {
+        "id":  "club",
+        "name":  "Club",
+        "type":  "weapon",
+        "category":  "simple_melee",
+        "damage":  "1d4 bludgeoning",
+        "properties":  [
+                           "light"
+                       ],
+        "proficiency":  "simple"
+    },
+    {
+        "id":  "dagger",
+        "name":  "Dagger",
+        "type":  "weapon",
+        "category":  "simple_melee",
+        "damage":  "1d4 piercing",
+        "properties":  [
+                           "finesse",
+                           "light",
+                           "thrown"
+                       ],
+        "proficiency":  "simple"
+    },
+    {
+        "id":  "greatclub",
+        "name":  "Greatclub",
+        "type":  "weapon",
+        "category":  "simple_melee",
+        "damage":  "1d8 bludgeoning",
+        "properties":  [
+                           "two_handed"
+                       ],
+        "proficiency":  "simple"
+    },
+    {
+        "id":  "handaxe",
+        "name":  "Handaxe",
+        "type":  "weapon",
+        "category":  "simple_melee",
+        "damage":  "1d6 slashing",
+        "properties":  [
+                           "light",
+                           "thrown"
+                       ],
+        "proficiency":  "simple"
+    },
+    {
+        "id":  "javelin",
+        "name":  "Javelin",
+        "type":  "weapon",
+        "category":  "simple_melee",
+        "damage":  "1d6 piercing",
+        "properties":  [
+                           "thrown"
+                       ],
+        "proficiency":  "simple"
+    },
+    {
+        "id":  "light_hammer",
+        "name":  "Light Hammer",
+        "type":  "weapon",
+        "category":  "simple_melee",
+        "damage":  "1d4 bludgeoning",
+        "properties":  [
+                           "light",
+                           "thrown"
+                       ],
+        "proficiency":  "simple"
+    },
+    {
+        "id":  "mace",
+        "name":  "Mace",
+        "type":  "weapon",
+        "category":  "simple_melee",
+        "damage":  "1d6 bludgeoning",
+        "properties":  [
+
+                       ],
+        "proficiency":  "simple"
+    },
+    {
+        "id":  "quarterstaff",
+        "name":  "Quarterstaff",
+        "type":  "weapon",
+        "category":  "simple_melee",
+        "damage":  "1d6 bludgeoning",
+        "properties":  [
+                           "versatile"
+                       ],
+        "proficiency":  "simple"
+    },
+    {
+        "id":  "sickle",
+        "name":  "Sickle",
+        "type":  "weapon",
+        "category":  "simple_melee",
+        "damage":  "1d4 slashing",
+        "properties":  [
+                           "light"
+                       ],
+        "proficiency":  "simple"
+    },
+    {
+        "id":  "spear",
+        "name":  "Spear",
+        "type":  "weapon",
+        "category":  "simple_melee",
+        "damage":  "1d6 piercing",
+        "properties":  [
+                           "thrown",
+                           "versatile"
+                       ],
+        "proficiency":  "simple"
+    },
+    {
+        "id":  "light_crossbow",
+        "name":  "Light Crossbow",
+        "type":  "weapon",
+        "category":  "simple_ranged",
+        "damage":  "1d8 piercing",
+        "properties":  [
+                           "ammunition",
+                           "loading",
+                           "two_handed"
+                       ],
+        "proficiency":  "simple"
+    },
+    {
+        "id":  "dart",
+        "name":  "Dart",
+        "type":  "weapon",
+        "category":  "simple_ranged",
+        "damage":  "1d4 piercing",
+        "properties":  [
+                           "finesse",
+                           "thrown"
+                       ],
+        "proficiency":  "simple"
+    },
+    {
+        "id":  "shortbow",
+        "name":  "Shortbow",
+        "type":  "weapon",
+        "category":  "simple_ranged",
+        "damage":  "1d6 piercing",
+        "properties":  [
+                           "ammunition",
+                           "two_handed"
+                       ],
+        "proficiency":  "simple"
+    },
+    {
+        "id":  "sling",
+        "name":  "Sling",
+        "type":  "weapon",
+        "category":  "simple_ranged",
+        "damage":  "1d4 bludgeoning",
+        "properties":  [
+                           "ammunition"
+                       ],
+        "proficiency":  "simple"
+    },
+    {
+        "id":  "battleaxe",
+        "name":  "Battleaxe",
+        "type":  "weapon",
+        "category":  "martial_melee",
+        "damage":  "1d8 slashing",
+        "properties":  [
+                           "versatile"
+                       ],
+        "proficiency":  "martial"
+    },
+    {
+        "id":  "flail",
+        "name":  "Flail",
+        "type":  "weapon",
+        "category":  "martial_melee",
+        "damage":  "1d8 bludgeoning",
+        "properties":  [
+
+                       ],
+        "proficiency":  "martial"
+    },
+    {
+        "id":  "glaive",
+        "name":  "Glaive",
+        "type":  "weapon",
+        "category":  "martial_melee",
+        "damage":  "1d10 slashing",
+        "properties":  [
+                           "heavy",
+                           "reach",
+                           "two_handed"
+                       ],
+        "proficiency":  "martial"
+    },
+    {
+        "id":  "greataxe",
+        "name":  "Greataxe",
+        "type":  "weapon",
+        "category":  "martial_melee",
+        "damage":  "1d12 slashing",
+        "properties":  [
+                           "heavy",
+                           "two_handed"
+                       ],
+        "proficiency":  "martial"
+    },
+    {
+        "id":  "greatsword",
+        "name":  "Greatsword",
+        "type":  "weapon",
+        "category":  "martial_melee",
+        "damage":  "2d6 slashing",
+        "properties":  [
+                           "heavy",
+                           "two_handed"
+                       ],
+        "proficiency":  "martial"
+    },
+    {
+        "id":  "halberd",
+        "name":  "Halberd",
+        "type":  "weapon",
+        "category":  "martial_melee",
+        "damage":  "1d10 slashing",
+        "properties":  [
+                           "heavy",
+                           "reach",
+                           "two_handed"
+                       ],
+        "proficiency":  "martial"
+    },
+    {
+        "id":  "lance",
+        "name":  "Lance",
+        "type":  "weapon",
+        "category":  "martial_melee",
+        "damage":  "1d12 piercing",
+        "properties":  [
+                           "reach",
+                           "special"
+                       ],
+        "proficiency":  "martial"
+    },
+    {
+        "id":  "longsword",
+        "name":  "Longsword",
+        "type":  "weapon",
+        "category":  "martial_melee",
+        "damage":  "1d8 slashing",
+        "properties":  [
+                           "versatile"
+                       ],
+        "proficiency":  "martial"
+    },
+    {
+        "id":  "maul",
+        "name":  "Maul",
+        "type":  "weapon",
+        "category":  "martial_melee",
+        "damage":  "2d6 bludgeoning",
+        "properties":  [
+                           "heavy",
+                           "two_handed"
+                       ],
+        "proficiency":  "martial"
+    },
+    {
+        "id":  "morningstar",
+        "name":  "Morningstar",
+        "type":  "weapon",
+        "category":  "martial_melee",
+        "damage":  "1d8 piercing",
+        "properties":  [
+
+                       ],
+        "proficiency":  "martial"
+    },
+    {
+        "id":  "pike",
+        "name":  "Pike",
+        "type":  "weapon",
+        "category":  "martial_melee",
+        "damage":  "1d10 piercing",
+        "properties":  [
+                           "heavy",
+                           "reach",
+                           "two_handed"
+                       ],
+        "proficiency":  "martial"
+    },
+    {
+        "id":  "rapier",
+        "name":  "Rapier",
+        "type":  "weapon",
+        "category":  "martial_melee",
+        "damage":  "1d8 piercing",
+        "properties":  [
+                           "finesse"
+                       ],
+        "proficiency":  "martial"
+    },
+    {
+        "id":  "scimitar",
+        "name":  "Scimitar",
+        "type":  "weapon",
+        "category":  "martial_melee",
+        "damage":  "1d6 slashing",
+        "properties":  [
+                           "finesse",
+                           "light"
+                       ],
+        "proficiency":  "martial"
+    },
+    {
+        "id":  "shortsword",
+        "name":  "Shortsword",
+        "type":  "weapon",
+        "category":  "martial_melee",
+        "damage":  "1d6 piercing",
+        "properties":  [
+                           "finesse",
+                           "light"
+                       ],
+        "proficiency":  "martial"
+    },
+    {
+        "id":  "trident",
+        "name":  "Trident",
+        "type":  "weapon",
+        "category":  "martial_melee",
+        "damage":  "1d6 piercing",
+        "properties":  [
+                           "thrown",
+                           "versatile"
+                       ],
+        "proficiency":  "martial"
+    },
+    {
+        "id":  "war_pick",
+        "name":  "War Pick",
+        "type":  "weapon",
+        "category":  "martial_melee",
+        "damage":  "1d8 piercing",
+        "properties":  [
+
+                       ],
+        "proficiency":  "martial"
+    },
+    {
+        "id":  "warhammer",
+        "name":  "Warhammer",
+        "type":  "weapon",
+        "category":  "martial_melee",
+        "damage":  "1d8 bludgeoning",
+        "properties":  [
+                           "versatile"
+                       ],
+        "proficiency":  "martial"
+    },
+    {
+        "id":  "whip",
+        "name":  "Whip",
+        "type":  "weapon",
+        "category":  "martial_melee",
+        "damage":  "1d4 slashing",
+        "properties":  [
+                           "finesse",
+                           "reach"
+                       ],
+        "proficiency":  "martial"
+    },
+    {
+        "id":  "blowgun",
+        "name":  "Blowgun",
+        "type":  "weapon",
+        "category":  "martial_ranged",
+        "damage":  "1 piercing",
+        "properties":  [
+                           "ammunition",
+                           "loading"
+                       ],
+        "proficiency":  "martial"
+    },
+    {
+        "id":  "hand_crossbow",
+        "name":  "Hand Crossbow",
+        "type":  "weapon",
+        "category":  "martial_ranged",
+        "damage":  "1d6 piercing",
+        "properties":  [
+                           "ammunition",
+                           "light",
+                           "loading"
+                       ],
+        "proficiency":  "martial"
+    },
+    {
+        "id":  "heavy_crossbow",
+        "name":  "Heavy Crossbow",
+        "type":  "weapon",
+        "category":  "martial_ranged",
+        "damage":  "1d10 piercing",
+        "properties":  [
+                           "ammunition",
+                           "heavy",
+                           "loading",
+                           "two_handed"
+                       ],
+        "proficiency":  "martial"
+    },
+    {
+        "id":  "longbow",
+        "name":  "Longbow",
+        "type":  "weapon",
+        "category":  "martial_ranged",
+        "damage":  "1d8 piercing",
+        "properties":  [
+                           "ammunition",
+                           "heavy",
+                           "two_handed"
+                       ],
+        "proficiency":  "martial"
+    },
+    {
+        "id":  "net",
+        "name":  "Net",
+        "type":  "weapon",
+        "category":  "martial_ranged",
+        "damage":  "special",
+        "properties":  [
+                           "special",
+                           "thrown"
+                       ],
+        "proficiency":  "martial"
+    },
+    {
+        "id":  "leather",
+        "name":  "Leather Armor",
+        "type":  "armor",
+        "armorType":  "light",
+        "acBase":  11,
+        "dexCap":  null,
+        "proficiency":  "light"
+    },
+    {
+        "id":  "chain_shirt",
+        "name":  "Chain Shirt",
+        "type":  "armor",
+        "armorType":  "medium",
+        "acBase":  13,
+        "dexCap":  2,
+        "proficiency":  "medium"
+    },
+    {
+        "id":  "chain_mail",
+        "name":  "Chain Mail",
+        "type":  "armor",
+        "armorType":  "heavy",
+        "acBase":  16,
+        "dexCap":  0,
+        "proficiency":  "heavy"
+    },
+    {
+        "id":  "shield",
+        "name":  "Shield",
+        "type":  "shield",
+        "acBonus":  2,
+        "proficiency":  "shield"
+    },
+    {
+        "id":  "explorers_pack",
+        "name":  "Explorer\u0027s Pack",
+        "type":  "gear",
+        "contains":  [
+                         "backpack",
+                         "bedroll",
+                         "mess kit",
+                         "tinderbox",
+                         "10 torches",
+                         "10 days rations",
+                         "waterskin",
+                         "50 feet hempen rope"
+                     ]
+    },
+    {
+        "id":  "dungeoneers_pack",
+        "name":  "Dungeoneer\u0027s Pack",
+        "type":  "gear",
+        "contains":  [
+                         "backpack",
+                         "crowbar",
+                         "hammer",
+                         "10 pitons",
+                         "10 torches",
+                         "tinderbox",
+                         "10 days rations",
+                         "waterskin",
+                         "50 feet hempen rope"
+                     ]
+    },
+    {
+        "id":  "component_pouch",
+        "name":  "Component Pouch",
+        "type":  "gear",
+        "contains":  [
+                         "small watertight leather belt pouch",
+                         "multiple compartments for common spell materials",
+                         "space for herbs, powders, tiny trinkets and similar components",
+                         "holds non-costly material components used in spellcasting"
+                     ]
+    },
+    {
+        "id":  "arcane_focus",
+        "name":  "Arcane Focus",
+        "type":  "gear"
+    },
+    {
+        "id":  "holy_symbol",
+        "name":  "Holy Symbol",
+        "type":  "gear"
+    },
+    {
+        "id":  "prayer_book",
+        "name":  "Prayer Book",
+        "type":  "gear"
+    },
+    {
+        "id":  "incense",
+        "name":  "Incense",
+        "type":  "gear"
+    },
+    {
+        "id":  "vestments",
+        "name":  "Vestments",
+        "type":  "gear"
+    },
+    {
+        "id":  "common_clothes",
+        "name":  "Common Clothes",
+        "type":  "gear"
+    },
+    {
+        "id":  "belt_pouch",
+        "name":  "Belt Pouch",
+        "type":  "gear"
+    },
+    {
+        "id":  "crowbar",
+        "name":  "Crowbar",
+        "type":  "gear"
+    },
+    {
+        "id":  "dark_common_clothes",
+        "name":  "Dark Common Clothes",
+        "type":  "gear"
+    },
+    {
+        "id":  "artisan_tools",
+        "name":  "Artisan\u0027s Tools",
+        "type":  "tool"
+    },
+    {
+        "id":  "shovel",
+        "name":  "Shovel",
+        "type":  "gear"
+    },
+    {
+        "id":  "iron_pot",
+        "name":  "Iron Pot",
+        "type":  "gear"
+    },
+    {
+        "id":  "ink",
+        "name":  "Bottle of Ink",
+        "type":  "gear"
+    },
+    {
+        "id":  "quill",
+        "name":  "Quill",
+        "type":  "gear"
+    },
+    {
+        "id":  "small_knife",
+        "name":  "Small Knife",
+        "type":  "gear"
+    },
+    {
+        "id":  "letter",
+        "name":  "Letter from a Dead Colleague",
+        "type":  "gear"
+    },
+    {
+        "id":  "insignia",
+        "name":  "Insignia of Rank",
+        "type":  "gear"
+    },
+    {
+        "id":  "trophy",
+        "name":  "Trophy from a Fallen Enemy",
+        "type":  "gear"
+    },
+    {
+        "id":  "dice_set",
+        "name":  "Dice Set",
+        "type":  "tool"
+    }
+]

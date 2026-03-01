@@ -1,0 +1,572 @@
+[
+    {
+        "id":  "action_surge",
+        "name":  "Action Surge",
+        "summary":  "Take one additional action on your turn once per short rest."
+    },
+    {
+        "id":  "action_surge_2",
+        "name":  "Action Surge 2",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "arcane_recovery",
+        "name":  "Arcane Recovery",
+        "summary":  "Recover expended spell slots on a short rest."
+    },
+    {
+        "id":  "arcane_tradition",
+        "name":  "Arcane Tradition",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "archdruid",
+        "name":  "Archdruid",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "archetype_feature",
+        "name":  "Archetype Feature",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "asi",
+        "name":  "Ability Score Improvement",
+        "summary":  "Increase ability scores or choose a feat if enabled."
+    },
+    {
+        "id":  "aura_improvement",
+        "name":  "Aura Improvement",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "aura_of_courage",
+        "name":  "Aura Of Courage",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "aura_of_protection",
+        "name":  "Aura Of Protection",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "bard_college",
+        "name":  "Bard College",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "bardic_inspiration",
+        "name":  "Bardic Inspiration",
+        "summary":  "Grant inspiration dice to allies."
+    },
+    {
+        "id":  "beast_spells",
+        "name":  "Beast Spells",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "blindsense",
+        "name":  "Blindsense",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "brutal_critical",
+        "name":  "Brutal Critical",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "channel_divinity",
+        "name":  "Channel Divinity",
+        "summary":  "Use divine energy for domain powers."
+    },
+    {
+        "id":  "circle_feature",
+        "name":  "Circle Feature",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "cleansing_touch",
+        "name":  "Cleansing Touch",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "college_feature",
+        "name":  "College Feature",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "countercharm",
+        "name":  "Countercharm",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "cunning_action",
+        "name":  "Cunning Action",
+        "summary":  "Dash, Disengage, or Hide as a bonus action."
+    },
+    {
+        "id":  "danger_sense",
+        "name":  "Danger Sense",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "deflect_missiles",
+        "name":  "Deflect Missiles",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "destroy_undead",
+        "name":  "Destroy Undead",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "diamond_soul",
+        "name":  "Diamond Soul",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "divine_domain",
+        "name":  "Divine Domain",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "divine_health",
+        "name":  "Divine Health",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "divine_intervention",
+        "name":  "Divine Intervention",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "divine_sense",
+        "name":  "Divine Sense",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "divine_smite",
+        "name":  "Divine Smite",
+        "summary":  "Spend spell slots to deal radiant damage on hit."
+    },
+    {
+        "id":  "divine_strike",
+        "name":  "Divine Strike",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "domain_feature",
+        "name":  "Domain Feature",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "druid_circle",
+        "name":  "Druid Circle",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "druidic",
+        "name":  "Druidic",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "eldritch_invocations",
+        "name":  "Eldritch Invocations",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "eldritch_master",
+        "name":  "Eldritch Master",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "elusive",
+        "name":  "Elusive",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "empty_body",
+        "name":  "Empty Body",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "evasion",
+        "name":  "Evasion",
+        "summary":  "Improve Dexterity save outcomes for area effects."
+    },
+    {
+        "id":  "expertise",
+        "name":  "Expertise",
+        "summary":  "Double proficiency in selected skills."
+    },
+    {
+        "id":  "extra_attack",
+        "name":  "Extra Attack",
+        "summary":  "Attack twice when taking the Attack action."
+    },
+    {
+        "id":  "extra_attack_2",
+        "name":  "Extra Attack (2)",
+        "summary":  "Attack three times when taking the Attack action."
+    },
+    {
+        "id":  "extra_attack_3",
+        "name":  "Extra Attack (3)",
+        "summary":  "Attack four times when taking the Attack action."
+    },
+    {
+        "id":  "fast_movement",
+        "name":  "Fast Movement",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "favored_enemy",
+        "name":  "Favored Enemy",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "feral_instinct",
+        "name":  "Feral Instinct",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "feral_senses",
+        "name":  "Feral Senses",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "fighting_style",
+        "name":  "Fighting Style",
+        "summary":  "Choose a combat specialization style."
+    },
+    {
+        "id":  "foe_slayer",
+        "name":  "Foe Slayer",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "font_of_inspiration",
+        "name":  "Font Of Inspiration",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "font_of_magic",
+        "name":  "Font of Magic",
+        "summary":  "Gain sorcery points and convert slots/points."
+    },
+    {
+        "id":  "hide_in_plain_sight",
+        "name":  "Hide In Plain Sight",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "improved_divine_intervention",
+        "name":  "Improved Divine Intervention",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "improved_divine_smite",
+        "name":  "Improved Divine Smite",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "indomitable",
+        "name":  "Indomitable",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "indomitable_might",
+        "name":  "Indomitable Might",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "jack_of_all_trades",
+        "name":  "Jack Of All Trades",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "ki",
+        "name":  "Ki",
+        "summary":  "Spend ki points to fuel monk techniques."
+    },
+    {
+        "id":  "ki_empowered_strikes",
+        "name":  "Ki Empowered Strikes",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "lands_stride",
+        "name":  "Lands Stride",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "lay_on_hands",
+        "name":  "Lay On Hands",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "magical_secrets",
+        "name":  "Magical Secrets",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "martial_archetype",
+        "name":  "Martial Archetype",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "martial_arts",
+        "name":  "Martial Arts",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "metamagic",
+        "name":  "Metamagic",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "monastic_tradition",
+        "name":  "Monastic Tradition",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "mystic_arcanum",
+        "name":  "Mystic Arcanum",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "natural_explorer",
+        "name":  "Natural Explorer",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "oath_feature",
+        "name":  "Oath Feature",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "origin_feature",
+        "name":  "Origin Feature",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "otherworldly_patron",
+        "name":  "Otherworldly Patron",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "pact_boon",
+        "name":  "Pact Boon",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "pact_magic",
+        "name":  "Pact Magic",
+        "summary":  "Use warlock pact slots that refresh on short rest."
+    },
+    {
+        "id":  "path_feature",
+        "name":  "Path Feature",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "patron_feature",
+        "name":  "Patron Feature",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "perfect_self",
+        "name":  "Perfect Self",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "persistent_rage",
+        "name":  "Persistent Rage",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "primal_champion",
+        "name":  "Primal Champion",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "primal_path",
+        "name":  "Primal Path",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "primeval_awareness",
+        "name":  "Primeval Awareness",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "purity_of_body",
+        "name":  "Purity Of Body",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "rage",
+        "name":  "Rage",
+        "summary":  "Enter a battle rage for bonus damage and resilience."
+    },
+    {
+        "id":  "ranger_archetype",
+        "name":  "Ranger Archetype",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "reckless_attack",
+        "name":  "Reckless Attack",
+        "summary":  "Gain advantage on melee attacks using Strength with downside."
+    },
+    {
+        "id":  "relentless_rage",
+        "name":  "Relentless Rage",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "reliable_talent",
+        "name":  "Reliable Talent",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "roguish_archetype",
+        "name":  "Roguish Archetype",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "sacred_oath",
+        "name":  "Sacred Oath",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "second_wind",
+        "name":  "Second Wind",
+        "summary":  "Heal yourself as a bonus action once per short rest."
+    },
+    {
+        "id":  "signature_spells",
+        "name":  "Signature Spells",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "slippery_mind",
+        "name":  "Slippery Mind",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "slow_fall",
+        "name":  "Slow Fall",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "sneak_attack",
+        "name":  "Sneak Attack",
+        "summary":  "Deal extra precision damage once per turn."
+    },
+    {
+        "id":  "song_of_rest",
+        "name":  "Song Of Rest",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "sorcerous_origin",
+        "name":  "Sorcerous Origin",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "sorcerous_restoration",
+        "name":  "Sorcerous Restoration",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "spell_mastery",
+        "name":  "Spell Mastery",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "spellcasting",
+        "name":  "Spellcasting",
+        "summary":  "Gain spell slots and class spellcasting capability."
+    },
+    {
+        "id":  "stillness_of_mind",
+        "name":  "Stillness Of Mind",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "stroke_of_luck",
+        "name":  "Stroke Of Luck",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "stunning_strike",
+        "name":  "Stunning Strike",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "superior_inspiration",
+        "name":  "Superior Inspiration",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "thieves_cant",
+        "name":  "Thieves Cant",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "thousand_forms",
+        "name":  "Thousand Forms",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "timeless_body",
+        "name":  "Timeless Body",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "tongue_of_the_sun_and_moon",
+        "name":  "Tongue Of The Sun And Moon",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "tradition_feature",
+        "name":  "Tradition Feature",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "unarmored_defense",
+        "name":  "Unarmored Defense",
+        "summary":  "Calculate AC without armor from ability modifiers."
+    },
+    {
+        "id":  "unarmored_movement",
+        "name":  "Unarmored Movement",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "unarmored_movement_improvement",
+        "name":  "Unarmored Movement Improvement",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "uncanny_dodge",
+        "name":  "Uncanny Dodge",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "vanish",
+        "name":  "Vanish",
+        "summary":  "Class feature unlocked by level progression."
+    },
+    {
+        "id":  "wild_shape",
+        "name":  "Wild Shape",
+        "summary":  "Transform into beast forms."
+    },
+    {
+        "id":  "wild_shape_improvement",
+        "name":  "Wild Shape Improvement",
+        "summary":  "Class feature unlocked by level progression."
+    }
+]
