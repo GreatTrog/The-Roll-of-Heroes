@@ -14,9 +14,11 @@ function App() {
   const saveNotice = useAppStore((s) => s.saveNotice);
   const aiPasswordModalOpen = useAppStore((s) => s.aiPasswordModalOpen);
   const aiPasswordValue = useAppStore((s) => s.aiPasswordValue);
+  const savePrompt = useAppStore((s) => s.savePrompt);
   const setAiPasswordValue = useAppStore((s) => s.setAiPasswordValue);
   const submitAiPassword = useAppStore((s) => s.submitAiPassword);
   const cancelAiPassword = useAppStore((s) => s.cancelAiPassword);
+  const respondToSavePrompt = useAppStore((s) => s.respondToSavePrompt);
   const clearAiStatus = useAppStore((s) => s.clearAiStatus);
   const clearSaveNotice = useAppStore((s) => s.clearSaveNotice);
   const dataIssues = [...new Set(validateRulesReferences())];
@@ -97,6 +99,22 @@ function App() {
               <button type="button" onClick={cancelAiPassword}>Cancel</button>
             </div>
           </form>
+        </div>
+      ) : null}
+
+      {savePrompt.open ? (
+        <div className="save-prompt-backdrop" role="dialog" aria-modal="true" aria-labelledby="save-prompt-title">
+          <div className="save-prompt-modal">
+            <h3 id="save-prompt-title">{savePrompt.title}</h3>
+            <p>{savePrompt.message}</p>
+            <div className="controls">
+              <button type="button" onClick={() => respondToSavePrompt('save')}>{savePrompt.saveLabel}</button>
+              <button type="button" onClick={() => respondToSavePrompt('secondary')}>{savePrompt.secondaryLabel}</button>
+              {savePrompt.cancelLabel ? (
+                <button type="button" onClick={() => respondToSavePrompt('cancel')}>{savePrompt.cancelLabel}</button>
+              ) : null}
+            </div>
+          </div>
         </div>
       ) : null}
 

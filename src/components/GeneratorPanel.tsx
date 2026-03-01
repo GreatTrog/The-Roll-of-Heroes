@@ -20,7 +20,7 @@ const presetTags = [
 ];
 
 export function GeneratorPanel() {
-  const generate = useAppStore((s) => s.generate);
+  const requestGenerate = useAppStore((s) => s.requestGenerate);
   const reroll = useAppStore((s) => s.reroll);
   const locks = useAppStore((s) => s.locks);
   const toggleLock = useAppStore((s) => s.toggleLock);
@@ -117,6 +117,20 @@ export function GeneratorPanel() {
                   ))}
                 </select>
               </label>
+            </>
+          )}
+
+          {mode === 'three_choices' && (
+            <>
+              <label>
+                Combat Role
+                <select value={combatRole} onChange={(e) => setCombatRole(e.target.value as typeof combatRole)}>
+                  <option value="damage">Damage</option>
+                  <option value="tank">Tank</option>
+                  <option value="support">Support</option>
+                  <option value="control">Control</option>
+                </select>
+              </label>
               <label>
                 Gender
                 <select value={gender} onChange={(e) => setGender(e.target.value as typeof gender)}>
@@ -128,14 +142,13 @@ export function GeneratorPanel() {
             </>
           )}
 
-          {mode === 'three_choices' && (
+          {mode === 'guided' && (
             <label>
-              Combat Role
-              <select value={combatRole} onChange={(e) => setCombatRole(e.target.value as typeof combatRole)}>
-                <option value="damage">Damage</option>
-                <option value="tank">Tank</option>
-                <option value="support">Support</option>
-                <option value="control">Control</option>
+              Gender
+              <select value={gender} onChange={(e) => setGender(e.target.value as typeof gender)}>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
               </select>
             </label>
           )}
@@ -145,12 +158,12 @@ export function GeneratorPanel() {
       <div className="controls generator-actions">
         <button
           onClick={() =>
-            generate({
+            void requestGenerate({
               mode,
               level,
               classId: mode === 'one_click' ? undefined : classId,
               raceId: mode === 'guided' ? raceId : undefined,
-              gender: mode === 'guided' ? gender : undefined,
+              gender: mode === 'guided' || mode === 'three_choices' ? gender : undefined,
               tags: mode === 'guided' ? selectedTags : undefined,
               combatRole: mode === 'three_choices' ? combatRole : undefined,
             })

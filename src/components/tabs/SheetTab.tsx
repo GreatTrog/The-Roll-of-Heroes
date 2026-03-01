@@ -43,7 +43,7 @@ export function SheetTab({ character }: { character: Character }) {
       <header className="sheet-header">
         <h3>Character Sheet</h3>
         <p>
-          {character.identity.name} - Level {character.identity.level} {character.identity.raceId} {character.identity.classId}
+          <span className="sheet-character-name">{character.identity.name}</span> - Level {character.identity.level} {character.identity.raceId} {character.identity.classId}
         </p>
       </header>
 

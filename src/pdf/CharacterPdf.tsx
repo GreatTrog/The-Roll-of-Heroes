@@ -88,6 +88,17 @@ const styles = StyleSheet.create({
   featuresColumn: { flex: 1 },
   featureGroupBlock: { marginBottom: 8, border: '1 solid #d6c2a2', borderRadius: 4, padding: 6, backgroundColor: '#fffaf1' },
   featureGroupTitle: { fontSize: 10, marginBottom: 4, color: '#4d2e13', fontFamily: 'EagleLake' },
+  spellSlotTracker: { marginTop: 6, gap: 4 },
+  spellSlotRow: { flexDirection: 'row', alignItems: 'center', gap: 6 },
+  spellSlotLabel: { width: 18, fontSize: 9, color: '#5f4732', fontFamily: 'Oldenburg' },
+  spellSlotLozenges: { flexDirection: 'row', flexWrap: 'wrap', gap: 4 },
+  spellSlotLozenge: {
+    width: 14,
+    height: 8,
+    borderRadius: 8,
+    border: '1 solid #a98756',
+    backgroundColor: '#fff9f0',
+  },
 });
 
 function displayEquipmentName(id: string): string {
@@ -141,6 +152,12 @@ function CharacterPdfDocument({ character }: { character: Character }) {
       ? `${spell.name} (L${spell.level}) - ${spell.summary}`
       : `${id.replaceAll('_', ' ')} - No description available.`;
   });
+  const slotTrackerRows = Object.entries(character.spellcasting.slots)
+    .filter(([, count]) => count > 0)
+    .map(([slotKey, count]) => ({
+      label: slotKey.replace('level', 'L'),
+      count,
+    }));
 
   return (
     <Document>
@@ -334,6 +351,22 @@ function CharacterPdfDocument({ character }: { character: Character }) {
           <Text style={styles.tiny}>{`Enabled: ${character.spellcasting.enabled ? 'Yes' : 'No'} - Type: ${character.spellcasting.knownType}`}</Text>
           <Text style={styles.tiny}>{`Ability: ${character.spellcasting.castingAbility ?? 'n/a'} - Save DC: ${character.spellcasting.saveDc ?? 'n/a'} - Attack Bonus: ${character.spellcasting.spellAttackBonus ?? 'n/a'}`}</Text>
           <Text style={styles.tiny}>{`Slots: ${spellSlotText}`}</Text>
+          <View style={styles.spellSlotTracker}>
+            {slotTrackerRows.length > 0 ? (
+              slotTrackerRows.map((row) => (
+                <View key={`slot:${row.label}`} style={styles.spellSlotRow}>
+                  <Text style={styles.spellSlotLabel}>{row.label}</Text>
+                  <View style={styles.spellSlotLozenges}>
+                    {Array.from({ length: row.count }, (_, idx) => (
+                      <View key={`slot:${row.label}:${idx}`} style={styles.spellSlotLozenge} />
+                    ))}
+                  </View>
+                </View>
+              ))
+            ) : (
+              <Text style={styles.tiny}>No spell slots available at current level.</Text>
+            )}
+          </View>
           <View style={styles.hr} />
           <Text style={styles.tiny}>{`Cantrips Known: ${character.spellcasting.cantripsKnown} - Levelled Spells Known: ${knownLeveledRows.length}`}</Text>
           <Text style={[styles.sectionTitle, { marginTop: 6 }]}>Cantrips</Text>

@@ -430,6 +430,12 @@ button:hover {
   color: #5f4a30;
 }
 
+.sheet-character-name {
+  font-size: 1.45rem;
+  font-weight: 700;
+  line-height: 1.15;
+}
+
 .sheet-quickstats {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(115px, 1fr));
@@ -828,6 +834,35 @@ button:hover {
   box-shadow: 0 12px 28px rgba(30, 15, 8, 0.45);
   display: grid;
   gap: 0.7rem;
+}
+
+.save-prompt-backdrop {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(24, 12, 4, 0.5);
+  z-index: 10001;
+}
+
+.save-prompt-modal {
+  width: min(520px, calc(100vw - 2rem));
+  font-family: 'Eagle Lake', Georgia, serif;
+  background:
+    var(--tex-panel) center / 420px 420px repeat,
+    linear-gradient(165deg, #f9edd4, #ecd4ab);
+  color: #4c2b12;
+  border: 2px solid #b48d58;
+  border-radius: 14px;
+  padding: 1rem 1.2rem;
+  box-shadow: 0 12px 28px rgba(30, 15, 8, 0.45);
+  display: grid;
+  gap: 0.8rem;
+}
+
+.save-prompt-modal p {
+  margin: 0;
 }
 
 .app-footer {

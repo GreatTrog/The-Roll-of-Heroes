@@ -385,7 +385,9 @@ export function generateCharacter(input: GenerationInput): Character {
   }
 
   const nameRng = buildRng(sectionSeeds.identitySeed);
-  const gender = locked?.identity.gender ?? input.gender ?? 'other';
+  const randomGender = pickOne(buildRng(`${sectionSeeds.identitySeed}:gender`), ['male', 'female', 'other'] as const);
+  const lockedGender = locks.name && locked ? locked.identity.gender : undefined;
+  const gender = input.gender ?? lockedGender ?? (input.mode === 'one_click' ? randomGender : 'other');
   const name = locks.name && locked ? locked.identity.name : generateName(nameRng, classId, raceId, gender);
   const subclass = (subclassesByClassId.get(classDef.id) ?? [])[0];
   const eq = locks.equipment && locked ? locked.equipment : pickEquipment(classDef, input, sectionSeeds.equipmentSeed);

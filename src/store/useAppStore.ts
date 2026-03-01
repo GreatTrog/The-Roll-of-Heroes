@@ -9,6 +9,18 @@ import { portraitPromptFromCharacter, type PortraitRequest } from '../ai/provide
 import { buildGeminiPortraitPrompt, GeminiProvider } from '../ai/geminiProvider';
 
 export type TabKey = 'sheet' | 'spells' | 'backstory' | 'portrait';
+type SavePromptChoice = 'save' | 'secondary' | 'cancel';
+type SavePromptMode = 'beforeGenerate' | 'afterLevelUp';
+
+type SavePromptState = {
+  open: boolean;
+  mode: SavePromptMode;
+  title: string;
+  message: string;
+  saveLabel: string;
+  secondaryLabel: string;
+  cancelLabel?: string;
+};
 
 type AppState = {
   character?: Character;
@@ -21,12 +33,16 @@ type AppState = {
   error?: string;
   aiStatus?: string;
   saveNotice?: string;
+  openedCharacterId?: string;
+  hasUnsavedChanges: boolean;
+  savePrompt: SavePromptState;
   featsEnabled: boolean;
   loadingBackstory: boolean;
   loadingPortrait: boolean;
   aiPasswordModalOpen: boolean;
   aiPasswordValue: string;
   generate: (input: GenerationInput) => void;
+  requestGenerate: (input: GenerationInput) => Promise<void>;
   reroll: () => void;
   toggleLock: (section: keyof AppState['locks']) => void;
   resetLocks: () => void;
@@ -54,6 +70,7 @@ type AppState = {
   setAiPasswordValue: (value: string) => void;
   submitAiPassword: () => void;
   cancelAiPassword: () => void;
+  respondToSavePrompt: (choice: SavePromptChoice) => void;
 };
 
 function getAiProvider() {
@@ -69,6 +86,7 @@ function allowAiFallback(): boolean {
 const AI_UNLOCK_KEY = 'ai_unlock_until';
 const DEFAULT_AI_UNLOCK_MS = 30 * 60 * 1000;
 let aiPasswordResolver: ((value: string | null) => void) | null = null;
+let savePromptResolver: ((choice: SavePromptChoice) => void) | null = null;
 
 function resolveAiPassword(value: string | null) {
   const resolver = aiPasswordResolver;
@@ -81,6 +99,45 @@ function requestAiPasswordFromModal(): Promise<string | null> {
     aiPasswordResolver = resolve;
     useAppStore.setState({ aiPasswordModalOpen: true, aiPasswordValue: '' });
   });
+}
+
+function isOpenedCharacterDirty(state: Pick<AppState, 'character' | 'openedCharacterId' | 'hasUnsavedChanges'>): boolean {
+  return Boolean(
+    state.character &&
+    state.openedCharacterId &&
+    state.character.meta.id === state.openedCharacterId &&
+    state.hasUnsavedChanges,
+  );
+}
+
+function setUnsavedForOpenedCharacter(setter: (recipe: (state: AppState) => Partial<AppState>) => void) {
+  setter((state) => {
+    if (!state.character || !state.openedCharacterId || state.character.meta.id !== state.openedCharacterId) {
+      return {};
+    }
+    return { hasUnsavedChanges: true };
+  });
+}
+
+function requestSavePrompt(config: Omit<SavePromptState, 'open'>): Promise<SavePromptChoice> {
+  return new Promise((resolve) => {
+    savePromptResolver = resolve;
+    useAppStore.setState({
+      savePrompt: {
+        open: true,
+        ...config,
+      },
+    });
+  });
+}
+
+function resolveSavePrompt(choice: SavePromptChoice) {
+  const resolver = savePromptResolver;
+  savePromptResolver = null;
+  useAppStore.setState((state) => ({
+    savePrompt: { ...state.savePrompt, open: false },
+  }));
+  if (resolver) resolver(choice);
 }
 
 function getInitialAiUnlockUntil(): number | undefined {
@@ -156,6 +213,17 @@ export const useAppStore = create<AppState>((set, get) => ({
   aiPasswordValue: '',
   aiStatus: undefined,
   saveNotice: undefined,
+  openedCharacterId: undefined,
+  hasUnsavedChanges: false,
+  savePrompt: {
+    open: false,
+    mode: 'beforeGenerate',
+    title: '',
+    message: '',
+    saveLabel: 'Save',
+    secondaryLabel: 'Continue',
+    cancelLabel: 'Cancel',
+  },
   generate: (input) => {
     const current = get().character;
     const locks = get().locks;
@@ -193,6 +261,8 @@ export const useAppStore = create<AppState>((set, get) => ({
           character: generated,
           error: undefined,
           aiStatus: attempt > 0 ? 'Auto-rerolled due equipment/proficiency mismatch.' : undefined,
+          openedCharacterId: undefined,
+          hasUnsavedChanges: false,
         });
         void resolveLocalPortraitUrl(character).then((resolvedUrl) => {
           set((state) => {
@@ -235,6 +305,25 @@ export const useAppStore = create<AppState>((set, get) => ({
           ? lastError.message
           : 'Generation failed after automatic rerolls.',
     });
+  },
+  requestGenerate: async (input) => {
+    if (isOpenedCharacterDirty(get())) {
+      const choice = await requestSavePrompt({
+        mode: 'beforeGenerate',
+        title: 'Save Changes Before Generating?',
+        message: 'You have unsaved changes on this opened character. Save before generating a new one?',
+        saveLabel: 'Save & Generate',
+        secondaryLabel: 'Generate Without Saving',
+        cancelLabel: 'Cancel',
+      });
+
+      if (choice === 'cancel') return;
+      if (choice === 'save') {
+        await get().saveCurrent();
+      }
+    }
+
+    get().generate(input);
   },
   reroll: () => {
     const current = get().character;
@@ -292,24 +381,29 @@ export const useAppStore = create<AppState>((set, get) => ({
       },
     };
     await CharacterRepository.upsert(stamped);
-    set({ character: stamped, saveNotice: 'Character saved successfully.' });
+    set({
+      character: stamped,
+      saveNotice: 'Character saved successfully.',
+      openedCharacterId: stamped.meta.id,
+      hasUnsavedChanges: false,
+    });
     await get().loadSaved();
   },
   openCharacter: async (id) => {
     const character = await CharacterRepository.get(id);
     if (!character) return;
-    set({ character, error: undefined });
+    set({ character, error: undefined, openedCharacterId: id, hasUnsavedChanges: false });
   },
   duplicateCharacter: async (id) => {
     const duplicate = await CharacterRepository.duplicate(id);
     if (!duplicate) return;
-    set({ character: duplicate });
+    set({ character: duplicate, openedCharacterId: duplicate.meta.id, hasUnsavedChanges: false });
     await get().loadSaved();
   },
   deleteCharacter: async (id) => {
     await CharacterRepository.delete(id);
     if (get().character?.meta.id === id) {
-      set({ character: undefined });
+      set({ character: undefined, openedCharacterId: undefined, hasUnsavedChanges: false });
     }
     await get().loadSaved();
   },
@@ -355,7 +449,13 @@ export const useAppStore = create<AppState>((set, get) => ({
     try {
       const parsed = JSON.parse(raw);
       const character = migrateCharacterJson(parsed);
-      set({ character, error: undefined, aiStatus: undefined });
+      set({
+        character,
+        error: undefined,
+        aiStatus: undefined,
+        openedCharacterId: undefined,
+        hasUnsavedChanges: false,
+      });
     } catch (error) {
       set({ error: error instanceof Error ? error.message : String(error) });
     }
@@ -366,6 +466,20 @@ export const useAppStore = create<AppState>((set, get) => ({
     try {
       const leveled = applyLevelUp(character, decision);
       set({ character: leveled, error: undefined });
+      setUnsavedForOpenedCharacter(set);
+      if (get().openedCharacterId && character.meta.id === get().openedCharacterId) {
+        void requestSavePrompt({
+          mode: 'afterLevelUp',
+          title: 'Save Level-Up Changes?',
+          message: 'Advancement was applied. Save this opened character now?',
+          saveLabel: 'Save Now',
+          secondaryLabel: 'Later',
+        }).then(async (choice) => {
+          if (choice === 'save') {
+            await get().saveCurrent();
+          }
+        });
+      }
     } catch (error) {
       set({ error: error instanceof Error ? error.message : String(error) });
     }
@@ -383,6 +497,7 @@ export const useAppStore = create<AppState>((set, get) => ({
         meta: { ...character.meta, updatedAt: new Date().toISOString() },
       },
     });
+    setUnsavedForOpenedCharacter(set);
   },
   updateCharacterGender: (gender) => {
     const character = get().character;
@@ -424,6 +539,7 @@ export const useAppStore = create<AppState>((set, get) => ({
     }
 
     set({ character: nextCharacter });
+    setUnsavedForOpenedCharacter(set);
     if (nextCharacter.image?.provider.includes('local')) {
       void resolveLocalPortraitUrl(nextCharacter).then((resolvedUrl) => {
         set((state) => {
@@ -474,6 +590,7 @@ export const useAppStore = create<AppState>((set, get) => ({
       const ai = getAiProvider();
       const backstory = await ai.generateBackstory(character);
       set({ character: { ...character, backstory }, loadingBackstory: false, aiStatus: 'Backstory generated successfully.' });
+      setUnsavedForOpenedCharacter(set);
     } catch (error) {
       if (allowAiFallback()) {
         const mock = new MockAIProvider();
@@ -484,6 +601,7 @@ export const useAppStore = create<AppState>((set, get) => ({
           error: undefined,
           aiStatus: 'Live AI unavailable; generated backstory using local fallback.',
         });
+        setUnsavedForOpenedCharacter(set);
       } else {
         set({
           loadingBackstory: false,
@@ -503,13 +621,14 @@ export const useAppStore = create<AppState>((set, get) => ({
         if (!nextUnlock) {
           const mock = new MockAIProvider();
           const image = await mock.generatePortrait(character, request);
-          set({
-            character: { ...character, image },
-            aiStatus: 'AI generation cancelled. Local class portrait kept.',
-            error: undefined,
-          });
-          return;
-        }
+        set({
+          character: { ...character, image },
+          aiStatus: 'AI generation cancelled. Local class portrait kept.',
+          error: undefined,
+        });
+        setUnsavedForOpenedCharacter(set);
+        return;
+      }
         persistAiUnlockUntil(nextUnlock);
         set({ aiUnlockedUntil: nextUnlock, aiStatus: 'AI features unlocked for 30 minutes.' });
       } catch (error) {
@@ -522,6 +641,7 @@ export const useAppStore = create<AppState>((set, get) => ({
           error: undefined,
           aiStatus: `AI unlock failed. Applied local class portrait (${error instanceof Error ? error.message : String(error)}).`,
         });
+        setUnsavedForOpenedCharacter(set);
         return;
       }
     }
@@ -543,9 +663,11 @@ export const useAppStore = create<AppState>((set, get) => ({
           loadingPortrait: false,
           aiStatus: 'Portrait metadata generated; image payload missing from provider, using local fallback image.',
         });
+        setUnsavedForOpenedCharacter(set);
         return;
       }
       set({ character: { ...character, image }, loadingPortrait: false, aiStatus: 'Portrait generated successfully.' });
+      setUnsavedForOpenedCharacter(set);
     } catch (error) {
       const mock = new MockAIProvider();
       const image = await mock.generatePortrait(character, request);
@@ -555,6 +677,7 @@ export const useAppStore = create<AppState>((set, get) => ({
         error: undefined,
         aiStatus: `Live AI unavailable; using local class portrait (${error instanceof Error ? error.message : String(error)}).`,
       });
+      setUnsavedForOpenedCharacter(set);
     }
   },
   clearAiStatus: () => set({ aiStatus: undefined }),
@@ -569,5 +692,8 @@ export const useAppStore = create<AppState>((set, get) => ({
   cancelAiPassword: () => {
     set({ aiPasswordModalOpen: false, aiPasswordValue: '' });
     resolveAiPassword(null);
+  },
+  respondToSavePrompt: (choice) => {
+    resolveSavePrompt(choice);
   },
 }));
