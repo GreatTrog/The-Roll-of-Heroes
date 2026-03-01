@@ -24,6 +24,8 @@ type AppState = {
   featsEnabled: boolean;
   loadingBackstory: boolean;
   loadingPortrait: boolean;
+  aiPasswordModalOpen: boolean;
+  aiPasswordValue: string;
   generate: (input: GenerationInput) => void;
   reroll: () => void;
   toggleLock: (section: keyof AppState['locks']) => void;
@@ -49,6 +51,9 @@ type AppState = {
   clearAiStatus: () => void;
   clearStatus: () => void;
   clearSaveNotice: () => void;
+  setAiPasswordValue: (value: string) => void;
+  submitAiPassword: () => void;
+  cancelAiPassword: () => void;
 };
 
 function getAiProvider() {
@@ -63,6 +68,20 @@ function allowAiFallback(): boolean {
 
 const AI_UNLOCK_KEY = 'ai_unlock_until';
 const DEFAULT_AI_UNLOCK_MS = 30 * 60 * 1000;
+let aiPasswordResolver: ((value: string | null) => void) | null = null;
+
+function resolveAiPassword(value: string | null) {
+  const resolver = aiPasswordResolver;
+  aiPasswordResolver = null;
+  if (resolver) resolver(value);
+}
+
+function requestAiPasswordFromModal(): Promise<string | null> {
+  return new Promise((resolve) => {
+    aiPasswordResolver = resolve;
+    useAppStore.setState({ aiPasswordModalOpen: true, aiPasswordValue: '' });
+  });
+}
 
 function getInitialAiUnlockUntil(): number | undefined {
   if (typeof window === 'undefined') return undefined;
@@ -86,7 +105,7 @@ function persistAiUnlockUntil(until: number | undefined) {
 }
 
 async function requestAiUnlockUntil(): Promise<number | undefined> {
-  const password = window.prompt('Enter AI feature password');
+  const password = await requestAiPasswordFromModal();
   if (!password) return undefined;
 
   const response = await fetch('/api/ai-auth/unlock', {
@@ -133,6 +152,8 @@ export const useAppStore = create<AppState>((set, get) => ({
   featsEnabled: true,
   loadingBackstory: false,
   loadingPortrait: false,
+  aiPasswordModalOpen: false,
+  aiPasswordValue: '',
   aiStatus: undefined,
   saveNotice: undefined,
   generate: (input) => {
@@ -539,4 +560,14 @@ export const useAppStore = create<AppState>((set, get) => ({
   clearAiStatus: () => set({ aiStatus: undefined }),
   clearStatus: () => set({ aiStatus: undefined, error: undefined }),
   clearSaveNotice: () => set({ saveNotice: undefined }),
+  setAiPasswordValue: (value) => set({ aiPasswordValue: value }),
+  submitAiPassword: () => {
+    const value = get().aiPasswordValue.trim();
+    set({ aiPasswordModalOpen: false, aiPasswordValue: '' });
+    resolveAiPassword(value || null);
+  },
+  cancelAiPassword: () => {
+    set({ aiPasswordModalOpen: false, aiPasswordValue: '' });
+    resolveAiPassword(null);
+  },
 }));

@@ -12,6 +12,11 @@ function App() {
   const error = useAppStore((s) => s.error);
   const aiStatus = useAppStore((s) => s.aiStatus);
   const saveNotice = useAppStore((s) => s.saveNotice);
+  const aiPasswordModalOpen = useAppStore((s) => s.aiPasswordModalOpen);
+  const aiPasswordValue = useAppStore((s) => s.aiPasswordValue);
+  const setAiPasswordValue = useAppStore((s) => s.setAiPasswordValue);
+  const submitAiPassword = useAppStore((s) => s.submitAiPassword);
+  const cancelAiPassword = useAppStore((s) => s.cancelAiPassword);
   const clearAiStatus = useAppStore((s) => s.clearAiStatus);
   const clearSaveNotice = useAppStore((s) => s.clearSaveNotice);
   const dataIssues = [...new Set(validateRulesReferences())];
@@ -65,6 +70,33 @@ function App() {
       {aiStatus && !error ? (
         <div className="ai-modal-backdrop" aria-live="polite" role="status">
           <div className="ai-modal">{aiStatus}</div>
+        </div>
+      ) : null}
+
+      {aiPasswordModalOpen ? (
+        <div className="password-modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="ai-password-title">
+          <form
+            className="password-modal"
+            onSubmit={(event) => {
+              event.preventDefault();
+              submitAiPassword();
+            }}
+          >
+            <h3 id="ai-password-title">AI Password Required</h3>
+            <label>
+              Enter Password
+              <input
+                type="password"
+                value={aiPasswordValue}
+                onChange={(event) => setAiPasswordValue(event.target.value)}
+                autoFocus
+              />
+            </label>
+            <div className="controls">
+              <button type="submit">Unlock</button>
+              <button type="button" onClick={cancelAiPassword}>Cancel</button>
+            </div>
+          </form>
         </div>
       ) : null}
 
