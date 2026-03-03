@@ -13,6 +13,7 @@ import {
   MAX_LOADOUT_WEAPONS,
   recomputeAttacksForCharacter,
 } from '../engine/weapons';
+import { replaceNameInBackstory } from '../utils/backstoryName';
 
 export type TabKey = 'sheet' | 'spells' | 'backstory' | 'portrait';
 type SavePromptChoice = 'save' | 'secondary' | 'cancel';
@@ -523,10 +524,12 @@ export const useAppStore = create<AppState>((set, get) => ({
     if (!character) return;
     const cleaned = name.trim();
     if (!cleaned) return;
+    if (cleaned === character.identity.name) return;
     set({
       character: {
         ...character,
         identity: { ...character.identity, name: cleaned },
+        backstory: replaceNameInBackstory(character.backstory, character.identity.name, cleaned),
         meta: { ...character.meta, updatedAt: new Date().toISOString() },
       },
     });

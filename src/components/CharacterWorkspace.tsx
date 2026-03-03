@@ -62,6 +62,19 @@ const getAbilityOptionsForFeat = (featId: string): AbilityKey[] => {
   return options.size > 0 ? [...options] : [...abilityKeys];
 };
 
+function reconcileAdvancementDrafts(
+  drafts: AdvancementDraft[],
+  opportunityCount: number,
+  featsEnabled: boolean,
+): AdvancementDraft[] {
+  const next = [...drafts];
+  while (next.length < opportunityCount) next.push(defaultDraft(featsEnabled));
+  return next.slice(0, opportunityCount).map((draft) => ({
+    ...draft,
+    mode: featsEnabled ? draft.mode : 'asi',
+  }));
+}
+
 export function CharacterWorkspace() {
   const character = useAppStore((s) => s.character);
   const activeTab = useAppStore((s) => s.activeTab);
@@ -91,6 +104,10 @@ export function CharacterWorkspace() {
   const [isWeaponLoadoutCollapsed, setIsWeaponLoadoutCollapsed] = useState<boolean>(true);
   const [isLevelAdvancementCollapsed, setIsLevelAdvancementCollapsed] = useState<boolean>(true);
   const [importFileName, setImportFileName] = useState<string>('');
+  const [isNameModalOpen, setIsNameModalOpen] = useState<boolean>(false);
+  const [firstNameInput, setFirstNameInput] = useState<string>('');
+  const [surnameInput, setSurnameInput] = useState<string>('');
+  const [nameModalError, setNameModalError] = useState<string>('');
   const importInputRef = useRef<HTMLInputElement | null>(null);
   const sheetTopRef = useRef<HTMLDivElement | null>(null);
 
@@ -114,17 +131,10 @@ export function CharacterWorkspace() {
     if (!term) return true;
     return entry.feat.name.toLowerCase().includes(term) || entry.feat.summary.toLowerCase().includes(term);
   });
-
-  useEffect(() => {
-    setAdvancementDrafts((prev) => {
-      const next = [...prev];
-      while (next.length < asiOpportunities.length) next.push(defaultDraft(featsEnabled));
-      return next.slice(0, asiOpportunities.length).map((draft) => ({
-        ...draft,
-        mode: featsEnabled ? draft.mode : 'asi',
-      }));
-    });
-  }, [asiOpportunities.length, featsEnabled]);
+  const effectiveAdvancementDrafts = useMemo(
+    () => reconcileAdvancementDrafts(advancementDrafts, asiOpportunities.length, featsEnabled),
+    [advancementDrafts, asiOpportunities.length, featsEnabled],
+  );
 
   useEffect(() => {
     if (!character || !lastCharacterOpenedAt) return;
@@ -155,24 +165,47 @@ export function CharacterWorkspace() {
   const addableWeaponOptions = availableWeaponOptions.filter(
     (option) => !character?.equipment.weaponIds.includes(option.id),
   );
-
-  useEffect(() => {
-    if (addableWeaponOptions.length === 0) {
-      setNewWeaponId('');
-      return;
-    }
-    if (!newWeaponId || !addableWeaponOptions.some((option) => option.id === newWeaponId)) {
-      setNewWeaponId(addableWeaponOptions[0]!.id);
-    }
+  const selectedNewWeaponId = useMemo(() => {
+    if (addableWeaponOptions.length === 0) return '';
+    if (newWeaponId && addableWeaponOptions.some((option) => option.id === newWeaponId)) return newWeaponId;
+    return addableWeaponOptions[0]!.id;
   }, [addableWeaponOptions, newWeaponId]);
 
   const updateDraft = (index: number, next: Partial<AdvancementDraft>) => {
-    setAdvancementDrafts((prev) => prev.map((draft, idx) => (idx === index ? { ...draft, ...next } : draft)));
+    setAdvancementDrafts((prev) =>
+      reconcileAdvancementDrafts(prev, asiOpportunities.length, featsEnabled).map((draft, idx) =>
+        idx === index ? { ...draft, ...next } : draft,
+      ),
+    );
+  };
+
+  const openNameModal = () => {
+    setFirstNameInput('');
+    setSurnameInput('');
+    setNameModalError('');
+    setIsNameModalOpen(true);
+  };
+
+  const closeNameModal = () => {
+    setIsNameModalOpen(false);
+    setNameModalError('');
+  };
+
+  const saveNameFromModal = () => {
+    const first = firstNameInput.trim();
+    const surname = surnameInput.trim();
+    const nextName = [first, surname].filter(Boolean).join(' ');
+    if (!nextName) {
+      setNameModalError('Name must contain at least one character.');
+      return;
+    }
+    updateCharacterName(nextName);
+    closeNameModal();
   };
 
   const selectFeatForDraft = (index: number, featId: string) => {
     setAdvancementDrafts((prev) =>
-      prev.map((draft, idx) =>
+      reconcileAdvancementDrafts(prev, asiOpportunities.length, featsEnabled).map((draft, idx) =>
         idx === index
           ? {
               ...draft,
@@ -186,7 +219,7 @@ export function CharacterWorkspace() {
 
   const clearDraftSelection = (index: number) => {
     setAdvancementDrafts((prev) =>
-      prev.map((draft, idx) =>
+      reconcileAdvancementDrafts(prev, asiOpportunities.length, featsEnabled).map((draft, idx) =>
         idx === index
           ? {
               ...draft,
@@ -205,7 +238,7 @@ export function CharacterWorkspace() {
     maxChoices: number,
   ) => {
     setAdvancementDrafts((prev) =>
-      prev.map((draft, idx) => {
+      reconcileAdvancementDrafts(prev, asiOpportunities.length, featsEnabled).map((draft, idx) => {
         if (idx !== index) return draft;
         const current = draft.selection[key];
         const exists = current.includes(value);
@@ -243,10 +276,13 @@ export function CharacterWorkspace() {
   };
 
   const draftErrors = character
-    ? advancementDrafts.map((draft, index) => {
+    ? effectiveAdvancementDrafts.map((draft, index) => {
       const choice = buildChoiceFromDraft(draft);
       if (!choice) return ['Select a feat.'];
-      const priorChoices = advancementDrafts.slice(0, index).map(buildChoiceFromDraft).filter((x): x is AdvancementChoice => Boolean(x));
+      const priorChoices = effectiveAdvancementDrafts
+        .slice(0, index)
+        .map(buildChoiceFromDraft)
+        .filter((x): x is AdvancementChoice => Boolean(x));
       const baseline = applyAdvancementChoices(character, priorChoices);
       if (choice.type === 'asi') return validateAsiChoice(baseline, choice);
       return validateFeatChoice(baseline, choice);
@@ -312,11 +348,10 @@ export function CharacterWorkspace() {
         <div className="name-gender-row">
           <label>
             Character Name
-            <input
-              value={character.identity.name}
-              onChange={(e) => updateCharacterName(e.target.value)}
-              placeholder="Enter character name"
-            />
+            <div className="controls">
+              <button type="button" onClick={openNameModal}>Change Name</button>
+              <span>{character.identity.name}</span>
+            </div>
           </label>
           <label>
             Gender
@@ -346,7 +381,7 @@ export function CharacterWorkspace() {
               <div className="controls">
             <label>
               Add Weapon
-              <select value={newWeaponId} onChange={(e) => setNewWeaponId(e.target.value)} disabled={addableWeaponOptions.length === 0}>
+              <select value={selectedNewWeaponId} onChange={(e) => setNewWeaponId(e.target.value)} disabled={addableWeaponOptions.length === 0}>
                 {addableWeaponOptions.length === 0 ? (
                   <option value="">No additional proficient weapons</option>
                 ) : (
@@ -356,10 +391,10 @@ export function CharacterWorkspace() {
                 )}
               </select>
             </label>
-            <button
+              <button
               type="button"
-              onClick={() => newWeaponId && addWeaponToLoadout(newWeaponId)}
-              disabled={!newWeaponId || addableWeaponOptions.length === 0}
+              onClick={() => selectedNewWeaponId && addWeaponToLoadout(selectedNewWeaponId)}
+              disabled={!selectedNewWeaponId || addableWeaponOptions.length === 0}
             >
               Add Weapon
             </button>
@@ -429,7 +464,7 @@ export function CharacterWorkspace() {
                 {asiOpportunities.length > 1 ? 's ' : ' '}
                 {asiOpportunities.join(', ')}.
               </p>
-              {advancementDrafts.map((draft, idx) => {
+              {effectiveAdvancementDrafts.map((draft, idx) => {
                 const feat = draft.featId ? feats.find((x) => x.id === draft.featId) : undefined;
                 const reqs = feat ? getFeatChoiceRequirements(feat) : undefined;
                 const isResilient = feat?.id === 'resilient';
@@ -644,7 +679,7 @@ export function CharacterWorkspace() {
                 targetLevel,
                 hpMethod,
                 hpManualGain: hpMethod === 'manual' ? manualHp : undefined,
-                advancementChoices: advancementDrafts.map(buildChoiceFromDraft).filter((x): x is AdvancementChoice => Boolean(x)),
+                advancementChoices: effectiveAdvancementDrafts.map(buildChoiceFromDraft).filter((x): x is AdvancementChoice => Boolean(x)),
               })
             }
           >
@@ -654,6 +689,40 @@ export function CharacterWorkspace() {
           ) : null}
         </div>
       </div>
+
+      {isNameModalOpen ? (
+        <div className="save-prompt-backdrop" role="dialog" aria-modal="true" aria-labelledby="change-name-title">
+          <form
+            className="save-prompt-modal"
+            onSubmit={(event) => {
+              event.preventDefault();
+              saveNameFromModal();
+            }}
+          >
+            <h3 id="change-name-title">Change Name</h3>
+            <label>
+              First name
+              <input
+                value={firstNameInput}
+                onChange={(event) => setFirstNameInput(event.target.value)}
+                autoFocus
+              />
+            </label>
+            <label>
+              Surname
+              <input
+                value={surnameInput}
+                onChange={(event) => setSurnameInput(event.target.value)}
+              />
+            </label>
+            {nameModalError ? <p>{nameModalError}</p> : null}
+            <div className="controls">
+              <button type="submit">Save</button>
+              <button type="button" onClick={closeNameModal}>Cancel</button>
+            </div>
+          </form>
+        </div>
+      ) : null}
 
       <div className="section-divider" aria-hidden="true" />
 
