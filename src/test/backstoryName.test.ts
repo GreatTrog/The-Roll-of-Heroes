@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { replaceNameInBackstory } from '../utils/backstoryName';
+import { replaceNameInBackstory, replaceNameInText } from '../utils/backstoryName';
 
 describe('replaceNameInBackstory', () => {
   it('replaces old full name references with the updated name', () => {
@@ -40,5 +40,13 @@ describe('replaceNameInBackstory', () => {
     expect(updated.rival).toContain('Bran');
     expect(updated.questHook).toContain('Bran');
     expect(updated.origin).not.toContain('Aria');
+  });
+
+  it('replaces name references inside existing portrait prompts', () => {
+    const prompt = 'Portrait of Aria Nightbreeze, female elf ranger. Visual subject: Aria Nightbreeze.';
+    const updated = replaceNameInText(prompt, 'Aria Nightbreeze', 'Bran Oakheart');
+    expect(updated).toContain('Portrait of Bran Oakheart');
+    expect(updated).toContain('Visual subject: Bran Oakheart');
+    expect(updated).not.toContain('Aria Nightbreeze');
   });
 });

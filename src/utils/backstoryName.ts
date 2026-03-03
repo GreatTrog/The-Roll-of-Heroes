@@ -11,7 +11,7 @@ function replaceToken(text: string, from: string, to: string): string {
   return text.replace(pattern, to);
 }
 
-function replaceInText(text: string, previousName: string, nextName: string): string {
+export function replaceNameInText(text: string, previousName: string, nextName: string): string {
   const prev = previousName.trim();
   const next = nextName.trim();
   if (!prev || !next || prev.toLowerCase() === next.toLowerCase()) return text;
@@ -32,13 +32,13 @@ export function replaceNameInBackstory(
   nextName: string,
 ): Character['backstory'] {
   return {
-    origin: replaceInText(backstory.origin, previousName, nextName),
-    definingMoments: backstory.definingMoments.map((item) => replaceInText(item, previousName, nextName)),
-    allies: backstory.allies.map((item) => replaceInText(item, previousName, nextName)),
-    rival: replaceInText(backstory.rival, previousName, nextName),
-    secret: replaceInText(backstory.secret, previousName, nextName),
-    rumor: replaceInText(backstory.rumor, previousName, nextName),
-    roleplayPrompts: backstory.roleplayPrompts.map((item) => replaceInText(item, previousName, nextName)),
-    questHook: replaceInText(backstory.questHook, previousName, nextName),
+    origin: replaceNameInText(backstory.origin, previousName, nextName),
+    definingMoments: backstory.definingMoments.map((item) => replaceNameInText(item, previousName, nextName)),
+    allies: backstory.allies.map((item) => replaceNameInText(item, previousName, nextName)),
+    rival: replaceNameInText(backstory.rival, previousName, nextName),
+    secret: replaceNameInText(backstory.secret, previousName, nextName),
+    rumor: replaceNameInText(backstory.rumor, previousName, nextName),
+    roleplayPrompts: backstory.roleplayPrompts.map((item) => replaceNameInText(item, previousName, nextName)),
+    questHook: replaceNameInText(backstory.questHook, previousName, nextName),
   };
 }
