@@ -4,8 +4,8 @@ import { GeneratorPanel } from './components/GeneratorPanel';
 import { SavedCharactersPanel } from './components/SavedCharactersPanel';
 import { validateRulesReferences } from './data/rules';
 import { useAppStore } from './store/useAppStore';
-import d20Icon from './assets/ui/icons/d20.png';
-import rollOfHeroesWordmark from './assets/ui/icons/roll-of-heroes.png';
+import d20Icon from './assets/ui/icons/d20.webp';
+import rollOfHeroesWordmark from './assets/ui/icons/roll-of-heroes.webp';
 import './index.css';
 
 function App() {

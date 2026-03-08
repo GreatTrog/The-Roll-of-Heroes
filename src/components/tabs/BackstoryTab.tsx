@@ -5,7 +5,7 @@ import { useState } from 'react';
 export function BackstoryTab({ character }: { character: Character }) {
   const generateBackstory = useAppStore((s) => s.generateBackstory);
   const loadingBackstory = useAppStore((s) => s.loadingBackstory);
-  const [showCaravanImage, setShowCaravanImage] = useState(true);
+  const [caravanSrc, setCaravanSrc] = useState('/images/caravan.webp');
 
   return (
     <div className="backstory-layout">
@@ -41,13 +41,22 @@ export function BackstoryTab({ character }: { character: Character }) {
         </ul>
         <p><strong>Quest Hook:</strong> {character.backstory.questHook}</p>
       </div>
-      {showCaravanImage ? (
+      {caravanSrc ? (
         <aside className="backstory-illustration-wrap" aria-hidden="true">
           <img
             className="backstory-illustration"
-            src="/images/caravan.png"
+            src={caravanSrc}
             alt=""
-            onError={() => setShowCaravanImage(false)}
+            loading="lazy"
+            decoding="async"
+            fetchPriority="low"
+            onError={() => {
+              if (caravanSrc.endsWith('.webp')) {
+                setCaravanSrc('/images/caravan.png');
+                return;
+              }
+              setCaravanSrc('');
+            }}
           />
         </aside>
       ) : null}

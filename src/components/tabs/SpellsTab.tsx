@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import type { Character } from '../../types/character';
 import { spells } from '../../data/rules';
 
@@ -12,6 +13,7 @@ function renderSpellLine(id: string): string {
 export function SpellsTab({ character }: { character: Character }) {
   const knownCantrips = character.spellcasting.spellsKnown.filter((id) => (spellById.get(id)?.level ?? 0) === 0);
   const knownLeveledSpells = character.spellcasting.spellsKnown.filter((id) => (spellById.get(id)?.level ?? 99) > 0);
+  const [spellIllustrationSrc, setSpellIllustrationSrc] = useState('/images/spell-scroll.webp');
 
   return (
     <div className="spells-layout">
@@ -56,7 +58,19 @@ export function SpellsTab({ character }: { character: Character }) {
         )}
       </div>
       <aside className="spells-illustration-wrap" aria-hidden="true">
-        <img className="spells-illustration" src="/images/spell-scroll.png" alt="" />
+        <img
+          className="spells-illustration"
+          src={spellIllustrationSrc}
+          alt=""
+          loading="lazy"
+          decoding="async"
+          fetchPriority="low"
+          onError={() => {
+            if (spellIllustrationSrc.endsWith('.webp')) {
+              setSpellIllustrationSrc('/images/spell-scroll.png');
+            }
+          }}
+        />
       </aside>
     </div>
   );

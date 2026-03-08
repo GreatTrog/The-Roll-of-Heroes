@@ -55,7 +55,18 @@ export function SavedCharactersPanel() {
                 </p>
                 <p>{new Date(item.updatedAt).toLocaleString()}</p>
               </div>
-              {item.portraitThumbnail ? <img src={item.portraitThumbnail} alt={`${item.name} thumbnail`} className="thumb" /> : null}
+              {item.portraitThumbnail ? (
+                <img
+                  src={item.portraitThumbnail}
+                  alt={`${item.name} thumbnail`}
+                  className="thumb"
+                  loading="lazy"
+                  decoding="async"
+                  fetchPriority="low"
+                  width={82}
+                  height={82}
+                />
+              ) : null}
               <div className="controls">
                 <button onClick={() => void openCharacter(item.id)}>Open</button>
                 <button onClick={() => void exportCharacterById(item.id)}>Export</button>

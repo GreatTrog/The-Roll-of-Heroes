@@ -1,5 +1,4 @@
 import { Document, Font, Image, Page, StyleSheet, Text, View, pdf } from '@react-pdf/renderer';
-import { useState } from 'react';
 import type { Character } from '../types/character';
 import { skillAbilityMap, skillKeys } from '../types/character';
 import { equipmentById, spells } from '../data/rules';
@@ -101,6 +100,63 @@ const styles = StyleSheet.create({
   },
 });
 
+const pdfSafeMimeTypes = new Set(['image/png', 'image/jpeg']);
+
+function blobToDataUrl(blob: Blob): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (typeof reader.result === 'string') {
+        resolve(reader.result);
+        return;
+      }
+      reject(new Error('Failed to read image data for PDF export.'));
+    };
+    reader.onerror = () => reject(reader.error ?? new Error('Failed to read image data for PDF export.'));
+    reader.readAsDataURL(blob);
+  });
+}
+
+function loadImageElement(src: string): Promise<HTMLImageElement> {
+  return new Promise((resolve, reject) => {
+    const image = new window.Image();
+    image.onload = () => resolve(image);
+    image.onerror = () => reject(new Error('Failed to load portrait for PDF export.'));
+    image.src = src;
+  });
+}
+
+async function blobToPngDataUrl(blob: Blob): Promise<string> {
+  const objectUrl = URL.createObjectURL(blob);
+  try {
+    const image = await loadImageElement(objectUrl);
+    const canvas = document.createElement('canvas');
+    canvas.width = image.naturalWidth || image.width;
+    canvas.height = image.naturalHeight || image.height;
+    const context = canvas.getContext('2d');
+    if (!context) throw new Error('Canvas is unavailable for PDF portrait conversion.');
+    context.drawImage(image, 0, 0);
+    return canvas.toDataURL('image/png');
+  } finally {
+    URL.revokeObjectURL(objectUrl);
+  }
+}
+
+async function resolvePdfImageSrc(url?: string): Promise<string | undefined> {
+  if (!url) return undefined;
+  if (url.startsWith('data:image/png') || url.startsWith('data:image/jpeg')) return url;
+
+  try {
+    const response = await fetch(url);
+    if (!response.ok) return url;
+    const blob = await response.blob();
+    if (pdfSafeMimeTypes.has(blob.type)) return blobToDataUrl(blob);
+    return blobToPngDataUrl(blob);
+  } catch {
+    return url;
+  }
+}
+
 function displayEquipmentName(id: string): string {
   return equipmentById.get(id)?.name ?? id.replaceAll('_', ' ');
 }
@@ -114,7 +170,7 @@ function SectionHeading({ icon, text }: { icon: string; text: string }) {
   );
 }
 
-function CharacterPdfDocument({ character }: { character: Character }) {
+function CharacterPdfDocument({ character, portraitSrc }: { character: Character; portraitSrc?: string }) {
   const splitFeaturesPage = character.identity.level > 10;
   const spellSlotText = Object.entries(character.spellcasting.slots)
     .map(([k, v]) => `${k.replace('level', 'L')}:${v}`)
@@ -163,9 +219,9 @@ function CharacterPdfDocument({ character }: { character: Character }) {
     <Document>
       <Page size="A4" style={styles.page}>
         <View style={styles.headerRow}>
-          {character.image?.url ? (
+          {portraitSrc ? (
             <View style={styles.titleThumbWrap}>
-              <Image src={character.image.url} style={styles.titleThumb} />
+              <Image src={portraitSrc} style={styles.titleThumb} />
             </View>
           ) : (
             <View style={styles.titleThumbFallback}>
@@ -397,9 +453,9 @@ function CharacterPdfDocument({ character }: { character: Character }) {
 
         <View style={styles.block}>
           <SectionHeading icon={iconSword} text="Portrait" />
-          {character.image?.url ? (
+          {portraitSrc ? (
             <View style={styles.portraitEmbedWrap}>
-              <Image src={character.image.url} style={styles.portraitEmbed} />
+              <Image src={portraitSrc} style={styles.portraitEmbed} />
             </View>
           ) : (
             <Text style={styles.tiny}>No portrait image available in character data.</Text>
@@ -448,28 +504,14 @@ function CharacterPdfDocument({ character }: { character: Character }) {
   );
 }
 
-export function CharacterPdfDownload({ character }: { character: Character }) {
-  const [isGenerating, setIsGenerating] = useState(false);
-
-  const onDownload = async () => {
-    setIsGenerating(true);
-    try {
-      const blob = await pdf(<CharacterPdfDocument character={character} />).toBlob();
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `${character.identity.name.replace(/\s+/g, '_')}-sheet.pdf`;
-      a.click();
-      URL.revokeObjectURL(url);
-    } finally {
-      setIsGenerating(false);
-    }
-  };
-
-  return (
-    <button type="button" onClick={() => void onDownload()} disabled={isGenerating}>
-      {isGenerating ? 'Preparing PDF...' : 'Export PDF'}
-    </button>
-  );
+export async function downloadCharacterPdf(character: Character): Promise<void> {
+  const portraitSrc = await resolvePdfImageSrc(character.image?.url);
+  const blob = await pdf(<CharacterPdfDocument character={character} portraitSrc={portraitSrc} />).toBlob();
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `${character.identity.name.replace(/\s+/g, '_')}-sheet.pdf`;
+  a.click();
+  URL.revokeObjectURL(url);
 }
 

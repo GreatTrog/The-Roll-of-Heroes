@@ -23,12 +23,13 @@ export function getLocalPortraitCandidates(character: Character): string[] {
   const classId = character.identity.classId.toLowerCase();
   const raceId = character.identity.raceId.toLowerCase();
   const genders = portraitGenderCandidates(character);
-  return genders.flatMap((gender) => [
-    `/portraits/${raceId}-${gender}.png`,
-    `/portraits/${raceId}_${gender}.png`,
-    `/portraits/${classId}-${gender}.png`,
-    `/portraits/${classId}_${gender}.png`,
+  const bases = genders.flatMap((gender) => [
+    `/portraits/${raceId}-${gender}`,
+    `/portraits/${raceId}_${gender}`,
+    `/portraits/${classId}-${gender}`,
+    `/portraits/${classId}_${gender}`,
   ]);
+  return bases.flatMap((base) => [`${base}.webp`, `${base}.png`]);
 }
 
 function canLoadImage(url: string): Promise<boolean> {
@@ -77,7 +78,7 @@ export class MockAIProvider implements AIProvider {
       seed,
       stylePreset: request.stylePreset,
       provider: 'local-portrait',
-      model: 'class-gender-png',
+      model: 'class-gender-raster',
       url: localUrl ?? undefined,
       thumbnail: localUrl ?? undefined,
       createdAt: new Date().toISOString(),

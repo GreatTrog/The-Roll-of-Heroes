@@ -36,7 +36,14 @@ export function PortraitTab({ character }: { character: Character }) {
         <div className="portrait-layout">
           <div className="portrait-hero-wrap">
             {character.image.url ? (
-              <img src={character.image.url} alt="Character portrait" className="portrait-hero" />
+              <img
+                src={character.image.url}
+                alt="Character portrait"
+                className="portrait-hero"
+                loading="lazy"
+                decoding="async"
+                fetchPriority="low"
+              />
             ) : (
               <p>No image URL returned by provider yet.</p>
             )}
